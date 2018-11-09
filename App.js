@@ -6,16 +6,22 @@ import {store, persistor } from './store'
 import NavigationService from './NavigationService'
 
 
-import Login from './Components/Auth/Login'
-import CheckUser from './Components/Auth/CheckUser'
 import Loading from './Components/Auth/Loading'
+import CheckUser from './Components/Auth/CheckUser'
+
+import AuthHome from './Components/Auth/AuthHome'
+import LoginAndRegister from './Components/Auth/LoginAndRegister'
+import ForgotPassword from './Components/Auth/ForgotPassword'
 
 import Profile from './Components/Profile'
 
 const RootStack = createStackNavigator(
   {
-  Login: Login,
-  Profile: Profile,
+    AuthHome: AuthHome,
+    Login: LoginAndRegister,
+    Register: LoginAndRegister,
+    ForgotPassword: ForgotPassword,
+    Profile: Profile,
   },
 )
 
@@ -33,7 +39,7 @@ export default class App extends React.Component {
       })
     } else {
       this.setState({remembered: false})
-        NavigationService.navigate('Login')
+        NavigationService.navigate('AuthHome')
     }
   }
 

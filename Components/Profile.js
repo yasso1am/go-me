@@ -4,9 +4,11 @@ import {
   Text,
   Button
 } from 'react-native'
+import { connect } from 'react-redux'
+import { logout } from '../reducers/user'
 
 
-export default class Profile extends React.Component {
+class Profile extends React.Component {
   render() {
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -17,7 +19,10 @@ export default class Profile extends React.Component {
         />
         <Button
           title="Go to Home"
-          onPress={() => this.props.navigation.navigate('Home')}
+          onPress={() => {
+            this.props.dispatch(logout())
+            this.props.navigation.navigate('AuthHome')
+            }}
         />
         <Button
           title="Go back"
@@ -27,3 +32,5 @@ export default class Profile extends React.Component {
     );
   }
 }
+
+export default connect()(Profile)
