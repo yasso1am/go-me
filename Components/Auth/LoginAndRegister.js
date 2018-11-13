@@ -21,11 +21,11 @@ class LoginAndRegister extends React.Component{
     password: '',
     passwordConfirm: '',
   }
-  
-  static navigationOptions = {
-    headerBackTitleStyle: {color: '#F1552D'},
-    headerTintColor: '#F1552D'
-  }
+
+  static navigationOptions = ({ navigation}) => 
+    ({
+      headerBackTitle: navigation.state.routeName,
+    })
 
   styles = StyleSheet.create({
     container: {
@@ -50,7 +50,7 @@ class LoginAndRegister extends React.Component{
       width: '100%',
       marginTop: 15,
       height: this.props.navigation.state.params.inputHeight, 
-      borderColor: '#707070', 
+      borderColor: '#FE7C2A', 
       alignItems: 'center', 
       justifyContent: 'center'
     },
@@ -89,7 +89,7 @@ class LoginAndRegister extends React.Component{
       behavior={Platform.OS === 'ios' ? 'padding' : null}
     >
         <View style={{alignSelf: 'flex-start'}}>
-          <Text style={{fontWeight: 'bold', fontSize: 20, paddingVertical: 10}}> { active === 'Register' ? 'Create an account' : 'Login' } </Text>
+          <Text style={{fontWeight: 'bold', fontSize: 20, paddingBottom: 10}}> { active === 'Register' ? 'Create an account' : 'Login' } </Text>
         </View>
        
           { active === 'Register' &&

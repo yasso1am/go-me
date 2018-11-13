@@ -6,23 +6,28 @@ import {store, persistor } from './store'
 import NavigationService from './NavigationService'
 
 
-import Loading from './Components/Auth/Loading'
-import CheckUser from './Components/Auth/CheckUser'
+import Loading from './components/auth/Loading'
+import CheckUser from './components/auth/CheckUser'
+import AuthHome from './components/auth/AuthHome'
+import LoginAndRegister from './components/auth/LoginAndRegister'
+import ForgotPassword from './components/auth/ForgotPassword'
 
-import AuthHome from './Components/Auth/AuthHome'
-import LoginAndRegister from './Components/Auth/LoginAndRegister'
-import ForgotPassword from './Components/Auth/ForgotPassword'
-
-import Profile from './Components/Profile'
+import BuildProfile from './components/profile/BuildProfile'
 
 const RootStack = createStackNavigator(
   {
-    AuthHome: AuthHome,
-    Login: LoginAndRegister,
-    Register: LoginAndRegister,
-    ForgotPassword: ForgotPassword,
-    Profile: Profile,
+    AuthHome: {screen: AuthHome},
+    Login: { screen: LoginAndRegister},
+    Register: { screen: LoginAndRegister },
+    ForgotPassword: {screen: ForgotPassword},
+    Profile: { screen: BuildProfile },
   },
+  { 
+    navigationOptions: {
+      headerBackTitleStyle: {color: '#F1552D', fontSize: 11},
+      headerTintColor: '#F1552D',
+    }
+  }
 )
 
 export default class App extends React.Component {
@@ -48,7 +53,7 @@ export default class App extends React.Component {
 
     return (
       <Provider store={store}>
-        <PersistGate loading={<Loading />} persistor={persistor}>
+        <PersistGate loading={<Loading remembered={remembered}/>} persistor={persistor}>
           <CheckUser isLoaded={this.isLoaded} />
             {remembered !== null &&
                 <RootStack ref={navigatorRef => {

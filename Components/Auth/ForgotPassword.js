@@ -33,7 +33,7 @@ class ForgotPassword extends React.Component {
       width: '100%',
       marginTop: 15,
       height: this.props.navigation.state.params.inputHeight, 
-      borderColor: '#707070', 
+      borderColor: '#FE7C2A', 
       alignItems: 'center', 
       justifyContent: 'center'
     },

@@ -43,6 +43,27 @@ export const login = (email, password, navigation) => {
   }
 }
 
+validateToken = () => {
+  return (dispatch, getState) => {
+    const {access_token, refresh_token} = getState().token
+    axios.get(`${BASE_URL}/oauth/authorize`, {access_token})
+    .then( res => {
+      //if token valid, return token to use in api request and dispatch new token
+    })
+    .catch( error => {
+      //if invalid, make request using refresh token for a new token
+        axios.get(`${BASE_URL}/oauth/token/refresh`, {grant_type: 'refresh_token', refresh_token: refresh_token})
+          .then({
+            //if successfull, return new access token and new refresh token to use in api request and dispatch token
+          })
+          .catch ( error => {
+            Alert.alert('Session has timed out, please sign in again')
+             // return false, log user out and direct user to login page
+          })
+    })
+  }
+}
+
 export const logout = () => {
   return ( dispatch ) => {
     dispatch({type: LOGOUT})
