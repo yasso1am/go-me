@@ -9,7 +9,7 @@ import {
   ImageBackground,
   Alert,
 } from 'react-native';
-import { LinearGradient, Facebook } from 'expo'
+import { Facebook, Google } from 'expo'
 import { connect } from 'react-redux'
 
 import { login } from '../../reducers/user'
@@ -70,6 +70,10 @@ class AuthHome extends React.Component {
       Alert.alert(`Facebook Login Error: ${message}`);
     }
   }
+
+  loginGoogle = async() => {
+
+  }
   
   render() {
     const { buttonStyle } = this.state
@@ -97,9 +101,11 @@ class AuthHome extends React.Component {
             
             { buttonStyle !== null &&
               <View style={{flex: 1, width: '100%'}}>
-                <TouchableOpacity style={[buttonStyle, {borderColor: '#707070', marginTop: 0}]}>
+                
+                {/* <TouchableOpacity onPress={this.loginGoogle} style={[buttonStyle, {borderColor: '#707070', marginTop: 0}]}>
                   <Text> Continue with your <Text style={{color: '#dd4b39'}}>Google</Text> account</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
+
                 <TouchableOpacity onPress={this.loginFacebook} style={[buttonStyle, {borderColor: '#707070'}]}>
                   <Text> Continue with your <Text style={{color: '#3B5998'}}>Facebook</Text> account</Text>
                 </TouchableOpacity>

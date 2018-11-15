@@ -9,6 +9,7 @@ const persistConfig = {
   storage: storage,
   whitelist: ['user'],
 }
+
 const pReducer = persistReducer(persistConfig, rootReducer)
 
 const enhancers = compose(

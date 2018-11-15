@@ -1,17 +1,23 @@
 import React from 'react'
+import axios from 'axios'
+import { AsyncStorage } from 'react-native'
 import { connect } from 'react-redux'
+import { store } from '../../store'
 
+import { validateToken } from '../../reducers/auth'
 
 class CheckUser extends React.Component{
 
-  componentDidMount() {
-    const { token, isLoaded } = this.props
-    if ( token!== undefined){
+  async componentDidMount() {
+    const { user, isLoaded } = this.props
+    validToken = await validateToken()
+    if (user && validToken){
+      console.log('token validation complete')
       const response = {
         result: true,
-        token: token
+        user: user
       }
-    isLoaded(response)
+        isLoaded(response)
     } else {
         const response = {
           result: false
@@ -28,7 +34,7 @@ class CheckUser extends React.Component{
 }
 
 const mapStateToProps = state => {
-  return state.user
+  return state
 }
 
 export default connect(mapStateToProps)(CheckUser)

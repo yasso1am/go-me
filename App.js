@@ -2,7 +2,7 @@ import React from 'react';
 import { createStackNavigator } from 'react-navigation'
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
-import {store, persistor } from './store'
+import { store, persistor } from './store'
 import NavigationService from './NavigationService'
 
 
@@ -35,7 +35,7 @@ export default class App extends React.Component {
   
   isLoaded = async (response) => {
     if (await response.result === true){
-      let token = response.token
+      let user = response.user
       this.setState({ 
         remembered: true 
       }, () => {

@@ -1,40 +1,52 @@
 import axios from 'axios';
-import { 
-  Alert,
-} from 'react-native'
+import { Alert, AsyncStorage } from 'react-native'
 
 const LOGIN = 'LOGIN'
 const LOGOUT = 'LOGOUT'
-const UPDATE_USER = 'USER'
+const TOKEN = 'TOKEN'
 
-const BASE_URL = 'https://app.gome.fit'
-const CLIENT_ID = '9'
-const CLIENT_SECRET = 'D4ZcfUvr9loPYYu9b4zIxwCuLUFagtMTCU6coLS7'
-const TOKEN = 'token'
+const BASE_URL = 'https://app.gome.fit/api'
 // const USER = 'user'
 
 export const register = (name, email, password, passwordConfirm, navigation) => {
   return (dispatch) => {
-    axios.post(`${BASE_URL}/api/register`, {name: name, username: email, password: password, password_confirmation: passwordConfirm, client_secret: CLIENT_SECRET, client_id: CLIENT_ID} )
-      .then( (res) => {
-        let token = res.data
-        dispatch({type: LOGIN, user: {token}})
-        navigation.navigate('Profile')
+    axios.post(`${BASE_URL}/api/register`, {name: name, username: email, password: password, password_confirmation: passwordConfirm} )
+      .then( async (res) => {
+        let user = res.data.user
+        let token = res.data.token
+        try {
+          const tenMinutesFromNow = Date.now() + (token.expires_in * 1000)
+          token.expires_on = tenMinutesFromNow
+          let tokenToStore = JSON.stringify(token)
+            await AsyncStorage.setItem(TOKEN, tokenToStore)
+            dispatch({type: LOGIN, user})
+          } catch (err) {
+            console.log(err)
+          }
+          navigation.navigate('Profile')
       })
       .catch( error => {
-        console.log({error})
-        Alert.alert('Check console log for error')
+        Alert.alert(error.response.data[0])
       })
   }
 }
 
 export const login = (email, password, navigation) => {
   return (dispatch) => {
-    axios.post(`${BASE_URL}/oauth/token`, { username: email, password: password, grant_type: 'password', client_id: CLIENT_ID, client_secret: CLIENT_SECRET} )
-      .then ( (res) => {
-        const token = res.data
-        dispatch({type: LOGIN, user: {token}})
-        navigation.navigate('Profile')
+    axios.post(`${BASE_URL}/login`, { username: email, password: password} )
+      .then ( async (res) => {
+        const user = res.data.user
+        let token = res.data.token
+        try {
+          const tenMinutesFromNow = Date.now() + (token.expires_in * 1000)
+          token.expires_on = tenMinutesFromNow
+          let tokenToStore = JSON.stringify(token)
+            await AsyncStorage.setItem(TOKEN, tokenToStore)
+            dispatch({type: LOGIN, user})
+          } catch (err) {
+            console.log(err)
+          }
+          navigation.navigate('Profile')
       })
       .catch( err => {
         console.log({err})
@@ -43,31 +55,28 @@ export const login = (email, password, navigation) => {
   }
 }
 
-validateToken = () => {
+
+export const getProfile = () => {
   return (dispatch, getState) => {
-    const {access_token, refresh_token} = getState().token
-    axios.get(`${BASE_URL}/oauth/authorize`, {access_token})
-    .then( res => {
-      //if token valid, return token to use in api request and dispatch new token
-    })
-    .catch( error => {
-      //if invalid, make request using refresh token for a new token
-        axios.get(`${BASE_URL}/oauth/token/refresh`, {grant_type: 'refresh_token', refresh_token: refresh_token})
-          .then({
-            //if successfull, return new access token and new refresh token to use in api request and dispatch token
-          })
-          .catch ( error => {
-            Alert.alert('Session has timed out, please sign in again')
-             // return false, log user out and direct user to login page
-          })
-    })
+    const { id } = getState().user
+      axios.get(`${BASE_URL}/v1/profile/${id}`)
+      .then( (res) => {
+        console.log('success response')
+        dispatch({type: LOGIN, user: res.data})
+      })
+      .catch( err => {
+        console.log({err})
+        console.log('the getProfile failed')
+      })
   }
 }
 
-export const logout = () => {
-  return ( dispatch ) => {
-    dispatch({type: LOGOUT})
+export const logout = (navigation) => {
+  return async ( dispatch ) => {
+    await dispatch({type: LOGOUT})
     Alert.alert("Logout Successful")
+      await AsyncStorage.removeItem(TOKEN)
+    navigation.navigate('AuthHome')
   }
 }
 
