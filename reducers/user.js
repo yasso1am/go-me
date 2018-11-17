@@ -23,7 +23,7 @@ export const register = (name, email, password, passwordConfirm, navigation) => 
           } catch (err) {
             console.log(err)
           }
-          navigation.navigate('Profile')
+          navigation.navigate('BuildProfile')
       })
       .catch( error => {
         Alert.alert(error.response.data[0])
@@ -46,7 +46,7 @@ export const login = (email, password, navigation) => {
           } catch (err) {
             console.log(err)
           }
-          navigation.navigate('Profile')
+          navigation.navigate('BuildProfile')
       })
       .catch( err => {
         console.log({err})
@@ -61,12 +61,11 @@ export const getProfile = () => {
     const { id } = getState().user
       axios.get(`${BASE_URL}/v1/profile/${id}`)
       .then( (res) => {
-        console.log('success response')
         dispatch({type: LOGIN, user: res.data})
+        console.log('Successfully retrieved profile, and dispatched Login')
       })
       .catch( err => {
-        console.log({err})
-        console.log('the getProfile failed')
+        console.log('The catch of getProfile() has been hit, so the function failed')
       })
   }
 }

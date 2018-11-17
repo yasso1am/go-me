@@ -12,15 +12,17 @@ import AuthHome from './components/auth/AuthHome'
 import LoginAndRegister from './components/auth/LoginAndRegister'
 import ForgotPassword from './components/auth/ForgotPassword'
 
+import Profile from './components/profile/Profile'
 import BuildProfile from './components/profile/BuildProfile'
 
 const RootStack = createStackNavigator(
   {
     AuthHome: {screen: AuthHome},
-    Login: { screen: LoginAndRegister},
+    Login: { screen: LoginAndRegister},   
     Register: { screen: LoginAndRegister },
     ForgotPassword: {screen: ForgotPassword},
-    Profile: { screen: BuildProfile },
+    BuildProfile: { screen: BuildProfile },
+    Profile: {screen: Profile },
   },
   { 
     navigationOptions: {
@@ -40,7 +42,7 @@ export default class App extends React.Component {
         remembered: true 
       }, () => {
         let {remembered} = this.state  
-        NavigationService.navigate('Profile', { remembered } )
+        NavigationService.navigate('BuildProfile', { remembered } )
       })
     } else {
       this.setState({remembered: false})
