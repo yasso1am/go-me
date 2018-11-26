@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import { validateToken } from '../../reducers/auth'
 
 class CheckUser extends React.Component{
-
   async componentDidMount() {
     const { user, isLoaded } = this.props
     validToken = await validateToken()
@@ -14,7 +13,7 @@ class CheckUser extends React.Component{
         result: true,
         user: user
       }
-        isLoaded(response)
+      isLoaded(response)
     } else {
         const response = {
           result: false

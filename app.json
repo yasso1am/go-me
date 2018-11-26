@@ -10,7 +10,7 @@
     "facebookAppId": "342397049861613",
     "facebookDisplayName": "GoMe",
     "orientation": "portrait",
-    "icon": "./assets/images/placeholder-icon.png",
+    "icon": "./assets/icons/placeholder-app-icon.png",
     "splash": {
       "image": "./assets/images/splash-screen-large.png",
       "resizeMode": "cover"

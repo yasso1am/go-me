@@ -99,6 +99,7 @@ class LoginAndRegister extends React.Component{
               placeholderTextColor="#6F6F6F"
               autoCapitalize="none"
               autoCorrect={false}
+              value={this.state.name}
               returnKeyType='next' 
               onSubmitEditing={ () => { this.email.focus() }}
               onChangeText={ (name) => this.setState({ name }) }
@@ -115,7 +116,8 @@ class LoginAndRegister extends React.Component{
             autoCapitalize="none"
             autoCorrect={false}
             keyboardType="email-address"
-            returnKeyType='next' 
+            returnKeyType='next'
+            value={this.state.email}
             onSubmitEditing={ () => { this.password.focus() }}
             onChangeText={ (email) => this.setState({ email }) }
             underlineColorAndroid="transparent"
@@ -127,6 +129,8 @@ class LoginAndRegister extends React.Component{
             placeholderTextColor="#6F6F6F"
             ref={(input) => { this.password = input }}
             autoCapitalize="none"
+            value={this.state.password}
+
             autoCorrect={false}
             secureTextEntry={true}
             returnKeyType={ active === 'Register' ? 'next' : 'done' }
@@ -144,6 +148,7 @@ class LoginAndRegister extends React.Component{
               autoCapitalize="none"
               autoCorrect={false}
               secureTextEntry={true}
+              value={this.state.passwordConfirm}
               returnKeyType='go'
               onSubmitEditing={ this.handleSubmit }
               onChangeText={ (passwordConfirm) => this.setState({ passwordConfirm }) }

@@ -13,7 +13,7 @@ export default class Loading extends React.Component {
           style={{flex: 1, width: '100%', height: '100%', alignItems: 'center', justifyContent: 'center'}}
         >
           <Image 
-            source={ require('../../assets/images/white-logo.png')}
+            source={ require('../../assets/icons/logo-white.png')}
           />
         </LinearGradient>
       )

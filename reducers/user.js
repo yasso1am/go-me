@@ -10,7 +10,7 @@ const BASE_URL = 'https://app.gome.fit/api'
 
 export const register = (name, email, password, passwordConfirm, navigation) => {
   return (dispatch) => {
-    axios.post(`${BASE_URL}/api/register`, {name: name, username: email, password: password, password_confirmation: passwordConfirm} )
+    axios.post(`${BASE_URL}/register`, {name: name, username: email, password: password, password_confirmation: passwordConfirm} )
       .then( async (res) => {
         let user = res.data.user
         let token = res.data.token
@@ -30,6 +30,8 @@ export const register = (name, email, password, passwordConfirm, navigation) => 
       })
   }
 }
+
+
 
 export const login = (email, password, navigation) => {
   return (dispatch) => {
@@ -55,11 +57,26 @@ export const login = (email, password, navigation) => {
   }
 }
 
+export const updateProfile = (profile) => {
+  console.log({profile})
+  return ( dispatch, getState ) => {
+    const { id } = getState().user
+    axios.put(`${BASE_URL}/v1/user/${id}`, profile)
+    .then( res => {
+      console.log({res})
+    })
+    .catch( err => {
+      Alert.alert('Something went wrong updating your profile, please try again later')
+      console.log({err})
+    })
+  }
+}
+
 
 export const getProfile = () => {
   return (dispatch, getState) => {
     const { id } = getState().user
-      axios.get(`${BASE_URL}/v1/profile/${id}`)
+      axios.get(`${BASE_URL}/v1/user/${id}`)
       .then( (res) => {
         dispatch({type: LOGIN, user: res.data})
         console.log('Successfully retrieved profile, and dispatched Login')

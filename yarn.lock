@@ -2,6 +2,11 @@
 # yarn lockfile v1
 
 
+"@appandflow/touchable@^1.2.1":
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/@appandflow/touchable/-/touchable-1.2.2.tgz#134b6353e5ec98c5d6937116aa79dfede20166e1"
+  integrity sha1-E0tjU+XsmMXWk3EWqnnf7eIBZuE=
+
 "@babel/code-frame@^7.0.0":
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/@babel/code-frame/-/code-frame-7.0.0.tgz#06e2ab19bdb535385559aabb5ba59729482800f8"
@@ -4314,6 +4319,13 @@ query-string@^6.1.0:
   dependencies:
     decode-uri-component "^0.2.0"
     strict-uri-encode "^2.0.0"
+
+quick-picker@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/quick-picker/-/quick-picker-1.0.2.tgz#b46759b5625ee5fd3be966295560e252cc3e03b5"
+  integrity sha512-lXMg+N8oqzFMX1ypWQoVEFL4CuT1n6mP35kXAFLZhZcr0RcaiVo5K0LkZKkXL5PDrEPC5ZqL3kLwcHeNmNhr8w==
+  dependencies:
+    "@appandflow/touchable" "^1.2.1"
 
 randomatic@^3.0.0:
   version "3.1.1"

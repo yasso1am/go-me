@@ -61,9 +61,7 @@ class AuthHome extends React.Component {
           console.log('err')
           Alert.alert('Failure to retrieve data')
         }) 
-      } else {
-        Alert.alert('User must have cancelled')
-      }
+      } 
     } catch ({ message }) {
       Alert.alert(`Facebook Login Error: ${message}`);
     }
@@ -85,7 +83,7 @@ class AuthHome extends React.Component {
             >
               <View style={{flex: 2, alignItems: 'center', justifyContent: 'center'}}>
                 <Image 
-                  source={require('../../assets/images/white-logo.png')}
+                  source={require('../../assets/icons/logo-white.png')}
                 />
               </View>
               <View style={{flex: 1, paddingHorizontal: 30, justifyContent: 'flex-end', paddingBottom: 30, alignItems: 'flex-start'}}>
@@ -123,9 +121,9 @@ class AuthHome extends React.Component {
                 
                 <View style={{alignItems: 'center', justifyContent: 'center', height: buttonStyle.height, flexDirection: 'row'}}>
                   <Text> Already have an account? </Text>
-                  <TouchableOpacity onPress={() => navigation.navigate('Login', {inputHeight: buttonStyle.height})}>
-                    <Text style={{color: '#F1552D'}}> Log In Now </Text>
-                  </TouchableOpacity>       
+                  <TouchableOpacity hitSlop={{top: 10, bottom: 10, left: 10, right: 10}} onPress={() => navigation.navigate('Login', {inputHeight: buttonStyle.height})}>
+                    <Text style={{color: '#F1552D', textDecorationLine: 'underline'}}> Log in now </Text>
+                  </TouchableOpacity>      
                 </View>
               </View> 
             }

@@ -33,7 +33,7 @@ const RootStack = createStackNavigator(
 )
 
 export default class App extends React.Component {
-  state = { remembered: null, }
+  state = { remembered: true, }
   
   isLoaded = async (response) => {
     if (await response.result === true){

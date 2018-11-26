@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { 
   SafeAreaView,
   View,
@@ -8,9 +8,10 @@ import {
   TouchableOpacity,
   Text,
 } from 'react-native'
-import {
-  LinearGradient
-} from 'expo'
+import { LinearGradient } from 'expo'
+
+import Header from '../nav/Header'
+
 
 class Profile extends React.Component{
   
@@ -21,35 +22,45 @@ class Profile extends React.Component{
 
   render(){
     return(
-      <SafeAreaView style={{flex: 1, backgroundColor: '#FE7C2A'}}>
-        <View style={styles.header}>
-          <Image source={require('../../assets/images/white-logo.png')}/>
-        </View>
-        <LinearGradient
-          colors={['#FE7C2A', '#F1552D']}
-          style={styles.bodyContainer}
-        >
-          <View style={styles.infoContainer}>
-            <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}> 
-              <ImageBackground style={{alignItems: 'center', justifyContent: 'center', width: 100, height: 100}} source={require('../../assets/images/placeholder-profile-image.png')}>
-                <TouchableOpacity style={{top: 50}} activeOpacity={0.5}> 
-                  <Image style={{width: 30, height: 30 }} source={require('../../assets/images/camera-circle.png')} />
-                </TouchableOpacity>
-              </ImageBackground>
-            </View>
-            <View style={{ flex: 4, alignItems: 'center', justifyContent: 'space-around'}}>
-              <Text style={{color: 'white', fontSize: 14}}> Good Afternoon, </Text>
-              <Text style={{fontSize: 40, fontWeight: 'bold', color: 'white'}}> Rachel Hilarius </Text>
-              <Text style={{textAlign: 'center', paddingHorizontal: '10%', fontSize: 13, color: 'white'}}> Already kill your workout? </Text>
-              <Text style={{textAlign: 'center', paddingHorizontal: '10%', fontSize: 13, color: 'white'}}> Keep up with your goal by tracking it below. </Text>
-
-            </View>
+      <Fragment>
+        <SafeAreaView style={{flex: 0, backgroundColor: '#FE7C2A'}} />
+        <SafeAreaView style={{flex: 1, backgroundColor: '#F1552D'}}>
           
-          </View>
+         <Header />
 
-        </LinearGradient>
-
-      </SafeAreaView>
+          <LinearGradient
+            colors={['#FE7C2A', '#F1552D']}
+            style={styles.bodyContainer}
+          >
+            <ImageBackground style={{flex: 1, width: '100%', height: '100%'}} source={require('../../assets/images/lines.png')}>
+              <View style={styles.infoContainer}>
+                <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}> 
+                  <ImageBackground style={{alignItems: 'center', justifyContent: 'center', width: 100, height: 100}} source={require('../../assets/images/placeholder-profile-image.png')}>
+                  </ImageBackground>
+                </View>
+                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'space-between'}}>
+                  <Text style={{color: 'white', fontSize: 14}}> Good Afternoon, </Text>
+                  <Text 
+                    adjustsFontSizeToFit 
+                    numberOfLines={1}
+                    style={{fontSize: 40, fontWeight: 'bold', color: 'white'}}> 
+                      Rachel Hilarius 
+                  </Text>
+                  <Text style={{textAlign: 'center', paddingHorizontal: '10%', fontSize: 13, color: 'white'}}> Already kill your workout? </Text>
+                  <Text style={{textAlign: 'center', paddingHorizontal: '10%', fontSize: 13, color: 'white'}}> Keep up with your goal by tracking it below. </Text>
+                </View>
+              </View>
+              <View style={styles.contentContainer}>
+                <View style={{flex: 1, alignItems: 'center', justifyContent: 'flex-end'}}>
+                  <TouchableOpacity>
+                    <Image source={require('../../assets/icons/plus-icon-white.png')} />
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </ImageBackground>
+          </LinearGradient>
+        </SafeAreaView>
+      </Fragment>    
     )
   }
 }
@@ -57,8 +68,7 @@ class Profile extends React.Component{
 const styles = StyleSheet.create({
   header:{
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    flexDirection: 'row',
     backgroundColor: '#FE7C2A',
     borderBottomWidth: 0.5,
     borderBottomColor: '#FFF',
@@ -74,11 +84,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   contentContainer: {
-    flex: 4,
+    flex: 1,
     width: '100%',
-    alignItems: 'center',
-    justifyContent: 'space-around',
-    paddingHorizontal: 30
   },
 })
 
