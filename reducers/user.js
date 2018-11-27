@@ -6,7 +6,6 @@ const LOGOUT = 'LOGOUT'
 const TOKEN = 'TOKEN'
 
 const BASE_URL = 'https://app.gome.fit/api'
-// const USER = 'user'
 
 export const register = (name, email, password, passwordConfirm, navigation) => {
   return (dispatch) => {
@@ -31,8 +30,6 @@ export const register = (name, email, password, passwordConfirm, navigation) => 
   }
 }
 
-
-
 export const login = (email, password, navigation) => {
   return (dispatch) => {
     axios.post(`${BASE_URL}/login`, { username: email, password: password} )
@@ -48,7 +45,7 @@ export const login = (email, password, navigation) => {
           } catch (err) {
             console.log(err)
           }
-          navigation.navigate('BuildProfile')
+          navigation.navigate('Profile')
       })
       .catch( err => {
         console.log({err})
@@ -63,7 +60,7 @@ export const updateProfile = (profile) => {
     const { id } = getState().user
     axios.put(`${BASE_URL}/v1/user/${id}`, profile)
     .then( res => {
-      console.log({res})
+      dispatch({type: LOGIN, user: res.data.user})
     })
     .catch( err => {
       Alert.alert('Something went wrong updating your profile, please try again later')

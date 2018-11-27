@@ -1,10 +1,9 @@
 import React from 'react';
-import { createStackNavigator } from 'react-navigation'
+import { createSwitchNavigator, createStackNavigator, createAppContainer } from 'react-navigation'
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
 import { store, persistor } from './store'
 import NavigationService from './NavigationService'
-
 
 import Loading from './components/auth/Loading'
 import CheckUser from './components/auth/CheckUser'
@@ -15,14 +14,14 @@ import ForgotPassword from './components/auth/ForgotPassword'
 import Profile from './components/profile/Profile'
 import BuildProfile from './components/profile/BuildProfile'
 
-const RootStack = createStackNavigator(
+import Tracking from './components/workout/Tracking'
+
+const AuthStack = createStackNavigator(
   {
     AuthHome: {screen: AuthHome},
     Login: { screen: LoginAndRegister},   
     Register: { screen: LoginAndRegister },
     ForgotPassword: {screen: ForgotPassword},
-    BuildProfile: { screen: BuildProfile },
-    Profile: {screen: Profile },
   },
   { 
     navigationOptions: {
@@ -32,33 +31,43 @@ const RootStack = createStackNavigator(
   }
 )
 
+const AppStack = createStackNavigator(
+  {
+    BuildProfile: { screen: BuildProfile },
+    Profile: {screen: Profile },
+    Tracking: {screen: Tracking },
+  },
+  { 
+    initialRouteName: 'Profile',
+    navigationOptions: {
+      headerBackTitleStyle: {color: '#F1552D', fontSize: 11},
+      headerTintColor: '#F1552D',
+    }
+  }
+)
+
+const AppContainer = createAppContainer(createSwitchNavigator(
+  {
+    AuthLoading: CheckUser,
+    App: AppStack,
+    Auth: AuthStack,
+  },
+  {
+    initialRouteName: 'AuthLoading'
+  }
+))
+
 export default class App extends React.Component {
   state = { remembered: true, }
   
-  isLoaded = async (response) => {
-    if (await response.result === true){
-      let user = response.user
-      this.setState({ 
-        remembered: true 
-      }, () => {
-        let {remembered} = this.state  
-        NavigationService.navigate('BuildProfile', { remembered } )
-      })
-    } else {
-      this.setState({remembered: false})
-        NavigationService.navigate('AuthHome')
-    }
-  }
-
   render() {
     const { remembered } = this.state
 
     return (
       <Provider store={store}>
-        <PersistGate loading={<Loading remembered={remembered}/>} persistor={persistor}>
-          <CheckUser isLoaded={this.isLoaded} />
+        <PersistGate loading={<Loading />} persistor={persistor}>
             {remembered !== null &&
-                <RootStack ref={navigatorRef => {
+                <AppContainer ref={navigatorRef => {
                   NavigationService.setTopLevelNavigator(navigatorRef)
                 }}/>
             }

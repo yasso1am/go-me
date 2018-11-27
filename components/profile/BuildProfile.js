@@ -73,7 +73,7 @@ class BuildProfile extends React.Component {
 
   goToProfile = () => {
     const { height, weight, activity, profileImage, goal, hasBeenEdited } = this.state
-    if ( hasBeenEdited.length !== 4){
+    if ( hasBeenEdited.length <= 3){
       Alert.alert('Please answer all of the questions')
     } else {
       const photo = profileImage !== null ? profileImage.base64 : null
@@ -180,7 +180,7 @@ class BuildProfile extends React.Component {
                   adjustsFontSizeToFit 
                   numberOfLines={1}
                   style={{fontSize: 40, fontWeight: 'bold'}}>
-                    Rachel Hilarius
+                    {this.props.user.name}
                 </Text>
                 <Text adjustsFontSizeToFit style={{textAlign: 'center', paddingHorizontal: '10%'}}> Before you get started we need to know a couple of things </Text>
               </View>
@@ -201,7 +201,7 @@ class BuildProfile extends React.Component {
                     thumbStyle={styles.sliderThumb}
                     onValueChange={(value) => this.setState({height: value})}
                   />
-                    <Text adjustsFontSizeToFit style={styles.answerText}> Height: { heightArray[this.state.height]} </Text>
+                    <Text adjustsFontSizeToFit style={styles.answerText}> <Text style={[styles.answerText, {fontWeight: 'bold'}]}>Height:</Text> { heightArray[this.state.height]} </Text>
                 </View>
               :
                 <Text> How tall are you?</Text>
@@ -221,7 +221,7 @@ class BuildProfile extends React.Component {
                       thumbStyle={styles.sliderThumb}
                       onValueChange={(value) => this.setState({weight: value})}
                     />
-                      <Text adjustsFontSizeToFit style={styles.answerText}> Weight: { this.state.weight } Lbs </Text>
+                      <Text adjustsFontSizeToFit style={styles.answerText}> <Text style={[styles.answerText, {fontWeight: 'bold'}]}>Weight:</Text> { this.state.weight } Lbs </Text>
                   </View>
                 :
                   <Text> What is your current weight? (lbs) </Text>
@@ -241,7 +241,7 @@ class BuildProfile extends React.Component {
                     thumbStyle={styles.sliderThumb}
                     onValueChange={(value) => this.setState({activity: value})}
                   />
-                    <Text adjustsFontSizeToFit style={styles.answerText}> Activity level: { this.activityText() } </Text>
+                    <Text adjustsFontSizeToFit style={styles.answerText}> <Text style={[styles.answerText, {fontWeight: 'bold'}]}>Activity level:</Text> { this.activityText() } </Text>
                 </View>
               :
                 <Text> What is your activity level? </Text>
@@ -250,7 +250,7 @@ class BuildProfile extends React.Component {
                      
               <TouchableOpacity onPress={this.goalPicker} style={[styles.buttonStyles, activeEdit === 'goal' && styles.buttonActive]}>
                 { hasBeenEdited.includes('goal') ?
-                  <Text adjustsFontSizeToFit style={styles.answerText}> Goal: {this.state.goal } </Text>
+                  <Text adjustsFontSizeToFit style={styles.answerText}> <Text style={[styles.answerText, {fontWeight: 'bold'}]}>Goal:</Text> {this.state.goal } </Text>
                   :
                   <Text> What is your overall goal? </Text>
                 }
@@ -269,6 +269,12 @@ class BuildProfile extends React.Component {
     );
   }
 }
+
+const mapStateToProps = state => {
+  return { user: state.user }
+}
+
+export default connect(mapStateToProps)(BuildProfile)
 
 const styles = StyleSheet.create({
   header: {
@@ -332,5 +338,3 @@ const styles = StyleSheet.create({
     borderColor: '#FE7C2A'
   }
 })
-
-export default connect()(BuildProfile)

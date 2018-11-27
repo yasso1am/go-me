@@ -1,4 +1,5 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import {
   View,
   Image,
@@ -6,10 +7,13 @@ import {
   StyleSheet
 } from 'react-native'
 
-const Header = () => {
+import { logout } from '../../reducers/user'
+
+class Header extends React.Component {
+  render(){
   return (
     <View style={styles.header}>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={ () => this.props.dispatch(logout(this.props.navigation))}>
         <View style={{flex: 1, padding: 25, alignItems: 'flex-start', justifyContent: 'center'}}>
           <Image source={require('../../assets/icons/chart.png')} />
         </View>
@@ -24,6 +28,7 @@ const Header = () => {
       </TouchableOpacity>
     </View>
   )
+  }
 }
 
 const styles = StyleSheet.create({
@@ -36,5 +41,5 @@ const styles = StyleSheet.create({
   }
 })
 
-export default Header
+export default connect()(Header)
 

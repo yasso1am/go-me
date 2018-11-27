@@ -1,30 +1,29 @@
 import React from 'react'
 import { connect } from 'react-redux'
-
+import { View, Image } from 'react-native'
 import { validateToken } from '../../reducers/auth'
 
 class CheckUser extends React.Component{
   async componentDidMount() {
-    const { user, isLoaded } = this.props
+    const { user, navigation } = this.props
     validToken = await validateToken()
     if (user && validToken === true){
       console.log('token validation complete')
-      const response = {
-        result: true,
-        user: user
-      }
-      isLoaded(response)
+      this.props.navigation.navigate('App')
     } else {
-        const response = {
-          result: false
-        }
-      isLoaded(response)
+        this.props.navigation.navigate('Auth')
     }
   }
 
   render(){
     return(
-      null
+      <View style={{flex: 1}}>
+        <Image
+          style={{flex: 1}}
+          resizeMode='contain' 
+          source={ require('../../assets/icons/logo-white.png')}
+        />
+      </View>
     )
   }
 }
