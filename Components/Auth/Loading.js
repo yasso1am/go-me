@@ -6,9 +6,9 @@ export default class Loading extends React.Component {
     return(
       <View style={{flex: 1}}>
         <Image
-          style={{flex: 1}}
+          style={{flex: 1, width: '100%', height: '100%'}}
           resizeMode='contain' 
-          source={ require('../../assets/icons/logo-white.png')}
+          source={ require('../../assets/images/splash-screen-large.png')}
         />
       </View>
     )
