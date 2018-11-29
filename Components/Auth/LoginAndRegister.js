@@ -1,4 +1,5 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import {
   View,
   TextInput,
@@ -6,10 +7,10 @@ import {
   Text,
   TouchableOpacity,
   Alert,
-  Platform,
-  KeyboardAvoidingView,
+  StatusBar,
 } from 'react-native'
-import { connect } from 'react-redux'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+
 
 import { login, register } from '../../reducers/user'
 
@@ -75,7 +76,7 @@ class LoginAndRegister extends React.Component{
       }
     } else if (active === 'Login' && (email && password !== '')){
         dispatch(login(email, password, navigation))
-        this.setState({ email: '', password: ''})
+        this.setState({ password: ''})
       } else {
         Alert.alert("Please complete both fields")
       }
@@ -84,10 +85,13 @@ class LoginAndRegister extends React.Component{
   render(){
     const active  = this.props.navigation.state.routeName
     return(
-      <KeyboardAvoidingView
-      style={this.styles.container}
-      behavior={Platform.OS === 'ios' ? 'padding' : null}
-    >
+      <KeyboardAwareScrollView
+        contentContainerStyle={this.styles.container}
+      > 
+      <StatusBar
+        barStyle="dark-content"
+        backgroundColor="#ecf0f1"
+      />
         <View style={{alignSelf: 'flex-start'}}>
           <Text style={{fontWeight: 'bold', fontSize: 20, paddingBottom: 10}}> { active === 'Register' ? 'Create an account' : 'Login' } </Text>
         </View>
@@ -181,7 +185,7 @@ class LoginAndRegister extends React.Component{
             <Text style={{color: 'white'}}> { active === 'Login' ? 'Login' : 'Create an Account' } </Text>
           </TouchableOpacity>
         
-        </KeyboardAvoidingView>
+        </KeyboardAwareScrollView>
     )
   }
 }

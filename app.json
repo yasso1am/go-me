@@ -1,11 +1,13 @@
 {
   "expo": {
-    "name": "GoMe",
+    "name": "GoMe - Fitness Tracker",
     "description": "Goal oriented fitness app",
     "slug": "app-go-me",
     "privacy": "unlisted",
-    "sdkVersion": "30.0.0",
-    "platforms": ["ios"],
+    "sdkVersion": "31.0.0",
+    "platforms": [
+      "ios"
+    ],
     "version": "0.1.0",
     "facebookAppId": "342397049861613",
     "facebookDisplayName": "GoMe",

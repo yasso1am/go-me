@@ -8,6 +8,7 @@ import {
   ImageBackground,
   TouchableOpacity,
   Text,
+  StatusBar,
 } from 'react-native'
 import { LinearGradient } from 'expo'
 
@@ -27,6 +28,10 @@ class Profile extends React.Component{
     return(
       <Fragment>
         <SafeAreaView style={{flex: 0, backgroundColor: '#FE7C2A'}} />
+          <StatusBar
+            barStyle="light-content"
+            backgroundColor="#FE7C2A"
+          />
         <SafeAreaView style={{flex: 1, backgroundColor: '#F1552D'}}>
           
          <Header navigation={this.props.navigation} />

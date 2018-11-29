@@ -10,6 +10,7 @@ import {
   Alert,
   Text,
   Platform,
+  StatusBar,
 } from 'react-native'
 import QuickPicker from 'quick-picker'
 import { ImagePicker, Permissions, ImageManipulator } from 'expo'
@@ -29,7 +30,6 @@ const goals = [
 ]
 
 class BuildProfile extends React.Component {
-
   state = {
     height: 66,
     weight: 150,
@@ -44,6 +44,24 @@ class BuildProfile extends React.Component {
   static navigationOptions = {
     header: null,
     gesturesEnabled: false,
+  }
+
+  componentDidMount(){
+    const { user } = this.props
+    let editedArray = this.state.hasBeenEdited
+    if ( user.height ){
+      editedArray.push('height')
+      this.setState({height: user.height, hasBeenEdited: editedArray})
+    } if (user.weight){
+      editedArray.push('weight')
+      this.setState({weight: user.weight, hasBeenEdited: editedArray})
+    } if ( user.activity) {
+      editedArray.push('activity')
+      this.setState({activty: user.activity, hasBeenEdited: editedArray})
+    } if ( user.goal) {
+      editedArray.push('goal')
+      this.setState({goal: user.goal, hasBeenEdited: editedArray})
+    }
   }
 
   editActive = (subject) => {
@@ -99,7 +117,7 @@ class BuildProfile extends React.Component {
     })
     
     if (!result.cancelled){
-      const resizedImage = await ImageManipulator.manipulate(
+      const resizedImage = await ImageManipulator.manipulateAsync(
         result.uri,
         [ {resize: {width: 500}} ],
         { format: 'jpeg', compress: 0.5, base64:true},
@@ -147,10 +165,14 @@ class BuildProfile extends React.Component {
 
   render() {
     const { activeEdit, hasBeenEdited, profileImage } = this.state
-    const image = profileImage !== null ? {uri: profileImage.uri} : require('../../assets/icons/default-avatar.png')
+    const image = this.props.user.avatar ? {uri: this.props.user.avatar} : profileImage !== null ? {uri: profileImage.uri} : require('../../assets/icons/default-avatar.png')
 
     return (
       <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
+       <StatusBar
+        barStyle="dark-content"
+        backgroundColor="#ecf0f1"
+      />
         <View style={styles.header}>
           <Image source={require('../../assets/icons/logo-gradient.png')}/>
         </View>
@@ -191,6 +213,7 @@ class BuildProfile extends React.Component {
             <TouchableOpacity onPress={ () => this.editActive('height')} style={[styles.buttonStyles, activeEdit === 'height' && styles.buttonActive]} >
               { hasBeenEdited.includes('height') ?
                 <View style={styles.sliderView}>
+                  <Text adjustsFontSizeToFit style={styles.answerText}> <Text style={[styles.answerText, {fontWeight: 'bold'}]}>Height:</Text> { heightArray[this.state.height]} </Text>
                   <Slider
                     value={this.state.height}
                     step={1}
@@ -201,7 +224,6 @@ class BuildProfile extends React.Component {
                     thumbStyle={styles.sliderThumb}
                     onValueChange={(value) => this.setState({height: value})}
                   />
-                    <Text adjustsFontSizeToFit style={styles.answerText}> <Text style={[styles.answerText, {fontWeight: 'bold'}]}>Height:</Text> { heightArray[this.state.height]} </Text>
                 </View>
               :
                 <Text> How tall are you?</Text>
@@ -211,6 +233,7 @@ class BuildProfile extends React.Component {
             <TouchableOpacity onPress={ () => this.editActive('weight')} style={[styles.buttonStyles, activeEdit === 'weight' && styles.buttonActive]}>
               { hasBeenEdited.includes('weight') ?
                   <View style={styles.sliderView}>
+                    <Text adjustsFontSizeToFit style={styles.answerText}> <Text style={[styles.answerText, {fontWeight: 'bold'}]}>Weight:</Text> { this.state.weight } Lbs </Text>
                     <Slider
                       value={this.state.weight}
                       thumbTouchSize={{width: 60, height: 60}}
@@ -221,7 +244,6 @@ class BuildProfile extends React.Component {
                       thumbStyle={styles.sliderThumb}
                       onValueChange={(value) => this.setState({weight: value})}
                     />
-                      <Text adjustsFontSizeToFit style={styles.answerText}> <Text style={[styles.answerText, {fontWeight: 'bold'}]}>Weight:</Text> { this.state.weight } Lbs </Text>
                   </View>
                 :
                   <Text> What is your current weight? (lbs) </Text>
@@ -231,6 +253,7 @@ class BuildProfile extends React.Component {
             <TouchableOpacity onPress={ () => this.editActive('activity')} style={[styles.buttonStyles, activeEdit === 'activity' && styles.buttonActive]}>
             { hasBeenEdited.includes('activity') ?
                 <View style={styles.sliderView}>
+                  <Text adjustsFontSizeToFit style={styles.answerText}> <Text style={[styles.answerText, {fontWeight: 'bold'}]}>Activity level:</Text> { this.activityText() } </Text>
                   <Slider
                     value={this.state.activity}
                     step={1}
@@ -241,7 +264,6 @@ class BuildProfile extends React.Component {
                     thumbStyle={styles.sliderThumb}
                     onValueChange={(value) => this.setState({activity: value})}
                   />
-                    <Text adjustsFontSizeToFit style={styles.answerText}> <Text style={[styles.answerText, {fontWeight: 'bold'}]}>Activity level:</Text> { this.activityText() } </Text>
                 </View>
               :
                 <Text> What is your activity level? </Text>
@@ -315,7 +337,7 @@ const styles = StyleSheet.create({
     textAlign: 'center', 
     color: '#FE7C2A', 
     fontSize: 11, 
-    marginBottom: 3,
+    marginTop: 4,
   },
   questionsContainer: {
     flex: 4,

@@ -34,6 +34,7 @@ class Header extends React.Component {
 const styles = StyleSheet.create({
   header:{
     flex: 1,
+    zIndex: 1,
     flexDirection: 'row',
     backgroundColor: '#FE7C2A',
     borderBottomWidth: 0.5,

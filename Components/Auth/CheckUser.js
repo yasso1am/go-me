@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { View, Image } from 'react-native'
+import { View, ActivityIndicator, StatusBar } from 'react-native'
 import { validateToken } from '../../reducers/auth'
 
 class CheckUser extends React.Component{
@@ -17,12 +17,9 @@ class CheckUser extends React.Component{
 
   render(){
     return(
-      <View style={{flex: 1}}>
-        <Image
-          style={{flex: 1, width: '100%', height: '100%'}}
-          resizeMode='contain' 
-          source={ require('../../assets/images/splash-screen-large.png')}
-        />
+      <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+        <ActivityIndicator size="large" color="#FE7C2A"/>
+        <StatusBar barStyle="default" />
       </View>
     )
   }

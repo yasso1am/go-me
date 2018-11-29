@@ -58,19 +58,18 @@ const AppContainer = createAppContainer(createSwitchNavigator(
 ))
 
 export default class App extends React.Component {
-  state = { remembered: true, }
-  
+
   render() {
-    const { remembered } = this.state
 
     return (
       <Provider store={store}>
-        <PersistGate loading={<Loading />} persistor={persistor}>
-            {remembered !== null &&
-                <AppContainer ref={navigatorRef => {
-                  NavigationService.setTopLevelNavigator(navigatorRef)
-                }}/>
-            }
+        <PersistGate persistor={persistor}>
+            { bootstrapped => (
+                bootstrapped &&
+                  <AppContainer ref={navigatorRef => {
+                    NavigationService.setTopLevelNavigator(navigatorRef)
+                  }}/>
+            )}
         </PersistGate>
       </Provider>
     );

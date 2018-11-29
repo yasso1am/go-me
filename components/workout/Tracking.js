@@ -12,6 +12,7 @@ import {
   TextInput,
   KeyboardAvoidingView,
 } from 'react-native'
+
 import { LinearGradient } from 'expo'
 import QuickPicker from 'quick-picker'
 
@@ -26,7 +27,7 @@ class Tracking extends React.Component{
 
   state = {
     date: new Date(),
-    workoutType: '',
+    workoutType: 'Running',
     time: '',
     calories: '',
     activeEdit: '',
@@ -56,6 +57,8 @@ class Tracking extends React.Component{
         maximumDate: max,
         minimumDate: min,
         doneButtonTextStyle: { color: '#FE7C2A'},
+        useNativeDriver: true
+
       })
   }
 
@@ -66,20 +69,21 @@ class Tracking extends React.Component{
           items: activities,
           selectedValue: this.state.workoutType,
           onValueChange: (workoutType) => this.setState({ workoutType }),
-          doneButtonTextStyle: { color: '#FE7C2A'}
+          doneButtonTextStyle: { color: '#FE7C2A'},
+          useNativeDriver: true
         })
   }
   
   stripTime = () => {
     const {time} = this.state
-    let newTime = time.replace('minutes', '')
+    let newTime = time.replace('Minutes', '')
       newTime = newTime.slice(0, -1)
       this.setState({time: newTime})
   }
 
   stripCalories = () => {
     const {calories} = this.state
-    let newCalories = calories.replace('calories burned', '')
+    let newCalories = calories.replace('Calories Burned', '')
       newCalories = newCalories.slice(0, -1)
       this.setState({calories: newCalories})
   }
@@ -90,7 +94,6 @@ class Tracking extends React.Component{
       <Fragment>
         <SafeAreaView style={{flex: 0, backgroundColor: '#FE7C2A'}} />
         <SafeAreaView style={{flex: 1, backgroundColor: '#F1552D'}}>
-          
          <Header navigation={this.props.navigation} />
 
           <LinearGradient
@@ -99,13 +102,14 @@ class Tracking extends React.Component{
           >
             <ImageBackground style={{flex: 1, width: '100%', height: '100%'}} source={require('../../assets/images/lines.png')}>
               <View style={styles.infoContainer}>
+              <KeyboardAvoidingView style={{zIndex: 0, flex: 1}} behavior='position'>
                 
                 <View style={{flex: 2, alignItems: 'center', justifyContent: 'center' }}>
                   <Text style={{fontSize: 30, color: 'white', fontWeight: 'bold', textAlign: 'center'}}> Track your workout </Text>
                   <Text style={{textAlign: 'center', color: 'white', fontSize: 13, lineHeight: 20}}> Fill out the form below to keep up with your goals and active lifestyle </Text>
                 </View>
                 
-                <KeyboardAvoidingView style={{flex: 5, width: '100%'}} behavior='padding'>
+                <View style={{flex: 5, width: '100%'}}>
                   
                   <TouchableOpacity
                     style={[styles.textInput, {justifyContent: 'center'}]}
@@ -124,7 +128,7 @@ class Tracking extends React.Component{
                     value={this.state.time}
                     onChangeText={ (time) => this.setState({time})}
                     onFocus={this.stripTime}
-                    onSubmitEditing={ () => this.setState({ time: `${this.state.time} minutes`})}
+                    onSubmitEditing={ () => this.setState({ time: `${this.state.time} Minutes`})}
                     placeholderTextColor="#FE7C2A"
                     keyboardType='number-pad'
                     returnKeyType='done'
@@ -136,7 +140,7 @@ class Tracking extends React.Component{
                     value={this.state.calories}
                     onChangeText={ (calories) => this.setState({calories})}
                     onFocus={this.stripCalories}
-                    onSubmitEditing= { () => this.setState({ calories: `${this.state.calories} calories burned`}) }
+                    onSubmitEditing= { () => this.setState({ calories: `${this.state.calories} Calories Burned`}) }
                     placeholderTextColor="#FE7C2A"
                     keyboardType='number-pad'
                     returnKeyType='done'
@@ -156,6 +160,7 @@ class Tracking extends React.Component{
                     <TouchableOpacity style={[styles.textInput, {alignItems: 'center', justifyContent: 'center', borderColor: '#FE7C2A', backgroundColor: '#FE7C2A'}]}>
                       <Text style={{color: 'white'}}>Choose Goal To Track</Text> 
                     </TouchableOpacity>
+                    </View>
                   </KeyboardAvoidingView>
                 </View>
                 

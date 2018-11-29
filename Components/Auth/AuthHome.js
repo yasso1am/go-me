@@ -8,9 +8,11 @@ import {
   Image,
   ImageBackground,
   Alert,
+  StatusBar,
 } from 'react-native';
-import { Facebook, Google } from 'expo'
+import { Facebook } from 'expo'
 import { connect } from 'react-redux'
+import { registerFacebook } from '../../reducers/user'
 
 class AuthHome extends React.Component {
   state = { buttonStyle: null }
@@ -37,46 +39,27 @@ class AuthHome extends React.Component {
 
   loginFacebook = async() => {
     try {
-      const {
-        type,
-        token,
-        expires,
-        permissions,
-        declinedPermissions,
-      } = await Facebook.logInWithReadPermissionsAsync('342397049861613', {
+      const { type, token, expires, permissions, declinedPermissions } = await Facebook.logInWithReadPermissionsAsync('342397049861613', {
         permissions: ['public_profile', 'email'],
         behavior: 'web',
       })
-      console.log({token, expires, permissions, declinedPermissions})
-      if (type === 'success') {
-        axios.get(`https://graph.facebook.com/me?access_token=${token}&fields=id,name,birthday,email,picture.type(large)`)
-        .then( res => {
-          const { picture, name, birthday, id, email } = res.data
-          console.log({picture, name, birthday, id, email})
-          Alert.alert(`Welcome to GoMe ${name}`)
-          this.props.navigation.navigate('Profile')
-          console.log({res})
-        })
-        .catch( err => {
-          console.log('err')
-          Alert.alert('Failure to retrieve data')
-        }) 
-      } 
+        if (type === 'success') {
+          this.props.dispatch(registerFacebook(token))
+        } 
     } catch ({ message }) {
       Alert.alert(`Facebook Login Error: ${message}`);
     }
   }
 
-  loginGoogle = async() => {
-
-  }
-  
   render() {
     const { buttonStyle } = this.state
     const { navigation } = this.props
     return (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            
+          <StatusBar
+            barStyle="light-content"
+            backgroundColor="#6a51ae"
+           />
             <ImageBackground
               source={require('../../assets/images/login-header.png')}
               style={{ flex: 3, width: '100%', height: '100%'}}
@@ -98,12 +81,12 @@ class AuthHome extends React.Component {
             { buttonStyle !== null &&
               <View style={{flex: 1, width: '100%'}}>
                 
-                <TouchableOpacity style={[buttonStyle, {borderColor: '#707070', marginTop: 0}]}>
+                {/* <TouchableOpacity style={[buttonStyle, {borderColor: '#707070', marginTop: 0}]}>
                   <Text> Continue with your <Text style={{color: '#dd4b39'}}>Google</Text> account</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
 
-                <TouchableOpacity onPress={this.loginFacebook} style={[buttonStyle, {borderColor: '#707070'}]}>
-                  <Text> Continue with your <Text style={{color: '#3B5998'}}>Facebook</Text> account</Text>
+                <TouchableOpacity onPress={this.loginFacebook}>
+                  <Image style={[buttonStyle, {borderColor: '#4267B2'}]} source={require('../../assets/icons/facebook-button.png')} />
                 </TouchableOpacity>
                 
                 <View style={{flexDirection: 'row', height: buttonStyle.height, alignItems: 'center', justifyContent: 'center'}}>

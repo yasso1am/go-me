@@ -7,6 +7,30 @@ const TOKEN = 'TOKEN'
 
 const BASE_URL = 'https://app.gome.fit/api'
 
+export const registerFacebook = (fb_access_token) => {
+  return (dispatch) => {
+    axios.post(`${BASE_URL}/register/facebook`, {fb_access_token})
+    .then( async res => {
+      let user = res.data.user
+      let token = res.data.token
+      try {
+        const tenMinutesFromNow = Date.now() + (token.expires_in * 1000)
+        token.expires_on = tenMinutesFromNow
+        let tokenToStore = JSON.stringify(token)
+          await AsyncStorage.setItem(TOKEN, tokenToStore)
+          dispatch({type: LOGIN, user})
+        } catch (err) {
+          console.log(err)
+        }
+        navigation.navigate('BuildProfile')
+    })
+    .catch ( err => {
+      console.log({err})
+      Alert.alert(`Error registering user: ${error.response.data[0]}`)
+    })
+  }
+}
+
 export const register = (name, email, password, passwordConfirm, navigation) => {
   return (dispatch) => {
     axios.post(`${BASE_URL}/register`, {name: name, username: email, password: password, password_confirmation: passwordConfirm} )
@@ -16,8 +40,7 @@ export const register = (name, email, password, passwordConfirm, navigation) => 
         try {
           const tenMinutesFromNow = Date.now() + (token.expires_in * 1000)
           token.expires_on = tenMinutesFromNow
-          let tokenToStore = JSON.stringify(token)
-            await AsyncStorage.setItem(TOKEN, tokenToStore)
+            dispatch({type: TOKEN, token})
             dispatch({type: LOGIN, user})
           } catch (err) {
             console.log(err)
@@ -25,7 +48,8 @@ export const register = (name, email, password, passwordConfirm, navigation) => 
           navigation.navigate('BuildProfile')
       })
       .catch( error => {
-        Alert.alert(error.response.data[0])
+        console.log({error})
+        Alert.alert(`Error registering user: ${error.response.data[0]}`)
       })
   }
 }
@@ -39,13 +63,16 @@ export const login = (email, password, navigation) => {
         try {
           const tenMinutesFromNow = Date.now() + (token.expires_in * 1000)
           token.expires_on = tenMinutesFromNow
-          let tokenToStore = JSON.stringify(token)
-            await AsyncStorage.setItem(TOKEN, tokenToStore)
+            dispatch({type: TOKEN, token})
             dispatch({type: LOGIN, user})
           } catch (err) {
             console.log(err)
           }
-          navigation.navigate('Profile')
+          if (!user.avatar){
+            navigation.navigate('BuildProfile')
+          } else {
+            navigation.navigate('Profile')
+          }
       })
       .catch( err => {
         console.log({err})
@@ -85,7 +112,9 @@ export const getProfile = () => {
 }
 
 export const logout = (navigation) => {
-  return async ( dispatch ) => {
+  return async ( dispatch, getState ) => {
+    const { id } = getState().user
+
     await dispatch({type: LOGOUT})
     Alert.alert("Logout Successful")
       await AsyncStorage.removeItem(TOKEN)
