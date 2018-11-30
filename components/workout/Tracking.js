@@ -105,8 +105,13 @@ class Tracking extends React.Component{
               <KeyboardAvoidingView style={{zIndex: 0, flex: 1}} behavior='position'>
                 
                 <View style={{flex: 2, alignItems: 'center', justifyContent: 'center' }}>
-                  <Text style={{fontSize: 30, color: 'white', fontWeight: 'bold', textAlign: 'center'}}> Track your workout </Text>
-                  <Text style={{textAlign: 'center', color: 'white', fontSize: 13, lineHeight: 20}}> Fill out the form below to keep up with your goals and active lifestyle </Text>
+                  <Text   
+                    adjustsFontSizeToFit 
+                    numberOfLines={1} 
+                    style={{fontSize: 30, color: 'white', fontWeight: 'bold', textAlign: 'center'}}> Track your workout </Text>
+                  <Text 
+                    adjustsFontSizeToFit 
+                    style={{textAlign: 'center', color: 'white', fontSize: 13, lineHeight: 20}}> Fill out the form below to keep up with your goals and active lifestyle </Text>
                 </View>
                 
                 <View style={{flex: 5, width: '100%'}}>
@@ -157,7 +162,7 @@ class Tracking extends React.Component{
                     }
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={[styles.textInput, {alignItems: 'center', justifyContent: 'center', borderColor: '#FE7C2A', backgroundColor: '#FE7C2A'}]}>
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate('GoalSwiper')} style={[styles.textInput, {alignItems: 'center', justifyContent: 'center', borderColor: '#FE7C2A', backgroundColor: '#FE7C2A'}]}>
                       <Text style={{color: 'white'}}>Choose Goal To Track</Text> 
                     </TouchableOpacity>
                     </View>

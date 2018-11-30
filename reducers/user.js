@@ -82,10 +82,8 @@ export const login = (email, password, navigation) => {
 }
 
 export const updateProfile = (profile) => {
-  console.log({profile})
-  return ( dispatch, getState ) => {
-    const { id } = getState().user
-    axios.put(`${BASE_URL}/v1/user/${id}`, profile)
+  return ( dispatch ) => {
+    axios.put(`${BASE_URL}/v1/user`, profile)
     .then( res => {
       dispatch({type: LOGIN, user: res.data.user})
     })
@@ -103,9 +101,11 @@ export const getProfile = () => {
       axios.get(`${BASE_URL}/v1/user/${id}`)
       .then( (res) => {
         dispatch({type: LOGIN, user: res.data})
+        return res.data
         console.log('Successfully retrieved profile, and dispatched Login')
       })
       .catch( err => {
+        return false
         console.log('The catch of getProfile() has been hit, so the function failed')
       })
   }

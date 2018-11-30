@@ -15,6 +15,8 @@ import Profile from './components/profile/Profile'
 import BuildProfile from './components/profile/BuildProfile'
 
 import Tracking from './components/workout/Tracking'
+import GoalSwiper from './components/workout/GoalSwiper'
+
 
 const AuthStack = createStackNavigator(
   {
@@ -36,6 +38,7 @@ const AppStack = createStackNavigator(
     BuildProfile: { screen: BuildProfile },
     Profile: {screen: Profile },
     Tracking: {screen: Tracking },
+    GoalSwiper: {screen: GoalSwiper },
   },
   { 
     initialRouteName: 'Profile',

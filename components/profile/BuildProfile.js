@@ -165,7 +165,7 @@ class BuildProfile extends React.Component {
 
   render() {
     const { activeEdit, hasBeenEdited, profileImage } = this.state
-    const image = this.props.user.avatar ? {uri: this.props.user.avatar} : profileImage !== null ? {uri: profileImage.uri} : require('../../assets/icons/default-avatar.png')
+    const image = profileImage !== null ? {uri: profileImage.uri} : this.props.user.avatar ? {uri: this.props.user.avatar} : require('../../assets/icons/default-avatar.png')
 
     return (
       <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
