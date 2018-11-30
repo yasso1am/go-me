@@ -82,8 +82,9 @@ export const login = (email, password, navigation) => {
 }
 
 export const updateProfile = (profile) => {
-  return ( dispatch ) => {
-    axios.put(`${BASE_URL}/v1/user`, profile)
+  return ( dispatch, getState ) => {
+    const { id } =  getState().user
+    axios.put(`${BASE_URL}/v1/user/${id}`, profile)
     .then( res => {
       dispatch({type: LOGIN, user: res.data.user})
     })

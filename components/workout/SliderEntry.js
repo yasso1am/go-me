@@ -10,8 +10,11 @@ import {
 
 class SliderEntry extends React.Component {
 
+
+
     render () {
-      const {item, index} = this.props
+      const {item, index, selectGoal} = this.props
+
         return (
           <View style={{flex: 1}}>
             
@@ -19,12 +22,12 @@ class SliderEntry extends React.Component {
               <Image style={{width: '100%', height: '100%'}} resizeMode='stretch' source={item.image} />
             </View>
             
-            <View style={styles.descriptionContainer}>
-              <Text style={{fontWeight: 'bold', color: '#555555', opacity: 0.5}}> Level {item.difficulty} </Text>
-              <Text adjustsFontSizeToFit numberOfLines={1} style={{fontWeight: 'bold', fontSize: 30}}> {item.name} </Text>
-              <Text adjustsFontSizeToFit style={styles.descriptionText}> {item.description } </Text>
-              <Text style={{fontWeight: 'bold', color: '#555555', opacity: 0.5}}> {item.difficulty} workouts tracked </Text>
-            </View>
+            <TouchableOpacity style={styles.descriptionContainer} onPress={ () => selectGoal(item)}>
+                <Text style={{fontWeight: 'bold', color: '#555555', opacity: 0.5}}> Level {item.difficulty} </Text>
+                <Text adjustsFontSizeToFit numberOfLines={1} style={{fontWeight: 'bold', fontSize: 30}}> {item.name} </Text>
+                <Text adjustsFontSizeToFit style={styles.descriptionText}> {item.description } </Text>
+                <Text style={{fontWeight: 'bold', color: '#555555', opacity: 0.5}}> {item.difficulty} workouts tracked </Text>
+            </TouchableOpacity>
 
             <View style={styles.detailsContainer}>
               <View style={styles.detailColumn}>
@@ -54,6 +57,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     backgroundColor: 'white',
     paddingVertical: 20,
+    paddingHorizontal: 15,
   },
   detailsContainer: {
     flex: 1,

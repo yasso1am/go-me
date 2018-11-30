@@ -11,6 +11,7 @@ import {
   Text,
   TextInput,
   KeyboardAvoidingView,
+  Alert,
 } from 'react-native'
 
 import { LinearGradient } from 'expo'
@@ -28,8 +29,8 @@ class Tracking extends React.Component{
   state = {
     date: new Date(),
     workoutType: 'Running',
-    time: '',
-    calories: '',
+    duration: '',
+    caloriesBurned: '',
     activeEdit: '',
     hasBeenEdited: [],
   }
@@ -62,6 +63,16 @@ class Tracking extends React.Component{
       })
   }
 
+  enterDuration = () => {
+    this.editActive('duration')
+    this.setState({ duration: `${this.state.duration} Minutes`})
+  }
+
+  enterCalories = () => {
+    this.editActive('caloriesBurned')
+    this.setState({ caloriesBurned: `${this.state.caloriesBurned} Calories Burned`})
+  }
+
   pickWorkoutType = () => {
     this.editActive('workoutType')
       const activities = ['Running', 'Biking', 'Rowing']
@@ -74,18 +85,34 @@ class Tracking extends React.Component{
         })
   }
   
-  stripTime = () => {
-    const {time} = this.state
-    let newTime = time.replace('Minutes', '')
-      newTime = newTime.slice(0, -1)
-      this.setState({time: newTime})
+  stripDuration = () => {
+    const {duration} = this.state
+    let newDuration = duration.replace('Minutes', '')
+      newDuration = newDuration.slice(0, -1)
+      this.setState({duration: newDuration})
   }
 
   stripCalories = () => {
-    const {calories} = this.state
-    let newCalories = calories.replace('Calories Burned', '')
+    const {caloriesBurned} = this.state
+    let newCalories = caloriesBurned.replace('Calories Burned', '')
       newCalories = newCalories.slice(0, -1)
-      this.setState({calories: newCalories})
+      this.setState({caloriesBurned: newCalories})
+  }
+
+  goToGoals = () => {
+    const { date, workoutType, duration, caloriesBurned, hasBeenEdited } = this.state
+    let formattedDate = moment(date).format('YYYY-MM-DD')
+      if (hasBeenEdited.includes('workoutType') && hasBeenEdited.includes('duration') && hasBeenEdited.includes('date')){
+        let caloriesNumber = caloriesBurned.replace('Calories Burned', '')
+          caloriesNumber = Number(caloriesNumber.slice(0, -1))
+        let durationNumber = duration.replace('Minutes', '')
+          durationNumber = Number(durationNumber.slice(0, -1))
+        const workout = {formattedDate, workoutType, durationNumber, caloriesNumber}
+          this.props.navigation.navigate('GoalSwiper', {workout})
+        } else {
+          Alert.alert('Please complete required fields')
+          return
+    }
   }
 
   render(){
@@ -127,13 +154,24 @@ class Tracking extends React.Component{
                     }
                   </TouchableOpacity>
 
+                  <TouchableOpacity
+                    style={[styles.textInput, {justifyContent: 'center'}]}
+                    onPress={this.pickDate}
+                  > 
+                    { hasBeenEdited.includes('date') ?
+                    <Text style={{color: '#FE7C2A'}}> {moment(this.state.date).format('MMM Do YYYY')} </Text>
+                    :
+                    <Text style={{color: '#FE7C2A'}}>Date</Text>
+                  }
+                  </TouchableOpacity>
+
                   <TextInput 
                     style={[styles.textInput, {color: '#FE7C2A'}]} 
-                    placeholder='Time in Minutes'
-                    value={this.state.time}
-                    onChangeText={ (time) => this.setState({time})}
-                    onFocus={this.stripTime}
-                    onSubmitEditing={ () => this.setState({ time: `${this.state.time} Minutes`})}
+                    placeholder='Duration in Minutes'
+                    value={this.state.duration}
+                    onChangeText={ (duration) => this.setState({duration})}
+                    onFocus={this.stripDuration}
+                    onSubmitEditing={this.enterDuration}
                     placeholderTextColor="#FE7C2A"
                     keyboardType='number-pad'
                     returnKeyType='done'
@@ -141,28 +179,17 @@ class Tracking extends React.Component{
 
                   <TextInput 
                     style={[styles.textInput, {color: '#FE7C2A'}]} 
-                    placeholder='Calories Burned'
-                    value={this.state.calories}
-                    onChangeText={ (calories) => this.setState({calories})}
+                    placeholder='Calories Burned (optional)'
+                    value={this.state.caloriesBurned}
+                    onChangeText={ (caloriesBurned) => this.setState({caloriesBurned})}
                     onFocus={this.stripCalories}
-                    onSubmitEditing= { () => this.setState({ calories: `${this.state.calories} Calories Burned`}) }
+                    onSubmitEditing= { this.enterCalories }
                     placeholderTextColor="#FE7C2A"
                     keyboardType='number-pad'
                     returnKeyType='done'
                   />
 
-                    <TouchableOpacity
-                      style={[styles.textInput, {justifyContent: 'center'}]}
-                      onPress={this.pickDate}
-                    > 
-                     { hasBeenEdited.includes('date') ?
-                      <Text style={{color: '#FE7C2A'}}> {moment(this.state.date).format('MMM Do YYYY')} </Text>
-                      :
-                      <Text style={{color: '#FE7C2A'}}>Date</Text>
-                    }
-                    </TouchableOpacity>
-
-                    <TouchableOpacity onPress={() => this.props.navigation.navigate('GoalSwiper')} style={[styles.textInput, {alignItems: 'center', justifyContent: 'center', borderColor: '#FE7C2A', backgroundColor: '#FE7C2A'}]}>
+                    <TouchableOpacity onPress={this.goToGoals} style={[styles.textInput, {alignItems: 'center', justifyContent: 'center', borderColor: '#FE7C2A', backgroundColor: '#FE7C2A'}]}>
                       <Text style={{color: 'white'}}>Choose Goal To Track</Text> 
                     </TouchableOpacity>
                     </View>
@@ -176,10 +203,10 @@ class Tracking extends React.Component{
                   </TouchableOpacity>
                 </View>
               </View>
-              <QuickPicker />
             </ImageBackground>
           </LinearGradient>
         </SafeAreaView>
+        <QuickPicker />
       </Fragment>    
     )
   }

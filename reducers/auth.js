@@ -22,6 +22,7 @@ export const validateTokenAndUser = async () => {
 		    return true
 	} catch (err) {
       console.log(`Could not get a new token with the refresh_token upon signing into the app, or could not update the user with that token ${err}`)
+      console.log({err})
       return false
 	}
 }

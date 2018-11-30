@@ -35,13 +35,13 @@ const AuthStack = createStackNavigator(
 
 const AppStack = createStackNavigator(
   {
-    BuildProfile: { screen: BuildProfile },
     Profile: {screen: Profile },
+    BuildProfile: { screen: BuildProfile },
     Tracking: {screen: Tracking },
     GoalSwiper: {screen: GoalSwiper },
   },
   { 
-    initialRouteName: 'Profile',
+    // initialRouteName: 'Profile',
     navigationOptions: {
       headerBackTitleStyle: {color: '#F1552D', fontSize: 11},
       headerTintColor: '#F1552D',

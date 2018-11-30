@@ -1,4 +1,5 @@
 import React, {Fragment} from 'react'
+import { connect } from 'react-redux'
 import {
   Text,
   View,
@@ -12,6 +13,7 @@ import Carousel, { Pagination } from 'react-native-snap-carousel';
 
 import SliderEntry from './SliderEntry'
 import { data } from './GoalData'
+import { postWorkout } from '../../reducers/workout'
 
 
 const deviceWidth = Dimensions.get('window').width
@@ -32,8 +34,10 @@ class GoalSwiper extends React.Component{
     sliderActiveSlide: 0,
   }
 
-  renderItem ({item, index}) {
-    return <SliderEntry item={item} index={index} />;
+  selectGoal = (goal) => {
+    const { goal_id } = goal
+    const { workout } = this.props.navigation.state.params
+      this.props.dispatch(postWorkout(workout, goal_id))
   }
 
   render(){
@@ -63,15 +67,19 @@ class GoalSwiper extends React.Component{
               <Carousel
                 containerCustomStyle={styles.slider}
                 contentContainerCustomStyle={styles.sliderContentContainer}
-                ref={(c) => { this._carousel = c; }}
-                data={data}
-                enableSnap={true}
-                renderItem={this.renderItem}
                 sliderWidth={sliderWidth}
                 itemWidth={sliderWidth}
-                inactiveSlideScale={0.94}
+                inactiveSlideScale={0.90}
                 inactiveSlideOpacity={0.75}
+                data={data}
+                renderItem={ ({item, index}) => {
+                  return (
+                    <SliderEntry item={item} index={index} selectGoal={this.selectGoal} />
+                  )
+                }}
                 useScrollView={true}
+                swipeThreshold={45}
+                enableSnap={true}
                 onSnapToItem={(index) => this.setState({sliderActiveSlide: index})}
               />
               <Pagination
@@ -149,4 +157,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default GoalSwiper
+export default connect()(GoalSwiper)
