@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import { Facebook } from 'expo'
 import { connect } from 'react-redux'
-import { registerFacebook } from '../../reducers/user'
+import { loginFacebook } from '../../reducers/user'
 
 class AuthHome extends React.Component {
   state = { buttonStyle: null }
@@ -44,8 +44,10 @@ class AuthHome extends React.Component {
         behavior: 'web',
       })
         if (type === 'success') {
-          this.props.dispatch(registerFacebook(token))
-        } 
+          this.props.dispatch(loginFacebook(token, this.props.navigation))
+        } else {
+          Alert.alert('Something went wrong, please close the app and try again')
+        }
     } catch ({ message }) {
       Alert.alert(`Facebook Login Error: ${message}`);
     }

@@ -13,6 +13,7 @@ import {
 import { LinearGradient } from 'expo'
 
 import Header from '../nav/Header'
+import { getProfile } from '../../reducers/user'
 
 
 class Profile extends React.Component{
@@ -20,6 +21,11 @@ class Profile extends React.Component{
   static navigationOptions = {
     header: null,
     gesturesEnabled: false,
+  }
+
+  componentDidMount(){
+    const { dispatch } = this.props
+      dispatch(getProfile())
   }
 
   render(){

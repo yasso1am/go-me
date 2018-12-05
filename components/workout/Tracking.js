@@ -12,6 +12,9 @@ import {
   TextInput,
   KeyboardAvoidingView,
   Alert,
+  ScrollView,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from 'react-native'
 
 import { LinearGradient } from 'expo'
@@ -58,8 +61,8 @@ class Tracking extends React.Component{
         maximumDate: max,
         minimumDate: min,
         doneButtonTextStyle: { color: '#FE7C2A'},
-        useNativeDriver: true
-
+        useNativeDriver: true,
+        onTapOut: QuickPicker.close()
       })
   }
 
@@ -81,32 +84,48 @@ class Tracking extends React.Component{
           selectedValue: this.state.workoutType,
           onValueChange: (workoutType) => this.setState({ workoutType }),
           doneButtonTextStyle: { color: '#FE7C2A'},
-          useNativeDriver: true
+          useNativeDriver: true,
+          onTapOut: QuickPicker.close()
+
         })
   }
   
   stripDuration = () => {
     const {duration} = this.state
+    if (duration.includes('Minutes')){
     let newDuration = duration.replace('Minutes', '')
       newDuration = newDuration.slice(0, -1)
       this.setState({duration: newDuration})
+    }
   }
 
   stripCalories = () => {
     const {caloriesBurned} = this.state
+    if (caloriesBurned.includes('Calories Burned')){
     let newCalories = caloriesBurned.replace('Calories Burned', '')
       newCalories = newCalories.slice(0, -1)
       this.setState({caloriesBurned: newCalories})
+    }
   }
 
   goToGoals = () => {
     const { date, workoutType, duration, caloriesBurned, hasBeenEdited } = this.state
     let formattedDate = moment(date).format('YYYY-MM-DD')
       if (hasBeenEdited.includes('workoutType') && hasBeenEdited.includes('duration') && hasBeenEdited.includes('date')){
-        let caloriesNumber = caloriesBurned.replace('Calories Burned', '')
-          caloriesNumber = Number(caloriesNumber.slice(0, -1))
-        let durationNumber = duration.replace('Minutes', '')
-          durationNumber = Number(durationNumber.slice(0, -1))
+        let durationNumber
+        let caloriesNumber
+        if (caloriesBurned.includes('Calories Burned')){
+            caloriesNumber = caloriesBurned.replace('Calories Burned', '')
+            caloriesNumber = Number(caloriesNumber.slice(0, -1))
+        } else {
+            caloriesNumber = Number(caloriesBurned)
+        }
+        if (duration.includes('Minutes')){
+            durationNumber = duration.replace('Minutes', '')
+            durationNumber = Number(durationNumber.slice(0, -1))
+        } else {
+            durationNumber = Number(duration)
+        }
         const workout = {formattedDate, workoutType, durationNumber, caloriesNumber}
           this.props.navigation.navigate('GoalSwiper', {workout})
         } else {
@@ -128,9 +147,16 @@ class Tracking extends React.Component{
             style={styles.bodyContainer}
           >
             <ImageBackground style={{flex: 1, width: '100%', height: '100%'}} source={require('../../assets/images/lines.png')}>
+            
               <View style={styles.infoContainer}>
               <KeyboardAvoidingView style={{zIndex: 0, flex: 1}} behavior='position'>
-                
+                <ScrollView 
+                  contentContainerStyle={{ height: '100%', width: '100%'}} 
+                  style={{height: '100%', width: '100%'}} 
+                  scrollEnabled={false}
+                  keyboardShouldPersistTaps="never"
+
+                >
                 <View style={{flex: 2, alignItems: 'center', justifyContent: 'center' }}>
                   <Text   
                     adjustsFontSizeToFit 
@@ -171,7 +197,7 @@ class Tracking extends React.Component{
                     value={this.state.duration}
                     onChangeText={ (duration) => this.setState({duration})}
                     onFocus={this.stripDuration}
-                    onSubmitEditing={this.enterDuration}
+                    onBlur={this.enterDuration}
                     placeholderTextColor="#FE7C2A"
                     keyboardType='number-pad'
                     returnKeyType='done'
@@ -183,7 +209,7 @@ class Tracking extends React.Component{
                     value={this.state.caloriesBurned}
                     onChangeText={ (caloriesBurned) => this.setState({caloriesBurned})}
                     onFocus={this.stripCalories}
-                    onSubmitEditing= { this.enterCalories }
+                    onBlur={this.enterCalories}
                     placeholderTextColor="#FE7C2A"
                     keyboardType='number-pad'
                     returnKeyType='done'
@@ -193,6 +219,7 @@ class Tracking extends React.Component{
                       <Text style={{color: 'white'}}>Choose Goal To Track</Text> 
                     </TouchableOpacity>
                     </View>
+                    </ScrollView>
                   </KeyboardAvoidingView>
                 </View>
                 

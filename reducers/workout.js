@@ -28,7 +28,7 @@ export const postWorkout = (workout, goal_id) => {
 export default ( state = {}, action ) => {
   switch(action.type) {
     case POST_WORKOUT:
-      return action.user
+      return action.workout
     default:
       return state;
   }

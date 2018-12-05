@@ -18,10 +18,9 @@ export const validateTokenAndUser = async () => {
 		const expirationDelay = Date.now() + ((newToken.expires_in - 15) * 1000)
     newToken.expires_on = expirationDelay
       store.dispatch({type: TOKEN, token: newToken})
-      const user = await getProfile()
 		    return true
 	} catch (err) {
-      console.log(`Could not get a new token with the refresh_token upon signing into the app, or could not update the user with that token ${err}`)
+      console.log(`Could not get a new token with the refresh_token upon signing into the app, or could not update the user with that token`)
       console.log({err})
       return false
 	}

@@ -2,6 +2,7 @@
   "expo": {
     "name": "GoMe - Fitness Tracker",
     "description": "Goal oriented fitness app",
+    "scheme": "go-me-fitness",
     "slug": "app-go-me",
     "privacy": "unlisted",
     "sdkVersion": "31.0.0",

@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   StyleSheet
 } from 'react-native'
+import { drawerStack } from '../../App'
 
 import { logout } from '../../reducers/user'
 
@@ -13,7 +14,7 @@ class Header extends React.Component {
   render(){
   return (
     <View style={styles.header}>
-      <TouchableOpacity onPress={ () => this.props.dispatch(logout(this.props.navigation))}>
+      <TouchableOpacity>
         <View style={{flex: 1, padding: 25, alignItems: 'flex-start', justifyContent: 'center'}}>
           <Image source={require('../../assets/icons/chart.png')} />
         </View>
@@ -21,7 +22,7 @@ class Header extends React.Component {
       <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
         <Image source={require('../../assets/icons/logo-white.png')}/>
       </View>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={ () => { this.props.navigation.openDrawer() }}>
         <View style={{flex: 1, padding: 25, alignItems: 'flex-end', justifyContent: 'center'}}>
           <Image source={require('../../assets/icons/menu.png')}/>
         </View>

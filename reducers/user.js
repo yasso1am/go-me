@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Alert, AsyncStorage } from 'react-native'
+import { Alert } from 'react-native'
 
 const LOGIN = 'LOGIN'
 const LOGOUT = 'LOGOUT'
@@ -7,26 +7,21 @@ const TOKEN = 'TOKEN'
 
 const BASE_URL = 'https://app.gome.fit/api'
 
-export const registerFacebook = (fb_access_token) => {
+export const loginFacebook = (fb_access_token, navigation) => {
   return (dispatch) => {
-    axios.post(`${BASE_URL}/register/facebook`, {fb_access_token})
+    axios.post(`${BASE_URL}/login/facebook`, {access_token: fb_access_token})
     .then( async res => {
       let user = res.data.user
       let token = res.data.token
-      try {
-        const tenMinutesFromNow = Date.now() + (token.expires_in * 1000)
+      const tenMinutesFromNow = Date.now() + ((token.expires_in - 15) * 1000)
         token.expires_on = tenMinutesFromNow
-        let tokenToStore = JSON.stringify(token)
-          await AsyncStorage.setItem(TOKEN, tokenToStore)
+          dispatch({type: TOKEN, token: token})
           dispatch({type: LOGIN, user})
-        } catch (err) {
-          console.log(err)
-        }
-        navigation.navigate('BuildProfile')
+            navigation.navigate('BuildProfile')
     })
     .catch ( err => {
       console.log({err})
-      Alert.alert(`Error registering user: ${error.response.data[0]}`)
+      Alert.alert(`Error registering user: ${err.response.data[0]}`)
     })
   }
 }
@@ -37,15 +32,11 @@ export const register = (name, email, password, passwordConfirm, navigation) => 
       .then( async (res) => {
         let user = res.data.user
         let token = res.data.token
-        try {
-          const tenMinutesFromNow = Date.now() + (token.expires_in * 1000)
+          const tenMinutesFromNow = Date.now() + ((token.expires_in - 15) * 1000)
           token.expires_on = tenMinutesFromNow
-            dispatch({type: TOKEN, token})
+            dispatch({type: TOKEN, token: token})
             dispatch({type: LOGIN, user})
-          } catch (err) {
-            console.log(err)
-          }
-          navigation.navigate('BuildProfile')
+              navigation.navigate('BuildProfile')
       })
       .catch( error => {
         console.log({error})
@@ -57,17 +48,13 @@ export const register = (name, email, password, passwordConfirm, navigation) => 
 export const login = (email, password, navigation) => {
   return (dispatch) => {
     axios.post(`${BASE_URL}/login`, { username: email, password: password} )
-      .then ( async (res) => {
-        const user = res.data.user
+      .then ( res => {
+        let user = res.data.user
         let token = res.data.token
-        try {
-          const tenMinutesFromNow = Date.now() + (token.expires_in * 1000)
+          const tenMinutesFromNow = Date.now() + ((token.expires_in - 15) * 1000)
           token.expires_on = tenMinutesFromNow
             dispatch({type: TOKEN, token})
             dispatch({type: LOGIN, user})
-          } catch (err) {
-            console.log(err)
-          }
           if (!user.avatar){
             navigation.navigate('BuildProfile')
           } else {
@@ -95,31 +82,34 @@ export const updateProfile = (profile) => {
   }
 }
 
-
 export const getProfile = () => {
   return (dispatch, getState) => {
     const { id } = getState().user
-      axios.get(`${BASE_URL}/v1/user/${id}`)
+    axios.get(`${BASE_URL}/v1/user/${id}`)
       .then( (res) => {
+        console.log('Successfully retrieved profile from server, and dispatching Login')
         dispatch({type: LOGIN, user: res.data})
-        return res.data
-        console.log('Successfully retrieved profile, and dispatched Login')
       })
       .catch( err => {
-        return false
         console.log('The catch of getProfile() has been hit, so the function failed')
+        console.log({err})
       })
   }
 }
 
 export const logout = (navigation) => {
-  return async ( dispatch, getState ) => {
-    const { id } = getState().user
-
-    await dispatch({type: LOGOUT})
-    Alert.alert("Logout Successful")
-      await AsyncStorage.removeItem(TOKEN)
-    navigation.navigate('AuthHome')
+  return ( dispatch ) => {
+    axios.post(`${BASE_URL}/v1/logout`)
+    .then( res => {
+      console.log({res})
+      Alert.alert('Signed out')
+      dispatch({type: LOGOUT})
+      dispatch({type: TOKEN, token: {} })
+      navigation.navigate('Auth')
+    })
+    .catch ( err => {
+      console.log({err})
+    })
   }
 }
 

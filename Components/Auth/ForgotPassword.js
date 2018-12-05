@@ -1,10 +1,13 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import { 
   View,
   StyleSheet,
   TextInput,
   Text,
-  TouchableOpacity
+  TouchableOpacity,
+  Alert,
+  Linking,
 } from 'react-native'
 
 class ForgotPassword extends React.Component {
@@ -31,13 +34,24 @@ class ForgotPassword extends React.Component {
       borderRadius: 5, 
       borderWidth: 1, 
       width: '100%',
-      marginTop: 15,
+      marginVertical: 15,
       height: this.props.navigation.state.params.inputHeight, 
       borderColor: '#FE7C2A', 
       alignItems: 'center', 
       justifyContent: 'center'
     },
   })
+  
+  forgotPasswordWebView = () => {
+    const { email } = this.state
+    const emailRegEx = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
+    if ( !emailRegEx.test(email) ){
+      Alert.alert('Please enter a valid email address')
+    } else {
+      Linking.openURL(`http://app.gome.fit/password/reset?email=${email}`)
+    }
+  }
+
 
   render() {
     return(
@@ -65,18 +79,17 @@ class ForgotPassword extends React.Component {
 
         <TouchableOpacity 
             style={[this.styles.button, {backgroundColor: '#FE7C2A'}]}
-            onPress={ () => f => f }
+            onPress={this.forgotPasswordWebView}
           >
             <Text style={{color: 'white'}}> Recover Password </Text>
         </TouchableOpacity>
-
-        
-
-
+          <Text> This will open your phone's browser </Text>
       </View>
     )
   }
 }
+
+
 
 
 export default ForgotPassword

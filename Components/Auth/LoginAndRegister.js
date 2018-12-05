@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Alert,
   StatusBar,
+  WebView,
 } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
@@ -82,6 +83,19 @@ class LoginAndRegister extends React.Component{
       }
     }
 
+    forgotPasswordWebView = () => {
+      return (
+        <WebView
+        originWhitelist={['*']}
+        source={{ html: '<h1>Hello world</h1>' }}
+      />
+        // <WebView
+        //   source={{uri: 'http://app.gome.fit/password/reset'}}
+        //   style={{flex: 1, marginTop: 20}}
+        // />
+      )
+    }
+
   render(){
     const active  = this.props.navigation.state.routeName
     return(
@@ -104,6 +118,8 @@ class LoginAndRegister extends React.Component{
               autoCapitalize="none"
               autoCorrect={false}
               value={this.state.name}
+              textContentType={"none"}
+
               returnKeyType='next' 
               onSubmitEditing={ () => { this.email.focus() }}
               onChangeText={ (name) => this.setState({ name }) }
@@ -121,6 +137,7 @@ class LoginAndRegister extends React.Component{
             autoCorrect={false}
             keyboardType="email-address"
             returnKeyType='next'
+            textContentType={"none"}
             value={this.state.email}
             onSubmitEditing={ () => { this.password.focus() }}
             onChangeText={ (email) => this.setState({ email }) }
@@ -134,8 +151,8 @@ class LoginAndRegister extends React.Component{
             ref={(input) => { this.password = input }}
             autoCapitalize="none"
             value={this.state.password}
-
             autoCorrect={false}
+            textContentType={"none"}
             secureTextEntry={true}
             returnKeyType={ active === 'Register' ? 'next' : 'done' }
             onSubmitEditing={ active === 'Register' ? () => this.passwordConfirm.focus() : this.handleSubmit }
@@ -151,6 +168,7 @@ class LoginAndRegister extends React.Component{
               ref={ (input) => { this.passwordConfirm = input }}
               autoCapitalize="none"
               autoCorrect={false}
+              textContentType={"none"}
               secureTextEntry={true}
               value={this.state.passwordConfirm}
               returnKeyType='go'
@@ -170,6 +188,7 @@ class LoginAndRegister extends React.Component{
             }}>
               <Text> Forgot password? </Text>
               <TouchableOpacity
+                // onPress={this.forgotPasswordWebView}
                 onPress={() => {this.props.navigation.navigate('ForgotPassword', {inputHeight: this.props.navigation.state.params.inputHeight})}}
               >
                 <Text style={{color: '#FE7C2A'}}> Click Here </Text>

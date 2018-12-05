@@ -1,14 +1,16 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { View, ActivityIndicator, StatusBar } from 'react-native'
+import { Linking } from 'expo'
 import { validateTokenAndUser } from '../../reducers/auth'
 
 class CheckUser extends React.Component{
+
   async componentDidMount() {
     const { user } = this.props
     validToken = await validateTokenAndUser()
     if (user && validToken === true){
-      console.log('Token validation and user fetching succesful')
+      console.log('Token validation and stored user fetching succesful')
       this.props.navigation.navigate('App')
     } else {
         this.props.navigation.navigate('Auth')
