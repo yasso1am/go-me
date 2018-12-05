@@ -8,6 +8,7 @@ const POST_WORKOUT = 'POST_WORKOUT'
 export const postWorkout = (workout, goal_id) => {
   return (dispatch) => {
     const workoutGoal = {
+      distance: workout.distanceNumber,
       date: workout.formattedDate, 
       type: workout.workoutType, 
       goal_id: goal_id, 

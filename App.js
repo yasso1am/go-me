@@ -38,11 +38,26 @@ import DrawerContent from './components/nav/DrawerContent'
     }
   )
 
+  // const SettingsStack = createStackNavigator(
+  //   {
+     
+  //   },
+  //   {
+  //     // navigationOptions: {
+  //     //   headerBackTitleStyle: {color: '#F1552D', fontSize: 11},
+  //     //   headerTintColor: '#F1552D',
+  //     // }
+  //   }
+  // )
+
   const MainStack = createStackNavigator(
     {
       Profile: { screen: Profile},
       Tracking: { screen: Tracking },
       GoalSwiper: {screen: GoalSwiper },
+      ProfileSettings: { screen: ProfileSettings },
+      WorkoutHistory: { screen: WorkoutHistory },
+      ApplicationSettings: { screen: ApplicationSettings }
     },
     {
       initialRouteName: 'Profile',
@@ -53,24 +68,10 @@ import DrawerContent from './components/nav/DrawerContent'
     }
   )
 
-  const SettingsStack = createStackNavigator(
-    {
-      ProfileSettings: { screen: ProfileSettings },
-      WorkoutHistory: { screen: WorkoutHistory },
-      ApplicationSettings: { screen: ApplicationSettings }
-    },
-    {
-      navigationOptions: {
-        headerBackTitleStyle: {color: '#F1552D', fontSize: 11},
-        headerTintColor: '#F1552D',
-      }
-    }
-  )
 
   const AppStack = createDrawerNavigator(
     {
       MainStack: { screen: MainStack },
-      SettingsStack: { screen: SettingsStack }
     },
     { 
       initialRouteName: 'MainStack',

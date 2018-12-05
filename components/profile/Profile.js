@@ -20,6 +20,7 @@ class Profile extends React.Component{
   
   static navigationOptions = {
     header: null,
+    headerBackTitle: 'Home',
     gesturesEnabled: false,
   }
 

@@ -28,6 +28,7 @@ class GoalSwiper extends React.Component{
   static navigationOptions = {
     header: null,
     gesturesEnabled: false,
+    headerBackTitle: 'Goal Select',
   }
 
   state = {

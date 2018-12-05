@@ -16,6 +16,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from 'react-native'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 import { LinearGradient } from 'expo'
 import QuickPicker from 'quick-picker'
@@ -27,6 +28,7 @@ class Tracking extends React.Component{
   
   static navigationOptions = {
     header: null,
+    headerBackTitle: 'Workout Tracking'
   }
 
   state = {
@@ -34,6 +36,7 @@ class Tracking extends React.Component{
     workoutType: 'Running',
     duration: '',
     caloriesBurned: '',
+    distance: '',
     activeEdit: '',
     hasBeenEdited: [],
   }
@@ -76,6 +79,21 @@ class Tracking extends React.Component{
     this.setState({ caloriesBurned: `${this.state.caloriesBurned} Calories Burned`})
   }
 
+  enterDistance = () => {
+    this.editActive('distance')
+    this.setState({ distance: `${this.state.distance} Miles`})
+  }
+
+  distanceTextChange = (distance) => {
+    let decimalRegEx = new RegExp(/^\d*\.?\d*$/)
+      if (distance.length === 0 || distance === "." || distance[distance.length - 1] === "." && decimalRegEx.test(distance)){
+          this.setState({distance})
+      } else {
+          const distanceRegEx = new RegExp(/^\s*-?(\d+(\.\d{1,2})?|\.\d{1,2})\s*$/)
+            if ( distanceRegEx.test(distance)) this.setState({distance})
+      }
+  }
+
   pickWorkoutType = () => {
     this.editActive('workoutType')
       const activities = ['Running', 'Biking', 'Rowing']
@@ -108,10 +126,20 @@ class Tracking extends React.Component{
     }
   }
 
+  stripDistance = () => {
+    const {distance} = this.state
+    if (distance.includes('Miles')){
+    let newDistance = distance.replace('Miles', '')
+      newDistance = newDistance.slice(0, -1)
+      this.setState({distance: newDistance})
+    }
+  }
+
   goToGoals = () => {
-    const { date, workoutType, duration, caloriesBurned, hasBeenEdited } = this.state
+    const { date, workoutType, duration, caloriesBurned, distance, hasBeenEdited } = this.state
     let formattedDate = moment(date).format('YYYY-MM-DD')
-      if (hasBeenEdited.includes('workoutType') && hasBeenEdited.includes('duration') && hasBeenEdited.includes('date')){
+      if (hasBeenEdited.includes('workoutType') && hasBeenEdited.includes('duration') && hasBeenEdited.includes('date') && hasBeenEdited.includes('distance') ){
+        let distanceNumber
         let durationNumber
         let caloriesNumber
         if (caloriesBurned.includes('Calories Burned')){
@@ -126,7 +154,13 @@ class Tracking extends React.Component{
         } else {
             durationNumber = Number(duration)
         }
-        const workout = {formattedDate, workoutType, durationNumber, caloriesNumber}
+        if (distance.includes('Miles')){
+          distanceNumber = distance.replace('Miles', '')
+          distanceNumber = Number(distanceNumber.slice(0, -1))
+      } else {
+          distanceNumber = Number(distance)
+      }
+        const workout = {formattedDate, workoutType, durationNumber, caloriesNumber, distanceNumber}
           this.props.navigation.navigate('GoalSwiper', {workout})
         } else {
           Alert.alert('Please complete required fields')
@@ -149,7 +183,10 @@ class Tracking extends React.Component{
             <ImageBackground style={{flex: 1, width: '100%', height: '100%'}} source={require('../../assets/images/lines.png')}>
             
               <View style={styles.infoContainer}>
-              <KeyboardAvoidingView style={{zIndex: 0, flex: 1}} behavior='position'>
+              <KeyboardAwareScrollView 
+                contentContainerStyle={{flex: 1}}
+                style={{zIndex: 0, flex: 1}} 
+              >
                 <ScrollView 
                   contentContainerStyle={{ height: '100%', width: '100%'}} 
                   style={{height: '100%', width: '100%'}} 
@@ -215,12 +252,24 @@ class Tracking extends React.Component{
                     returnKeyType='done'
                   />
 
+                   <TextInput 
+                    style={[styles.textInput, {color: '#FE7C2A'}]} 
+                    placeholder='Distance (miles)'
+                    value={this.state.distance}
+                    onChangeText={this.distanceTextChange}
+                    onFocus={this.stripDistance}
+                    onBlur={this.enterDistance}
+                    placeholderTextColor="#FE7C2A"
+                    keyboardType='decimal-pad'
+                    returnKeyType='done'
+                  />
+
                     <TouchableOpacity onPress={this.goToGoals} style={[styles.textInput, {alignItems: 'center', justifyContent: 'center', borderColor: '#FE7C2A', backgroundColor: '#FE7C2A'}]}>
                       <Text style={{color: 'white'}}>Choose Goal To Track</Text> 
                     </TouchableOpacity>
                     </View>
                     </ScrollView>
-                  </KeyboardAvoidingView>
+                  </KeyboardAwareScrollView>
                 </View>
                 
               <View style={styles.buttonContainer}>
@@ -267,7 +316,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginVertical: 7.5,
     paddingLeft: 15,
-    height: '14%',
+    height: '12%',
     borderColor: '#FFFFFF',
     borderWidth: 0.5,
     backgroundColor: '#F8F8F8',
