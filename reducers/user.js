@@ -17,11 +17,15 @@ export const loginFacebook = (fb_access_token, navigation) => {
         token.expires_on = tenMinutesFromNow
           dispatch({type: TOKEN, token: token})
           dispatch({type: LOGIN, user})
+          if (!user.height){
             navigation.navigate('BuildProfile')
+          } else {
+            navigation.navigate('Profile')
+          }
     })
     .catch ( err => {
       console.log({err})
-      Alert.alert(`Error registering user: ${err.response.data[0]}`)
+      Alert.alert(`Error signing in: ${err.response.data[0]}`)
     })
   }
 }

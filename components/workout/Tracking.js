@@ -28,7 +28,8 @@ class Tracking extends React.Component{
   
   static navigationOptions = {
     header: null,
-    headerBackTitle: 'Workout Tracking'
+    headerBackTitle: 'Workout Tracking',
+    gesturesEnabled: false,
   }
 
   state = {

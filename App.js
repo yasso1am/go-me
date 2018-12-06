@@ -38,18 +38,6 @@ import DrawerContent from './components/nav/DrawerContent'
     }
   )
 
-  // const SettingsStack = createStackNavigator(
-  //   {
-     
-  //   },
-  //   {
-  //     // navigationOptions: {
-  //     //   headerBackTitleStyle: {color: '#F1552D', fontSize: 11},
-  //     //   headerTintColor: '#F1552D',
-  //     // }
-  //   }
-  // )
-
   const MainStack = createStackNavigator(
     {
       Profile: { screen: Profile},
@@ -64,10 +52,9 @@ import DrawerContent from './components/nav/DrawerContent'
       navigationOptions: {
         headerBackTitleStyle: {color: '#F1552D', fontSize: 11},
         headerTintColor: '#F1552D',
-      }
+      },
     }
   )
-
 
   const AppStack = createDrawerNavigator(
     {
@@ -78,7 +65,13 @@ import DrawerContent from './components/nav/DrawerContent'
       contentComponent: DrawerContent,
       drawerPosition: 'right',
     }
-  )
+    )
+    
+    MainStack.navigationOptions = () => ({ 
+      drawerLockMode: 'locked-closed', 
+    })
+     
+
 
     
   const AppContainer = createAppContainer(createSwitchNavigator(

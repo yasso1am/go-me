@@ -9,7 +9,7 @@
     "platforms": [
       "ios"
     ],
-    "version": "0.1.5",
+    "version": "0.2.0",
     "facebookAppId": "342397049861613",
     "facebookDisplayName": "GoMe",
     "orientation": "portrait",
@@ -19,7 +19,7 @@
       "resizeMode": "cover"
     },
     "updates": {
-      "fallbackToCacheTimeout": 0
+      "fallbackToCacheTimeout": 3500
     },
     "assetBundlePatterns": [
       "assets/*"
@@ -27,7 +27,7 @@
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "app-neonbrand-gome",
-      "buildNumber": "0.1.5"
+      "buildNumber": "0.2.0"
     }
   }
 }

@@ -22,6 +22,7 @@ class Profile extends React.Component{
     header: null,
     headerBackTitle: 'Home',
     gesturesEnabled: false,
+    drawerLockMode: 'locked-closed'
   }
 
   componentDidMount(){
