@@ -6,7 +6,8 @@ import {
   SafeAreaView,
   StyleSheet,
   ImageBackground,
-  Dimensions
+  Dimensions,
+  StatusBar,
 } from 'react-native'
 import { LinearGradient } from 'expo'
 import Carousel, { Pagination } from 'react-native-snap-carousel';
@@ -14,6 +15,8 @@ import Carousel, { Pagination } from 'react-native-snap-carousel';
 import SliderEntry from './SliderEntry'
 import { data } from './GoalData'
 import { postWorkout } from '../../reducers/workout'
+import AppStyles from '../../AppStyles'
+
 
 
 const deviceWidth = Dimensions.get('window').width
@@ -45,11 +48,15 @@ class GoalSwiper extends React.Component{
     const { sliderActiveSlide } = this.state
     return(
       <Fragment>
-      <SafeAreaView style={{flex: 0, backgroundColor: '#FE7C2A'}} />
-      <SafeAreaView style={{flex: 1, backgroundColor: '#F1552D'}}>
+         <SafeAreaView style={{flex: 0, backgroundColor: AppStyles.primaryColor}} />
+          <StatusBar
+            barStyle="light-content"
+            backgroundColor={AppStyles.primaryColor}
+          />
+        <SafeAreaView style={{flex: 1, backgroundColor: AppStyles.secondaryColor}}>
        <Header navigation={this.props.navigation} />
         <LinearGradient
-          colors={['#FE7C2A', '#F1552D']}
+          colors={[AppStyles.primaryColor, AppStyles.secondaryColor]}
           style={styles.bodyContainer}
         >
           <ImageBackground style={{flex: 1, width: '100%', height: '100%'}} source={require('../../assets/images/lines.png')}>

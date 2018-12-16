@@ -10,9 +10,11 @@ import {
   Alert,
   StatusBar,
 } from 'react-native';
+import Appstyles from '../../AppStyles'
 import { Facebook } from 'expo'
 import { connect } from 'react-redux'
 import { loginFacebook } from '../../reducers/user'
+
 
 class AuthHome extends React.Component {
   state = { buttonStyle: null }
@@ -29,7 +31,7 @@ class AuthHome extends React.Component {
       borderWidth: 0.5, 
       width: '100%',
       height: height / 6.9, 
-      borderColor: '#FE7C2A', 
+      borderColor: AppStyles.primaryColor, 
       alignItems: 'center', 
       justifyContent: 'center',
       marginVertical: 5,
@@ -98,7 +100,7 @@ class AuthHome extends React.Component {
                 </View>
 
                 <TouchableOpacity 
-                  style={[buttonStyle, {backgroundColor: '#FE7C2A'}]}
+                  style={[buttonStyle, {backgroundColor: AppStyles.primaryColor}]}
                   onPress={() => navigation.navigate('Register', {inputHeight: buttonStyle.height})}
                 >
                   <Text style={{color: 'white'}}> Continue with your email</Text>
@@ -107,7 +109,7 @@ class AuthHome extends React.Component {
                 <View style={{alignItems: 'center', justifyContent: 'center', height: buttonStyle.height, flexDirection: 'row'}}>
                   <Text> Already have an account? </Text>
                   <TouchableOpacity hitSlop={{top: 10, bottom: 10, left: 10, right: 10}} onPress={() => navigation.navigate('Login', {inputHeight: buttonStyle.height})}>
-                    <Text style={{color: '#F1552D', textDecorationLine: 'underline'}}> Log in now </Text>
+                    <Text style={{color: AppStyles.primaryColor, textDecorationLine: 'underline'}}> Log in now </Text>
                   </TouchableOpacity>      
                 </View>
               </View> 

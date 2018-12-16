@@ -9,13 +9,13 @@
     "platforms": [
       "ios"
     ],
-    "version": "0.2.0",
+    "version": "0.3.0",
     "facebookAppId": "342397049861613",
     "facebookDisplayName": "GoMe",
     "orientation": "portrait",
     "icon": "./assets/icons/app-icon.png",
     "splash": {
-      "image": "./assets/images/splash-screen-large.png",
+      "image": "./assets/images/splash-screen.png",
       "resizeMode": "cover"
     },
     "updates": {
@@ -27,7 +27,7 @@
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "app-neonbrand-gome",
-      "buildNumber": "0.2.0"
+      "buildNumber": "0.3.0"
     }
   }
 }

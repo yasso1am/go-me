@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Image,
 } from 'react-native'
+import Appstyles from '../../AppStyles'
 import { logout } from '../../reducers/user'
 
 class DrawerContent extends React.Component {
@@ -27,7 +28,7 @@ class DrawerContent extends React.Component {
             <Text style={{fontSize: 13, color: '#D3D3D3', marginVertical: 10}}> Good Afternoon,</Text>
             <Text adjustsFontSizeToFit 
                   numberOfLines={1}
-                  style={{fontSize: 30, fontWeight: 'bold', color: '#FE7C2A', marginBottom: 15}}
+                  style={{fontSize: 30, fontWeight: 'bold', color: AppStyles.primaryColor, marginBottom: 15}}
             > 
               {this.props.user.name} 
             </Text>
@@ -63,7 +64,7 @@ class DrawerContent extends React.Component {
         <View style={styles.logoutContainer}>
           <TouchableOpacity style={styles.linkButton} onPress={ () => this.props.dispatch(logout(this.props.navigation))}>
             <Image resizeMode='contain' style={[styles.icon, {opacity: 1, height: '40%'}]} source={require('../../assets/icons/logout-placeholder.png')} />
-            <Text style={{color: '#FE7C2A'}}>Logout</Text> 
+            <Text style={{color: AppStyles.primaryColor}}>Logout</Text> 
           </TouchableOpacity>
         </View>
 

@@ -10,14 +10,11 @@ import {
   TouchableOpacity,
   Text,
   TextInput,
-  KeyboardAvoidingView,
   Alert,
   ScrollView,
-  TouchableWithoutFeedback,
-  Keyboard,
 } from 'react-native'
+import AppStyles from '../../AppStyles'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-
 import { LinearGradient } from 'expo'
 import QuickPicker from 'quick-picker'
 
@@ -64,7 +61,7 @@ class Tracking extends React.Component{
         onValueChange: (date) => this.setState({date}),
         maximumDate: max,
         minimumDate: min,
-        doneButtonTextStyle: { color: '#FE7C2A'},
+        doneButtonTextStyle: { color: AppStyles.primaryColor},
         useNativeDriver: true,
         onTapOut: QuickPicker.close()
       })
@@ -102,7 +99,7 @@ class Tracking extends React.Component{
           items: activities,
           selectedValue: this.state.workoutType,
           onValueChange: (workoutType) => this.setState({ workoutType }),
-          doneButtonTextStyle: { color: '#FE7C2A'},
+          doneButtonTextStyle: { color: AppStyles.primaryColor},
           useNativeDriver: true,
           onTapOut: QuickPicker.close()
 
@@ -173,12 +170,12 @@ class Tracking extends React.Component{
     const {hasBeenEdited} = this.state
     return(
       <Fragment>
-        <SafeAreaView style={{flex: 0, backgroundColor: '#FE7C2A'}} />
-        <SafeAreaView style={{flex: 1, backgroundColor: '#F1552D'}}>
+        <SafeAreaView style={{flex: 0, backgroundColor: AppStyles.primaryColor}} />
+        <SafeAreaView style={{flex: 1, backgroundColor: AppStyles.secondaryColor}}>
          <Header navigation={this.props.navigation} />
 
           <LinearGradient
-            colors={['#FE7C2A', '#F1552D']}
+            colors={[AppStyles.primaryColor, AppStyles.secondaryColor]}
             style={styles.bodyContainer}
           >
             <ImageBackground style={{flex: 1, width: '100%', height: '100%'}} source={require('../../assets/images/lines.png')}>
@@ -212,9 +209,9 @@ class Tracking extends React.Component{
                     onPress={this.pickWorkoutType}
                   > 
                     { hasBeenEdited.includes('workoutType') ?
-                      <Text style={{color: '#FE7C2A'}}> {this.state.workoutType} </Text>
+                      <Text style={{color: AppStyles.primaryColor}}> {this.state.workoutType} </Text>
                       :
-                      <Text style={{color: '#FE7C2A'}}>Workout Type</Text>
+                      <Text style={{color: AppStyles.primaryColor}}>Workout Type</Text>
                     }
                   </TouchableOpacity>
 
@@ -223,49 +220,49 @@ class Tracking extends React.Component{
                     onPress={this.pickDate}
                   > 
                     { hasBeenEdited.includes('date') ?
-                    <Text style={{color: '#FE7C2A'}}> {moment(this.state.date).format('MMM Do YYYY')} </Text>
+                    <Text style={{color: AppStyles.primaryColor}}> {moment(this.state.date).format('MMM Do YYYY')} </Text>
                     :
-                    <Text style={{color: '#FE7C2A'}}>Date</Text>
+                    <Text style={{color: AppStyles.primaryColor}}>Date</Text>
                   }
                   </TouchableOpacity>
 
                   <TextInput 
-                    style={[styles.textInput, {color: '#FE7C2A'}]} 
+                    style={[styles.textInput, {color: AppStyles.primaryColor}]} 
                     placeholder='Duration in Minutes'
                     value={this.state.duration}
                     onChangeText={ (duration) => this.setState({duration})}
                     onFocus={this.stripDuration}
                     onBlur={this.enterDuration}
-                    placeholderTextColor="#FE7C2A"
+                    placeholderTextColor={AppStyles.primaryColor}
                     keyboardType='number-pad'
                     returnKeyType='done'
                   />
 
                   <TextInput 
-                    style={[styles.textInput, {color: '#FE7C2A'}]} 
+                    style={[styles.textInput, {color: AppStyles.primaryColor}]} 
                     placeholder='Calories Burned (optional)'
                     value={this.state.caloriesBurned}
                     onChangeText={ (caloriesBurned) => this.setState({caloriesBurned})}
                     onFocus={this.stripCalories}
                     onBlur={this.enterCalories}
-                    placeholderTextColor="#FE7C2A"
+                    placeholderTextColor={AppStyles.primaryColor}
                     keyboardType='number-pad'
                     returnKeyType='done'
                   />
 
                    <TextInput 
-                    style={[styles.textInput, {color: '#FE7C2A'}]} 
+                    style={[styles.textInput, {color: AppStyles.primaryColor}]} 
                     placeholder='Distance (miles)'
                     value={this.state.distance}
                     onChangeText={this.distanceTextChange}
                     onFocus={this.stripDistance}
                     onBlur={this.enterDistance}
-                    placeholderTextColor="#FE7C2A"
+                    placeholderTextColor={AppStyles.primaryColor}
                     keyboardType='decimal-pad'
                     returnKeyType='done'
                   />
 
-                    <TouchableOpacity onPress={this.goToGoals} style={[styles.textInput, {alignItems: 'center', justifyContent: 'center', borderColor: '#FE7C2A', backgroundColor: '#FE7C2A'}]}>
+                    <TouchableOpacity onPress={this.goToGoals} style={[styles.textInput, {alignItems: 'center', justifyContent: 'center', borderColor: AppStyles.primaryColor, backgroundColor: AppStyles.primaryColor}]}>
                       <Text style={{color: 'white'}}>Choose Goal To Track</Text> 
                     </TouchableOpacity>
                     </View>
@@ -293,7 +290,7 @@ const styles = StyleSheet.create({
   header:{
     flex: 1,
     flexDirection: 'row',
-    backgroundColor: '#FE7C2A',
+    backgroundColor: AppStyles.primaryColor,
     borderBottomWidth: 0.5,
     borderBottomColor: '#FFF',
   },

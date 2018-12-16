@@ -6,9 +6,8 @@ import {
   TouchableOpacity,
   StyleSheet
 } from 'react-native'
-import { drawerStack } from '../../App'
+import Appstyles from '../../AppStyles'
 
-import { logout } from '../../reducers/user'
 
 class Header extends React.Component {
   render(){
@@ -37,7 +36,7 @@ const styles = StyleSheet.create({
     flex: 1,
     zIndex: 1,
     flexDirection: 'row',
-    backgroundColor: '#FE7C2A',
+    backgroundColor: AppStyles.primaryColor,
     borderBottomWidth: 0.5,
     borderBottomColor: '#FFF',
   }

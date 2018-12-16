@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   StyleSheet
 } from 'react-native';
+import AppStyles from '../../AppStyles'
 
 
 class SliderEntry extends React.Component {
@@ -64,7 +65,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around',
-    backgroundColor: '#FE7C2A'
+    backgroundColor: AppStyles.primaryColor
   }, 
   detailColumn:{
     flex: 1,

@@ -10,6 +10,8 @@ import {
   StatusBar,
   WebView,
 } from 'react-native'
+import Appstyles from '../../AppStyles'
+
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 
@@ -52,7 +54,7 @@ class LoginAndRegister extends React.Component{
       width: '100%',
       marginTop: 15,
       height: this.props.navigation.state.params.inputHeight, 
-      borderColor: '#FE7C2A', 
+      borderColor: AppStyles.primaryColor, 
       alignItems: 'center', 
       justifyContent: 'center'
     },
@@ -191,14 +193,14 @@ class LoginAndRegister extends React.Component{
                 // onPress={this.forgotPasswordWebView}
                 onPress={() => {this.props.navigation.navigate('ForgotPassword', {inputHeight: this.props.navigation.state.params.inputHeight})}}
               >
-                <Text style={{color: '#FE7C2A'}}> Click Here </Text>
+                <Text style={{color: AppStyles.primaryColor}}> Click Here </Text>
               </TouchableOpacity>              
             </View>
           
           }
 
           <TouchableOpacity 
-            style={[this.styles.button, {backgroundColor: '#FE7C2A'}]}
+            style={[this.styles.button, {backgroundColor: AppStyles.primaryColor}]}
             onPress={this.handleSubmit}
           >
             <Text style={{color: 'white'}}> { active === 'Login' ? 'Login' : 'Create an Account' } </Text>

@@ -9,6 +9,8 @@ import {
   Alert,
   Linking,
 } from 'react-native'
+import Appstyles from '../../AppStyles'
+
 
 class ForgotPassword extends React.Component {
   state = { email: '' }
@@ -36,19 +38,19 @@ class ForgotPassword extends React.Component {
       width: '100%',
       marginVertical: 15,
       height: this.props.navigation.state.params.inputHeight, 
-      borderColor: '#FE7C2A', 
+      borderColor: AppStyles.primaryColor, 
       alignItems: 'center', 
       justifyContent: 'center'
     },
   })
   
-  forgotPasswordWebView = () => {
+  forgotPasswordLink = () => {
     const { email } = this.state
     const emailRegEx = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
     if ( !emailRegEx.test(email) ){
       Alert.alert('Please enter a valid email address')
     } else {
-      Linking.openURL(`http://app.gome.fit/password/reset?email=${email}`)
+      Linking.openURL(`https://app.gome.fit/password/reset?email=${email}`)
     }
   }
 
@@ -78,8 +80,8 @@ class ForgotPassword extends React.Component {
         />
 
         <TouchableOpacity 
-            style={[this.styles.button, {backgroundColor: '#FE7C2A'}]}
-            onPress={this.forgotPasswordWebView}
+            style={[this.styles.button, {backgroundColor: AppStyles.primaryColor}]}
+            onPress={this.forgotPasswordLink}
           >
             <Text style={{color: 'white'}}> Recover Password </Text>
         </TouchableOpacity>

@@ -3,13 +3,14 @@ import {
   View,
   Text,
 } from 'react-native'
+import AppStyles from '../../AppStyles'
 import { NavigationActions } from 'react-navigation'
 
 
 class ProfileSettings extends React.Component{
   static  navigationOptions = ({navigation}) => ({
-    headerBackTitleStyle: {color: '#FE7C2A'},
-    headerTintColor: '#FE7C2A',
+    headerBackTitleStyle: {color: AppStyles.primaryColor},
+    headerTintColor: AppStyles.primaryColor,
   })
 
   render(){

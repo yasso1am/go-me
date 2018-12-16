@@ -105,7 +105,6 @@ export const logout = (navigation) => {
   return ( dispatch ) => {
     axios.post(`${BASE_URL}/v1/logout`)
     .then( res => {
-      console.log({res})
       Alert.alert('Signed out')
       dispatch({type: LOGOUT})
       dispatch({type: TOKEN, token: {} })

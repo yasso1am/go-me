@@ -3,11 +3,12 @@ import {
   View,
   Text,
 } from 'react-native'
+import AppStyles from '../../AppStyles'
 
 class WorkoutHistory extends React.Component{
   static  navigationOptions = ({navigation}) => ({
-    headerBackTitleStyle: {color: '#FE7C2A'},
-    headerTintColor: '#FE7C2A',
+    headerBackTitleStyle: AppStyles.primaryColor,
+    headerTintColor: AppStyles.primaryColor,
   })
   
   render(){

@@ -12,6 +12,7 @@ import {
   Platform,
   StatusBar,
 } from 'react-native'
+import Appstyles from '../../AppStyles'
 import QuickPicker from 'quick-picker'
 import { ImagePicker, Permissions, ImageManipulator } from 'expo'
 import { Slider } from 'react-native-elements'
@@ -159,7 +160,7 @@ class BuildProfile extends React.Component {
         items: goals,
         selectedValue: this.state.goal,
         onValueChange: (goal) => this.setState({ goal}),
-        doneButtonTextStyle: { color: '#FE7C2A'},
+        doneButtonTextStyle: { color: AppStyles.primaryColor},
         onTapOut: QuickPicker.close()
 
       })
@@ -281,7 +282,7 @@ class BuildProfile extends React.Component {
               </TouchableOpacity> 
            
 
-            <TouchableOpacity onPress={this.goToProfile} style={[styles.buttonStyles, {backgroundColor: '#FE7C2A'}]}>
+            <TouchableOpacity onPress={this.goToProfile} style={[styles.buttonStyles, {borderColor: AppStyles.primaryColor, backgroundColor: AppStyles.primaryColor}]}>
               <Text style={{color: 'white'}}> Start my fitness journey </Text>
             </TouchableOpacity>
 
@@ -323,7 +324,7 @@ const styles = StyleSheet.create({
     width: 5, 
     height: '50%', 
     borderRadius: 5, 
-    backgroundColor: '#FE7C2A'
+    backgroundColor: AppStyles.primaryColor
   },
   bodyContainer: {
     flex: 8,
@@ -337,7 +338,7 @@ const styles = StyleSheet.create({
   },
   answerText: {
     textAlign: 'center', 
-    color: '#FE7C2A', 
+    color: AppStyles.primaryColor, 
     fontSize: 11, 
     marginTop: 4,
   },
@@ -359,6 +360,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   buttonActive: {
-    borderColor: '#FE7C2A'
+    borderColor: AppStyles.primaryColor
   }
 })

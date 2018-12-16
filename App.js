@@ -71,9 +71,6 @@ import DrawerContent from './components/nav/DrawerContent'
       drawerLockMode: 'locked-closed', 
     })
      
-
-
-    
   const AppContainer = createAppContainer(createSwitchNavigator(
     {
       AuthLoading: CheckUser,
@@ -86,21 +83,20 @@ import DrawerContent from './components/nav/DrawerContent'
   ))
 
       
-    export default class App extends React.Component {
-      
-      render() {
-        
-        return (
-          <Provider store={store}>
-            <PersistGate persistor={persistor}>
-                { bootstrapped => (
-                    bootstrapped &&
-                      <AppContainer ref={navigatorRef => {
-                        NavigationService.setTopLevelNavigator(navigatorRef)
-                      }}/>
-                )}
-            </PersistGate>
-          </Provider>
-  );
-}
+export default class App extends React.Component {
+  
+  render() {
+    return (
+      <Provider store={store}>
+        <PersistGate persistor={persistor}>
+            { bootstrapped => (
+                bootstrapped &&
+                  <AppContainer ref={ navigatorRef => {
+                      NavigationService.setTopLevelNavigator(navigatorRef);
+                  }}/>
+            )}
+        </PersistGate>
+      </Provider>
+    );
+  }
 }

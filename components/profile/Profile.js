@@ -10,6 +10,7 @@ import {
   Text,
   StatusBar,
 } from 'react-native'
+import AppStyles from '../../AppStyles'
 import { LinearGradient } from 'expo'
 
 import Header from '../nav/Header'
@@ -35,17 +36,17 @@ class Profile extends React.Component{
 
     return(
       <Fragment>
-        <SafeAreaView style={{flex: 0, backgroundColor: '#FE7C2A'}} />
+        <SafeAreaView style={{flex: 0, backgroundColor: AppStyles.primaryColor}} />
           <StatusBar
             barStyle="light-content"
-            backgroundColor="#FE7C2A"
+            backgroundColor={AppStyles.primaryColor}
           />
-        <SafeAreaView style={{flex: 1, backgroundColor: '#F1552D'}}>
+        <SafeAreaView style={{flex: 1, backgroundColor: AppStyles.secondaryColor}}>
           
          <Header navigation={this.props.navigation} />
 
           <LinearGradient
-            colors={['#FE7C2A', '#F1552D']}
+            colors={[AppStyles.primaryColor, AppStyles.secondaryColor]}
             style={styles.bodyContainer}
           >
             <ImageBackground style={{flex: 1, width: '100%', height: '100%'}} source={require('../../assets/images/lines.png')}>
@@ -91,7 +92,7 @@ const styles = StyleSheet.create({
   header:{
     flex: 1,
     flexDirection: 'row',
-    backgroundColor: '#FE7C2A',
+    backgroundColor: AppStyles.primaryColor,
     borderBottomWidth: 0.5,
     borderBottomColor: '#FFF',
   },
