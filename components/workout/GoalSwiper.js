@@ -82,7 +82,7 @@ class GoalSwiper extends React.Component{
                 data={data}
                 renderItem={ ({item, index}) => {
                   return (
-                    <SliderEntry item={item} index={index} selectGoal={this.selectGoal} />
+                    <SliderEntry navigation={this.props.navigation} item={item} index={index} selectGoal={this.selectGoal} />
                   )
                 }}
                 useScrollView={true}

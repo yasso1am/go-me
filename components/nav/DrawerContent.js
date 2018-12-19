@@ -40,22 +40,29 @@ class DrawerContent extends React.Component {
           
           <View style={styles.linkContainer}>
             <TouchableOpacity style={styles.linkButton} onPress={ () => this.props.navigation.navigate('ProfileSettings')}>
-              <Image resizeMode='contain' style={styles.icon} source={require('../../assets/icons/settings-placeholder.png')} />
+              <Image resizeMode='contain' style={styles.icon} source={require('../../assets/icons/profile-settings-icon.png')} />
               <Text style={styles.linkText}> Profile Settings </Text>
             </TouchableOpacity>
           </View>
           
           <View style={[styles.linkContainer, {borderTopWidth: 0}]}>
             <TouchableOpacity style={styles.linkButton} onPress={ () => this.props.navigation.navigate('WorkoutHistory') }>
-              <Image resizeMode='contain' style={styles.icon} source={require('../../assets/icons/settings-placeholder.png')} />
+              <Image resizeMode='contain' style={styles.icon} source={require('../../assets/icons/rocket-icon.png')} />
               <Text style={styles.linkText}> Workout History </Text>
             </TouchableOpacity>
           </View>
           
           <View style={[styles.linkContainer, {borderTopWidth: 0}]}>
             <TouchableOpacity style={styles.linkButton} onPress={ () => this.props.navigation.navigate('ApplicationSettings')}>
-              <Image resizeMode='contain' style={styles.icon} source={require('../../assets/icons/settings-placeholder.png')} />
+              <Image resizeMode='contain' style={styles.icon} source={require('../../assets/icons/settings-icon.png')} />
               <Text style={styles.linkText}> Application Settings </Text>
+            </TouchableOpacity>
+          </View>
+
+          <View style={[styles.linkContainer, {borderTopWidth: 0}]}>
+            <TouchableOpacity style={styles.linkButton} onPress={ () => this.props.navigation.navigate('GoalSelect')}>
+              <Image resizeMode='contain' style={styles.icon} source={require('../../assets/icons/star-icon.png')} />
+              <Text style={styles.linkText}> GoMe Goal Tracker </Text>
             </TouchableOpacity>
           </View>
 
@@ -63,7 +70,7 @@ class DrawerContent extends React.Component {
 
         <View style={styles.logoutContainer}>
           <TouchableOpacity style={styles.linkButton} onPress={ () => this.props.dispatch(logout(this.props.navigation))}>
-            <Image resizeMode='contain' style={[styles.icon, {opacity: 1, height: '40%'}]} source={require('../../assets/icons/logout-placeholder.png')} />
+            <Image resizeMode='contain' style={[styles.icon, {opacity: 1, height: '40%'}]} source={require('../../assets/icons/power-icon.png')} />
             <Text style={{color: AppStyles.primaryColor}}>Logout</Text> 
           </TouchableOpacity>
         </View>

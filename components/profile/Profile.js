@@ -89,13 +89,6 @@ class Profile extends React.Component{
 }
 
 const styles = StyleSheet.create({
-  header:{
-    flex: 1,
-    flexDirection: 'row',
-    backgroundColor: AppStyles.primaryColor,
-    borderBottomWidth: 0.5,
-    borderBottomColor: '#FFF',
-  },
   bodyContainer:{
     flex: 8,
     alignItems: 'center',

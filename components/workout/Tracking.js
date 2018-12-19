@@ -181,94 +181,93 @@ class Tracking extends React.Component{
             <ImageBackground style={{flex: 1, width: '100%', height: '100%'}} source={require('../../assets/images/lines.png')}>
             
               <View style={styles.infoContainer}>
-              <KeyboardAwareScrollView 
-                contentContainerStyle={{flex: 1}}
-                style={{zIndex: 0, flex: 1}} 
-              >
-                <ScrollView 
-                  contentContainerStyle={{ height: '100%', width: '100%'}} 
-                  style={{height: '100%', width: '100%'}} 
-                  scrollEnabled={false}
-                  keyboardShouldPersistTaps="never"
-
+                <KeyboardAwareScrollView 
+                  contentContainerStyle={{flex: 1}}
+                  style={{zIndex: 0, flex: 1}} 
                 >
-                <View style={{flex: 2, alignItems: 'center', justifyContent: 'center' }}>
-                  <Text   
-                    adjustsFontSizeToFit 
-                    numberOfLines={1} 
-                    style={{fontSize: 30, color: 'white', fontWeight: 'bold', textAlign: 'center'}}> Track your workout </Text>
-                  <Text 
-                    adjustsFontSizeToFit 
-                    style={{textAlign: 'center', color: 'white', fontSize: 13, lineHeight: 20}}> Fill out the form below to keep up with your goals and active lifestyle </Text>
-                </View>
-                
-                <View style={{flex: 5, width: '100%'}}>
-                  
-                  <TouchableOpacity
-                    style={[styles.textInput, {justifyContent: 'center'}]}
-                    onPress={this.pickWorkoutType}
-                  > 
-                    { hasBeenEdited.includes('workoutType') ?
-                      <Text style={{color: AppStyles.primaryColor}}> {this.state.workoutType} </Text>
-                      :
-                      <Text style={{color: AppStyles.primaryColor}}>Workout Type</Text>
-                    }
-                  </TouchableOpacity>
-
-                  <TouchableOpacity
-                    style={[styles.textInput, {justifyContent: 'center'}]}
-                    onPress={this.pickDate}
-                  > 
-                    { hasBeenEdited.includes('date') ?
-                    <Text style={{color: AppStyles.primaryColor}}> {moment(this.state.date).format('MMM Do YYYY')} </Text>
-                    :
-                    <Text style={{color: AppStyles.primaryColor}}>Date</Text>
-                  }
-                  </TouchableOpacity>
-
-                  <TextInput 
-                    style={[styles.textInput, {color: AppStyles.primaryColor}]} 
-                    placeholder='Duration in Minutes'
-                    value={this.state.duration}
-                    onChangeText={ (duration) => this.setState({duration})}
-                    onFocus={this.stripDuration}
-                    onBlur={this.enterDuration}
-                    placeholderTextColor={AppStyles.primaryColor}
-                    keyboardType='number-pad'
-                    returnKeyType='done'
-                  />
-
-                  <TextInput 
-                    style={[styles.textInput, {color: AppStyles.primaryColor}]} 
-                    placeholder='Calories Burned (optional)'
-                    value={this.state.caloriesBurned}
-                    onChangeText={ (caloriesBurned) => this.setState({caloriesBurned})}
-                    onFocus={this.stripCalories}
-                    onBlur={this.enterCalories}
-                    placeholderTextColor={AppStyles.primaryColor}
-                    keyboardType='number-pad'
-                    returnKeyType='done'
-                  />
-
-                   <TextInput 
-                    style={[styles.textInput, {color: AppStyles.primaryColor}]} 
-                    placeholder='Distance (miles)'
-                    value={this.state.distance}
-                    onChangeText={this.distanceTextChange}
-                    onFocus={this.stripDistance}
-                    onBlur={this.enterDistance}
-                    placeholderTextColor={AppStyles.primaryColor}
-                    keyboardType='decimal-pad'
-                    returnKeyType='done'
-                  />
-
-                    <TouchableOpacity onPress={this.goToGoals} style={[styles.textInput, {alignItems: 'center', justifyContent: 'center', borderColor: AppStyles.primaryColor, backgroundColor: AppStyles.primaryColor}]}>
-                      <Text style={{color: 'white'}}>Choose Goal To Track</Text> 
-                    </TouchableOpacity>
+                  <ScrollView 
+                    contentContainerStyle={{ height: '100%', width: '100%'}} 
+                    style={{height: '100%', width: '100%'}} 
+                    keyboardShouldPersistTaps="never"
+                  >
+                    <View style={{flex: 2, alignItems: 'center', justifyContent: 'center' }}>
+                      <Text   
+                        adjustsFontSizeToFit 
+                        numberOfLines={1} 
+                        style={{fontSize: 30, color: 'white', fontWeight: 'bold', textAlign: 'center'}}> Track your workout </Text>
+                      <Text 
+                        adjustsFontSizeToFit 
+                        style={{textAlign: 'center', color: 'white', fontSize: 13, lineHeight: 20}}> Fill out the form below to keep up with your goals and active lifestyle </Text>
                     </View>
-                    </ScrollView>
-                  </KeyboardAwareScrollView>
-                </View>
+                  
+                    <View style={{flex: 7, width: '100%'}}>
+                      
+                      <TouchableOpacity
+                        style={[styles.textInput, {justifyContent: 'center'}]}
+                        onPress={this.pickWorkoutType}
+                      > 
+                        { hasBeenEdited.includes('workoutType') ?
+                          <Text style={{color: AppStyles.primaryColor}}> {this.state.workoutType} </Text>
+                          :
+                          <Text style={{color: AppStyles.primaryColor}}>Workout Type</Text>
+                        }
+                      </TouchableOpacity>
+
+                      <TouchableOpacity
+                        style={[styles.textInput, {justifyContent: 'center'}]}
+                        onPress={this.pickDate}
+                      > 
+                        { hasBeenEdited.includes('date') ?
+                        <Text style={{color: AppStyles.primaryColor}}> {moment(this.state.date).format('MMM Do YYYY')} </Text>
+                        :
+                        <Text style={{color: AppStyles.primaryColor}}>Date</Text>
+                      }
+                      </TouchableOpacity>
+
+                      <TextInput 
+                        style={[styles.textInput, {color: AppStyles.primaryColor}]} 
+                        placeholder='Duration in Minutes'
+                        value={this.state.duration}
+                        onChangeText={ (duration) => this.setState({duration})}
+                        onFocus={this.stripDuration}
+                        onBlur={this.enterDuration}
+                        placeholderTextColor={AppStyles.primaryColor}
+                        keyboardType='number-pad'
+                        returnKeyType='done'
+                      />
+
+                      <TextInput 
+                        style={[styles.textInput, {color: AppStyles.primaryColor}]} 
+                        placeholder='Calories Burned (optional)'
+                        value={this.state.caloriesBurned}
+                        onChangeText={ (caloriesBurned) => this.setState({caloriesBurned})}
+                        onFocus={this.stripCalories}
+                        onBlur={this.enterCalories}
+                        placeholderTextColor={AppStyles.primaryColor}
+                        keyboardType='number-pad'
+                        returnKeyType='done'
+                      />
+
+                      <TextInput 
+                        style={[styles.textInput, {color: AppStyles.primaryColor}]} 
+                        placeholder='Distance (miles)'
+                        value={this.state.distance}
+                        onChangeText={this.distanceTextChange}
+                        onFocus={this.stripDistance}
+                        onBlur={this.enterDistance}
+                        placeholderTextColor={AppStyles.primaryColor}
+                        keyboardType='decimal-pad'
+                        returnKeyType='done'
+                      />
+
+                      <TouchableOpacity onPress={this.goToGoals} style={[styles.textInput, {alignItems: 'center', justifyContent: 'center', borderColor: AppStyles.primaryColor, backgroundColor: hasBeenEdited.length > 3 ? AppStyles.primaryColor : '#707070'}]}>
+                        <Text style={{color: 'white'}}>Choose Goal To Track</Text> 
+                      </TouchableOpacity>
+
+                    </View>
+                  </ScrollView>
+                </KeyboardAwareScrollView>
+              </View>
                 
               <View style={styles.buttonContainer}>
                 <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
@@ -287,20 +286,13 @@ class Tracking extends React.Component{
 }
 
 const styles = StyleSheet.create({
-  header:{
-    flex: 1,
-    flexDirection: 'row',
-    backgroundColor: AppStyles.primaryColor,
-    borderBottomWidth: 0.5,
-    borderBottomColor: '#FFF',
-  },
   bodyContainer:{
     flex: 8,
     alignItems: 'center',
     justifyContent: 'center',
   },
   infoContainer: {
-    flex: 4,
+    flex: 3,
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: 30,

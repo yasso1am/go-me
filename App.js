@@ -17,6 +17,7 @@ import BuildProfile from './components/profile/BuildProfile'
 import Tracking from './components/workout/Tracking'
 import GoalSwiper from './components/workout/GoalSwiper'
 import WorkoutHistory from './components/workout/WorkoutHistory'
+import GoalSelect from './components/workout/GoalSelect'
 
 import ApplicationSettings from './components/settings/ApplicationSettings'
 import DrawerContent from './components/nav/DrawerContent'
@@ -43,6 +44,7 @@ import DrawerContent from './components/nav/DrawerContent'
       Profile: { screen: Profile},
       Tracking: { screen: Tracking },
       GoalSwiper: {screen: GoalSwiper },
+      GoalSelect: {screen: GoalSelect},
       ProfileSettings: { screen: ProfileSettings },
       WorkoutHistory: { screen: WorkoutHistory },
       ApplicationSettings: { screen: ApplicationSettings }
