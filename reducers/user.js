@@ -78,6 +78,7 @@ export const updateProfile = (profile) => {
     axios.put(`${BASE_URL}/v1/user/${id}`, profile)
     .then( res => {
       dispatch({type: LOGIN, user: res.data.user})
+      Alert.alert('Profile Updated')
     })
     .catch( err => {
       Alert.alert('Something went wrong updating your profile, please try again later')

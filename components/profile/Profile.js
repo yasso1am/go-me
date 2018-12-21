@@ -15,6 +15,7 @@ import { LinearGradient } from 'expo'
 
 import Header from '../nav/Header'
 import { getProfile } from '../../reducers/user'
+import { clearWorkout } from '../../reducers/workout'
 
 
 class Profile extends React.Component{
@@ -29,6 +30,17 @@ class Profile extends React.Component{
   componentDidMount(){
     const { dispatch } = this.props
       dispatch(getProfile())
+        this.didFocusSubscription = this.props.navigation.addListener(
+        'didFocus',
+        payload => {
+          console.log(payload)
+          dispatch(clearWorkout())
+        }
+      )
+  }
+
+  componentWillUnmount(){
+    this.didFocusSubscription.remove();
   }
 
   render(){

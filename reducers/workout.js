@@ -6,6 +6,7 @@ const BASE_URL = 'https://app.gome.fit/api'
 const POST_WORKOUT = 'POST_WORKOUT'
 const ADD_WORKOUT = 'ADD_WORKOUT'
 const ADD_GOAL = 'ADD_GOAL'
+const CLEAR_WORKOUT = 'CLEAR_WORKOUT'
 
 export const addWorkout = (workout) => {
   return(dispatch) => {
@@ -32,6 +33,12 @@ export const postWorkout = () => {
   }
 }
 
+export const clearWorkout = () => {
+  return (dispatch) => {
+    dispatch({type: CLEAR_WORKOUT})
+  }
+}
+
 
 export default ( state = {}, action ) => {
   switch(action.type) {
@@ -42,7 +49,8 @@ export default ( state = {}, action ) => {
         ...state,
         goal: action.goal
       }
-
+    case CLEAR_WORKOUT:
+      return {}
     default:
       return state;
   }

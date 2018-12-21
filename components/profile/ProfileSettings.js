@@ -11,7 +11,7 @@ import {
   Platform,
   Alert,
   TextInput,
-  KeyboardAvoidingView,
+  Linking,
 } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { ImagePicker, Permissions, ImageManipulator } from 'expo'
@@ -31,13 +31,10 @@ class ProfileSettings extends React.Component{
     name: '',
     email: '',
     password: '',
-    passwordConfirm: '',
   }
 
   componentDidMount(){
     this.setState({
-      name: this.props.user.name,
-      email: this.props.user.email,
       avatar: this.props.user.avatar
     })
   }
@@ -78,7 +75,6 @@ class ProfileSettings extends React.Component{
         [ {resize: {width: 500}} ],
         { format: 'jpeg', compress: 0.5, base64:true},
       ).then( res => {
-        debugger
           this.setState({profileImage: res})
       }).catch ( err => {
           Alert.alert('Failed to resize image')
@@ -87,25 +83,36 @@ class ProfileSettings extends React.Component{
   }
 
   submitProfile = () => {
-    const { profileImage, name, email, password, passwordConfirm } = this.state
+    const { profileImage, name, email} = this.state
+    const { user } = this.props
+    const emailRegEx = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
     let profile = {
-      name: name,
-      email: email,
-      avatar: profileImage
+      name: name !== '' ? name : user.name,
+      email: email !== '' ?  email : user.email,
     }
-    if (password & passwordConfirm){
-      if (password !== passwordConfirm){
-        Alert.alert('Passwords must match')
-        return
-      } else {
-        profile = {
-          ...profile,
-          password: password,
-          password_confirmation: passwordConfirm
-        }
+    if (profileImage !== null){
+      profile = {
+        ...profile,
+        avatar: profileImage.base64
       }
     }
-    this.props.dispatch(updateProfile(profile))
+    if ( email !== '' && !emailRegEx.test(email) ){
+      Alert.alert('Please enter a valid email address')
+      this.setState({email: ''})
+    } else {
+      this.props.dispatch(updateProfile(profile))
+      this.props.navigation.goBack()
+    }
+  }
+
+  forgotPasswordLink = () => {
+    const { password } = this.state
+    const emailRegEx = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
+    if ( !emailRegEx.test(password) ){
+      Alert.alert('Please enter a valid email address')
+    } else {
+      Linking.openURL(`https://app.gome.fit/password/reset?email=${password}`)
+    }
   }
 
   render(){
@@ -114,33 +121,33 @@ class ProfileSettings extends React.Component{
 
     return(
       <SafeAreaView style={{flex: 1}}>
-        <KeyboardAwareScrollView contentContainerStyle={{flex: 1}} style={{flex: 1}}>              
           
-          <View style={styles.titleContainer}> 
-            <Text style={{fontSize: 15, color: '#D1D1D1'}}> Profile Settings </Text>
-          </View>
+        <View style={styles.titleContainer}> 
+          <Text style={{fontSize: 15, color: '#D1D1D1'}}> Profile Settings </Text>
+        </View>
 
-          <View style={styles.imageContainer}>
-            <ImageBackground
-              style={{width: 120, height: 120}}
-              imageStyle={{ borderRadius: 60}}
-              source={image}
-            >
-              <TouchableOpacity 
-                onPress={this.requestPhotoAccess}
-                style={{alignItems: 'center', top: '85%'}}
-                activeOpacity={0.5}
-              > 
-                <Image 
-                  style={{width: 30, height: 30 }} source={require('../../assets/icons/camera-circle.png')} 
-                />
-              </TouchableOpacity>
-            </ImageBackground>
-          </View>
+        <View style={styles.imageContainer}>
+          <ImageBackground
+            style={{width: 120, height: 120}}
+            imageStyle={{ borderRadius: 60}}
+            source={image}
+          >
+            <TouchableOpacity 
+              onPress={this.requestPhotoAccess}
+              style={{alignItems: 'center', top: '85%'}}
+              activeOpacity={0.5}
+            > 
+              <Image 
+                style={{width: 30, height: 30 }} source={require('../../assets/icons/camera-circle.png')} 
+              />
+            </TouchableOpacity>
+          </ImageBackground>
+        </View>
 
-          <View style={styles.bodyContainer}>
+        <View style={styles.bodyContainer}>
+          <KeyboardAwareScrollView contentContainerStyle={{flexGrow: 1, paddingHorizontal: 30}}>              
             <TextInput 
-              placeholder={this.props.user.name}
+              placeholder={`Change Name - ${this.props.user.name}`}
               placeholderTextColor="#6F6F6F"
               autoCapitalize="none"
               autoCorrect={false}
@@ -155,7 +162,7 @@ class ProfileSettings extends React.Component{
 
             <TextInput 
               style={styles.textInput}
-              placeholder={this.props.user.email}
+              placeholder={`Change Email - ${this.props.user.email}`}
               placeholderTextColor="#6F6F6F"
               ref={ (input) => { this.email = input }}
               autofocus
@@ -165,50 +172,37 @@ class ProfileSettings extends React.Component{
               returnKeyType='next'
               textContentType={"none"}
               value={this.state.email}
-              onSubmitEditing={ () => { this.password.focus() }}
               onChangeText={ (email) => this.setState({ email }) }
               underlineColorAndroid="transparent"
-            />
+            />        
+            <TouchableOpacity onPress={this.submitProfile} style={[styles.textInput, styles.button]}>
+              <Text style={{color: '#fff', fontSize: 13}}> Update Settings </Text>
+            </TouchableOpacity>
 
-            <TextInput 
-              style={styles.textInput}
-              placeholder="Change Password"
+            <TextInput
+              style={[styles.textInput, {marginTop: 30}]}
+              placeholder="Current Email"
               placeholderTextColor="#6F6F6F"
-              ref={(input) => { this.password = input }}
+              autofocus
               autoCapitalize="none"
-              value={this.state.password}
               autoCorrect={false}
-              textContentType={"none"}
-              secureTextEntry={true}
-              returnKeyType={ 'next' }
-              onSubmitEditing={ () => { this.passwordConfirm.focus() }}
+              keyboardType="email-address"
+              // returnKeyType='send' 
+              // onSubmitEditing={() => f => f}
               onChangeText={ (password) => this.setState({ password }) }
               underlineColorAndroid="transparent"
             />
 
-             <TextInput 
-              style={styles.textInput}
-              placeholder="Password Confirmation"
-              placeholderTextColor="#6F6F6F"
-              ref={(input) => { this.password = input }}
-              autoCapitalize="none"
-              value={this.state.password}
-              autoCorrect={false}
-              textContentType={"none"}
-              secureTextEntry={true}
-              returnKeyType={'done'}
-              onChangeText={ (passwordConfirm) => this.setState({ passwordConfirm }) }
-              underlineColorAndroid="transparent"
-            />
-
-        
-            <TouchableOpacity onPress={this.submitProfile} style={[styles.textInput, styles.button]}>
-              <Text style={{color: '#fff', fontSize: 13}}> Update Settings </Text>
+            <TouchableOpacity 
+              style={[styles.textInput, styles.button]}
+              onPress={this.forgotPasswordLink}
+            >
+              <Text style={{color: 'white'}}> Click to change password </Text>
             </TouchableOpacity>
-          </View>
-          
+            <Text style={{textAlign: 'center'}}> This will open your phone's browser </Text>
 
-        </KeyboardAwareScrollView>
+          </KeyboardAwareScrollView>
+        </View>
       </SafeAreaView>
     )
   }
@@ -229,7 +223,6 @@ const styles = StyleSheet.create({
   },
   bodyContainer: {
     flex: 7,
-    paddingHorizontal: 30
   },
   textInput: {
     width: '100%',
