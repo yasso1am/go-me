@@ -52,7 +52,7 @@ class DrawerContent extends React.Component {
             </TouchableOpacity>
           </View>
           
-          <View style={[styles.linkContainer, {borderTopWidth: 0}]}>
+          {/* <View style={[styles.linkContainer, {borderTopWidth: 0}]}>
             <TouchableOpacity style={styles.linkButton} onPress={ () => this.props.navigation.navigate('ApplicationSettings')}>
               <Image resizeMode='contain' style={styles.icon} source={require('../../assets/icons/settings-icon.png')} />
               <Text style={styles.linkText}> Application Settings </Text>
@@ -64,7 +64,7 @@ class DrawerContent extends React.Component {
               <Image resizeMode='contain' style={styles.icon} source={require('../../assets/icons/star-icon.png')} />
               <Text style={styles.linkText}> GoMe Goal Tracker </Text>
             </TouchableOpacity>
-          </View>
+          </View> */}
 
         </View>
 

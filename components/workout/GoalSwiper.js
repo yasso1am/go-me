@@ -14,7 +14,6 @@ import Carousel, { Pagination } from 'react-native-snap-carousel';
 
 import SliderEntry from './SliderEntry'
 import { data } from './GoalData'
-import { postWorkout } from '../../reducers/workout'
 import AppStyles from '../../AppStyles'
 
 
@@ -36,12 +35,6 @@ class GoalSwiper extends React.Component{
 
   state = {
     sliderActiveSlide: 0,
-  }
-
-  selectGoal = (goal) => {
-    const { goal_id } = goal
-    const { workout } = this.props.navigation.state.params
-      this.props.dispatch(postWorkout(workout, goal_id))
   }
 
   render(){
@@ -82,7 +75,7 @@ class GoalSwiper extends React.Component{
                 data={data}
                 renderItem={ ({item, index}) => {
                   return (
-                    <SliderEntry navigation={this.props.navigation} item={item} index={index} selectGoal={this.selectGoal} />
+                    <SliderEntry navigation={this.props.navigation} item={item} index={index} />
                   )
                 }}
                 useScrollView={true}

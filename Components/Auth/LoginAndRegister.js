@@ -8,7 +8,6 @@ import {
   TouchableOpacity,
   Alert,
   StatusBar,
-  WebView,
 } from 'react-native'
 import Appstyles from '../../AppStyles'
 
@@ -83,19 +82,6 @@ class LoginAndRegister extends React.Component{
       } else {
         Alert.alert("Please complete both fields")
       }
-    }
-
-    forgotPasswordWebView = () => {
-      return (
-        <WebView
-        originWhitelist={['*']}
-        source={{ html: '<h1>Hello world</h1>' }}
-      />
-        // <WebView
-        //   source={{uri: 'http://app.gome.fit/password/reset'}}
-        //   style={{flex: 1, marginTop: 20}}
-        // />
-      )
     }
 
   render(){
@@ -190,7 +176,6 @@ class LoginAndRegister extends React.Component{
             }}>
               <Text> Forgot password? </Text>
               <TouchableOpacity
-                // onPress={this.forgotPasswordWebView}
                 onPress={() => {this.props.navigation.navigate('ForgotPassword', {inputHeight: this.props.navigation.state.params.inputHeight})}}
               >
                 <Text style={{color: AppStyles.primaryColor}}> Click Here </Text>

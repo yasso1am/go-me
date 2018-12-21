@@ -14,16 +14,23 @@ const { height } = Dimensions.get('window')
 
 class Header extends React.Component {
 
+  goBackOrChart = () => {
+    if (this.props.color || this.props.navigation.state.routeName === "Tracking"){
+      this.props.navigation.goBack()
+    }
+  }
+
   render(){
     const color = this.props.color ? {backgroundColor: this.props.color} : {}
     const logo = this.props.color ? require('../../assets/icons/logo-gradient.png') : require('../../assets/icons/logo-white.png')
-    const hamburger = this.props.color ? require('../../assets/icons/menu.png') : require('../../assets/icons/menu.png')
-    const chart = this.props.color ? require('../../assets/icons/chart.png') : require('../../assets/icons/chart.png')
+    const hamburger = this.props.color ? require('../../assets/icons/menu-black.png') : require('../../assets/icons/menu.png')
+    const chartOrBack = this.props.color ? require('../../assets/icons/back-placeholder.png') : require('../../assets/icons/chart.png')
+
   return (
     <View style={[styles.header, color]}>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={this.goBackOrChart}>
         <View style={{flex: 1, padding: 25, alignItems: 'flex-start', justifyContent: 'center'}}>
-          <Image source={require('../../assets/icons/chart.png')} />
+          <Image source={chartOrBack} />
         </View>
       </TouchableOpacity>
       <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
@@ -31,7 +38,7 @@ class Header extends React.Component {
       </View>
       <TouchableOpacity onPress={ () => { this.props.navigation.openDrawer() }}>
         <View style={{flex: 1, padding: 25, alignItems: 'flex-end', justifyContent: 'center'}}>
-          <Image source={require('../../assets/icons/menu.png')}/>
+          <Image source={hamburger}/>
         </View>
       </TouchableOpacity>
     </View>

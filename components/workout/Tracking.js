@@ -20,6 +20,8 @@ import QuickPicker from 'quick-picker'
 
 import Header from '../nav/Header'
 
+import { addWorkout } from '../../reducers/workout'
+
 
 class Tracking extends React.Component{
   
@@ -39,13 +41,23 @@ class Tracking extends React.Component{
     hasBeenEdited: [],
   }
 
+  componentDidUpdate(prevProps){
+    if(prevProps.workout !== this.props.workout){
+      this.refs.submitButton.setOpacityTo(100)
+    }
+  }
+
   editActive = (subject) => {
-    let updated = this.state.hasBeenEdited
+    const { hasBeenEdited } = this.state
+    let updated = hasBeenEdited
     updated.push(subject)
       this.setState({ 
         activeEdit: subject, 
         hasBeenEdited: updated 
       })
+      if(hasBeenEdited.includes('workoutType') && hasBeenEdited.includes('duration') && hasBeenEdited.includes('date') && hasBeenEdited.includes('distance') ) {
+        this.refs.submitButton.setOpacityTo(100)
+      }
   }
 
 
@@ -158,8 +170,15 @@ class Tracking extends React.Component{
       } else {
           distanceNumber = Number(distance)
       }
-        const workout = {formattedDate, workoutType, durationNumber, caloriesNumber, distanceNumber}
-          this.props.navigation.navigate('GoalSwiper', {workout})
+        const workout = {
+          distance: distanceNumber,
+          date: formattedDate, 
+          type: workoutType, 
+          calories_burned: caloriesNumber, 
+          duration: durationNumber
+        }
+          this.props.dispatch(addWorkout(workout))
+          this.props.navigation.navigate('GoalSwiper')
         } else {
           Alert.alert('Please complete required fields')
           return
@@ -168,6 +187,7 @@ class Tracking extends React.Component{
 
   render(){
     const {hasBeenEdited} = this.state
+    const { workout } = this.props
     return(
       <Fragment>
         <SafeAreaView style={{flex: 0, backgroundColor: AppStyles.primaryColor}} />
@@ -260,8 +280,17 @@ class Tracking extends React.Component{
                         returnKeyType='done'
                       />
 
-                      <TouchableOpacity onPress={this.goToGoals} style={[styles.textInput, {alignItems: 'center', justifyContent: 'center', borderColor: AppStyles.primaryColor, backgroundColor: hasBeenEdited.length > 3 ? AppStyles.primaryColor : '#707070'}]}>
-                        <Text style={{color: 'white'}}>Choose Goal To Track</Text> 
+                      <TouchableOpacity
+                        ref="submitButton"
+                        onPress={this.goToGoals} 
+                        style={[styles.textInput, {
+                          alignItems: 'center', 
+                          justifyContent: 'center', 
+                          borderColor: AppStyles.primaryColor, 
+                          backgroundColor: hasBeenEdited.includes('workoutType') && hasBeenEdited.includes('duration') && hasBeenEdited.includes('date') && hasBeenEdited.includes('distance') ? AppStyles.primaryColor : '#707070', 
+                          opacity: 0.3
+                        }]}>
+                        <Text style={{color: 'white'}}> { workout.goal ? workout.goal.name : "Choose Goal To Track" } </Text> 
                       </TouchableOpacity>
 
                     </View>
@@ -314,7 +343,7 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = state => {
-  return { user: state.user }
+  return { user: state.user, workout: state.workout }
 }
 
 export default connect(mapStateToProps)(Tracking)

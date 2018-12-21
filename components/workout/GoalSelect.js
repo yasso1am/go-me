@@ -1,4 +1,5 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import {
   SafeAreaView,
   View,
@@ -12,6 +13,7 @@ import {
   Dimensions,
 } from 'react-native'
 import Header from '../nav/Header'
+import { addGoal } from '../../reducers/workout'
 
 const { width } = Dimensions.get('window')
 
@@ -24,8 +26,7 @@ class GoalSelect extends React.Component{
 
   state = {
     completionAnimation: new Animated.Value(1),
-    caloriesAnimation: new Animated.Value(1),
-    workoutsAnimation: new Animated.Value(1),
+    imageAnimation: new Animated.Value(0.2),
   }
 
   componentDidMount(){
@@ -33,31 +34,31 @@ class GoalSelect extends React.Component{
   }
 
   startAnimations = () => {
-    const { completionAnimation, caloriesAnimation, workoutsAnimation } = this.state
+    const { completionAnimation, imageAnimation} = this.state
     let completionTotal = ((width - 60) * 0.6)
-    let caloriesTotal = ((width - 60) * 0.4)
-    let workoutsTotal = ((width - 60) * 0.8)
-    Animated.stagger(200, [
+    Animated.stagger(100, [
       Animated.timing(completionAnimation, {
         toValue: completionTotal,
         duration: 1500
       }),
-      Animated.timing(caloriesAnimation, {
-        toValue: caloriesTotal,
-        duration: 1500
-      }),
-      Animated.timing(workoutsAnimation, {
-        toValue: workoutsTotal,
-        duration: 1500
+      Animated.timing(imageAnimation, {
+        toValue: 1,
+        duration: 1000
       })
     ]).start()
   }
 
+  selectGoal = () => {
+    const { navigation, dispatch } = this.props
+    const { goal } = this.props.navigation.state.params
+      dispatch(addGoal(goal))
+      navigation.navigate('Tracking')
+  }
+
   render(){
-    const { completionAnimation, caloriesAnimation, workoutsAnimation } = this.state
+    const { completionAnimation, imageAnimation } = this.state
     const completionStyle = { width: completionAnimation }
-    const caloriesStyle = { width: caloriesAnimation}
-    const workoutsStyle = { width: workoutsAnimation }
+    const imageStyle = { opacity: imageAnimation}
 
 
     return(
@@ -81,58 +82,47 @@ class GoalSelect extends React.Component{
           >
             Select the goal below, in which you would like to attribute your workout to
           </Text>
-          <Image style={styles.image} source={ require('../../assets/goal_images/great-wall.png')} />
+          <Image resizeMode="stretch" style={styles.image} source={ require('../../assets/goal_images/great-wall-banner.png')} />
           
           <View style={styles.textRow}>
-            <Text style={{fontSize: 10, color: '#707070'}}>Goal:</Text>
-            <Text style={{fontSize: 10, color: '#546E7A'}}>Great Wall of China</Text>
+            <Text style={styles.detailsText}>Goal:</Text>
+            <Text style={styles.detailsTextBlue}>Great Wall of China</Text>
           </View>
           <View style={styles.textRow}>
-            <Text style={{fontSize: 10, color: '#707070'}}>Date Started:</Text>
-            <Text style={{fontSize: 10, color: '#546E7A'}}>10-20-2017</Text>
+            <Text style={styles.detailsText}>Date Started:</Text>
+            <Text style={styles.detailsTextBlue}>10-20-2017</Text>
           </View>
           <View style={styles.textRow}>
-            <Text style={{fontSize: 10, color: '#707070'}}>Distance Traveled</Text> 
-            <Text style={{fontSize: 10, color: '#546E7A'}}>800 miles</Text>
+            <Text style={styles.detailsText}>Distance Traveled</Text> 
+            <Text style={styles.detailsTextBlue}>800 miles</Text>
           </View>
 
         </View>
         <View style={styles.completionContainer}>
-          <ScrollView style={{height: '100%'}} contentContainerStyle={{justifyContent: 'space-around', alignItems: 'center', padding: 30}}>
-            <Text 
-              adjustsFontSizeToFit 
-              numberOfLines={1} 
-              style={styles.titleText}
-            >
-              Completion Progress
-            </Text>
-
-            <View style={[styles.progressBar]}>
-              <Animated.View style={[styles.progressAmount, completionStyle]} />
+          <ScrollView 
+            style={{height: '100%'}} 
+            contentContainerStyle={{flexGrow: 1, paddingHorizontal: 30}}
+          >
+            <View style={[styles.detailsRow, {marginTop: 15}]}>
+              <Text adjustsFontSizeToFit numberOfLines={1} style={styles.titleText}> Completion Progress </Text>
+              <View style={[styles.progressBar]}>
+                <Animated.View style={[styles.progressAmount, completionStyle]} />
+              </View>
+                <View style={[styles.textRow, {bottom: 10}]}> 
+                  <Text style={styles.detailsText}> 0 </Text>
+                  <Text style={styles.detailsTextBlue}>1200 miles</Text>
+                </View>
             </View>
 
-            <Text 
-              adjustsFontSizeToFit 
-              numberOfLines={1} 
-              style={styles.titleText}
-            >
-              Calories Burned
-            </Text>
-
-            <View style={styles.progressBar}>
-            <Animated.View style={[styles.progressAmount, caloriesStyle]} />
+            <View style={styles.detailsRow}>
+              <Text adjustsFontSizeToFit numberOfLines={1} style={styles.subTitle}> Activity Type </Text>
+              <Animated.Image style={[imageStyle, {marginLeft: 5}]} source={require('../../assets/icons/shoe.png')} />
             </View>
 
-            <Text 
-              adjustsFontSizeToFit 
-              numberOfLines={1} 
-              style={styles.titleText}
-            >
-              Workouts Tracked to Goal
-            </Text>
-
-            <View style={styles.progressBar}>
-              <Animated.View style={[styles.progressAmount, workoutsStyle]} />
+            <View style={[styles.detailsRow, {marginTop: 15}]}>
+              <TouchableOpacity onPress={this.selectGoal} style={styles.button}>
+                <Text style={{color: 'white', fontSize: 13}}> Select This Goal </Text>
+              </TouchableOpacity>
             </View>
 
           </ScrollView>
@@ -147,7 +137,9 @@ const styles = StyleSheet.create({
     flex: 2,
     backgroundColor: '#F8F8F8',
     justifyContent: 'space-around',
-    padding: 30,
+    paddingHorizontal: 30,
+    paddingBottom: 30,
+    paddingTop: 15,
   },
   completionContainer: {
     flex: 3,
@@ -158,20 +150,40 @@ const styles = StyleSheet.create({
   },
   titleText: {
     fontSize: 15,
-    color: '#546E7A'
+    fontWeight: 'bold',
+    color: '#546E7A',
   },
-  image: {
-    width: '100%',
-    height: '30%'
+  subTitle: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: '#546E7A',
   },
   textRow: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between'
   },
+  detailsText: {
+    fontSize: 10, 
+    color: '#707070',
+  },
+  detailsTextBlue: {
+    fontSize: 10, 
+    color: '#546E7A'
+  },
+  image: {
+    width: '100%',
+    height: '35%'
+  },
+  detailsRow: {
+    height: 80,
+    width: '100%',
+    justifyContent: 'space-around'
+  },
   progressBar: {
     height: 10,
     width: '100%',
+    justifyContent: 'center',
     borderRadius: 5,
     borderWidth: 0.5,
     borderColor: '#546E7A',
@@ -181,7 +193,23 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 5,
     backgroundColor: AppStyles.primaryColor,
     height: '90%',
-  }
+  },
+  button: {
+    borderRadius: 5, 
+    borderWidth: 1, 
+    width: '100%',
+    height: 50, 
+    borderColor: AppStyles.primaryColor,
+    backgroundColor: AppStyles.primaryColor,
+    alignItems: 'center', 
+    justifyContent: 'center',
+  },
 })
 
-export default GoalSelect
+const mapStateToProps = state => {
+  return {
+    workout: state.workout
+  }
+}
+
+export default connect(mapStateToProps)(GoalSelect)
