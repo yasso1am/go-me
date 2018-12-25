@@ -19,7 +19,6 @@ import GoalSwiper from './components/workout/GoalSwiper'
 import WorkoutHistory from './components/workout/WorkoutHistory'
 import GoalSelect from './components/workout/GoalSelect'
 
-import ApplicationSettings from './components/settings/ApplicationSettings'
 import DrawerContent from './components/nav/DrawerContent'
 
   
@@ -47,10 +46,9 @@ import DrawerContent from './components/nav/DrawerContent'
       GoalSelect: {screen: GoalSelect},
       ProfileSettings: { screen: ProfileSettings },
       WorkoutHistory: { screen: WorkoutHistory },
-      ApplicationSettings: { screen: ApplicationSettings }
     },
     {
-      initialRouteName: 'Profile',
+      initialRouteName: 'GoalSelect',
       navigationOptions: {
         headerBackTitleStyle: {color: '#F1552D', fontSize: 11},
         headerTintColor: '#F1552D',

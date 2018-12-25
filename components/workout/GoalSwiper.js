@@ -16,6 +16,8 @@ import SliderEntry from './SliderEntry'
 import { data } from './GoalData'
 import AppStyles from '../../AppStyles'
 
+import { getGoals } from '../../reducers/goals'
+
 
 
 const deviceWidth = Dimensions.get('window').width
@@ -37,6 +39,10 @@ class GoalSwiper extends React.Component{
     sliderActiveSlide: 0,
   }
 
+  componentDidMount = () => {
+    this.props.dispatch(getGoals())
+  }
+
   render(){
     const { sliderActiveSlide } = this.state
     return(
@@ -47,7 +53,7 @@ class GoalSwiper extends React.Component{
             backgroundColor={AppStyles.primaryColor}
           />
         <SafeAreaView style={{flex: 1, backgroundColor: AppStyles.secondaryColor}}>
-       <Header navigation={this.props.navigation} />
+       <Header back={true} navigation={this.props.navigation} />
         <LinearGradient
           colors={[AppStyles.primaryColor, AppStyles.secondaryColor]}
           style={styles.bodyContainer}
@@ -158,4 +164,10 @@ const styles = StyleSheet.create({
   }
 })
 
-export default connect()(GoalSwiper)
+const mapStateToProps = (state) => {
+  return {
+    goals: state.goals
+  }
+}
+
+export default connect(mapStateToProps)(GoalSwiper)

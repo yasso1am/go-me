@@ -103,12 +103,12 @@ class GoalSelect extends React.Component{
             style={{height: '100%'}} 
             contentContainerStyle={{flexGrow: 1, paddingHorizontal: 30}}
           >
-            <View style={[styles.detailsRow, {marginTop: 15}]}>
+            <View style={[styles.detailsRow]}>
               <Text adjustsFontSizeToFit numberOfLines={1} style={styles.titleText}> Completion Progress </Text>
               <View style={[styles.progressBar]}>
                 <Animated.View style={[styles.progressAmount, completionStyle]} />
               </View>
-                <View style={[styles.textRow, {bottom: 10}]}> 
+                <View style={[styles.textRow]}> 
                   <Text style={styles.detailsText}> 0 </Text>
                   <Text style={styles.detailsTextBlue}>1200 miles</Text>
                 </View>
@@ -116,7 +116,17 @@ class GoalSelect extends React.Component{
 
             <View style={styles.detailsRow}>
               <Text adjustsFontSizeToFit numberOfLines={1} style={styles.subTitle}> Activity Type </Text>
-              <Animated.Image style={[imageStyle, {marginLeft: 5}]} source={require('../../assets/icons/shoe.png')} />
+              <Animated.Image style={[imageStyle, {marginLeft: 5, marginTop: 10}]} source={require('../../assets/icons/shoe.png')} />
+            </View>
+
+            <View style={[styles.detailsRow, {height: 45}]}>
+              <Text adjustsFontSizeToFit numberOfLines={1} style={styles.subTitle}> Calories Burned To Date </Text>
+              <Text adjustsFontSizeToFit numberOfLines={1} style={styles.detailsText}> 3600 Calories</Text>
+            </View>
+
+             <View style={[styles.detailsRow, {height: 45}]}>
+              <Text adjustsFontSizeToFit numberOfLines={1} style={styles.subTitle}> Time Tracked To Date</Text>
+              <Text adjustsFontSizeToFit numberOfLines={1} style={styles.detailsText}> 1000 minutes </Text>
             </View>
 
             <View style={[styles.detailsRow, {marginTop: 15}]}>
@@ -176,7 +186,8 @@ const styles = StyleSheet.create({
     height: '35%'
   },
   detailsRow: {
-    height: 80,
+    height: 60,
+    marginTop: 10,
     width: '100%',
     justifyContent: 'space-around'
   },

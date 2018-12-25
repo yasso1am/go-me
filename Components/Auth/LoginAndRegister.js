@@ -107,7 +107,6 @@ class LoginAndRegister extends React.Component{
               autoCorrect={false}
               value={this.state.name}
               textContentType={"none"}
-
               returnKeyType='next' 
               onSubmitEditing={ () => { this.email.focus() }}
               onChangeText={ (name) => this.setState({ name }) }

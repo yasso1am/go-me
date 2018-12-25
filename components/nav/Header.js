@@ -15,7 +15,10 @@ const { height } = Dimensions.get('window')
 class Header extends React.Component {
 
   goBackOrChart = () => {
-    if (this.props.color || this.props.navigation.state.routeName === "Tracking"){
+    if (this.props.workout && this.props.workout.goal){
+      this.props.navigation.navigate('GoalSwiper')
+    }
+    else if (this.props.back){
       this.props.navigation.goBack()
     }
   }
@@ -24,7 +27,7 @@ class Header extends React.Component {
     const color = this.props.color ? {backgroundColor: this.props.color} : {}
     const logo = this.props.color ? require('../../assets/icons/logo-gradient.png') : require('../../assets/icons/logo-white.png')
     const hamburger = this.props.color ? require('../../assets/icons/menu-black.png') : require('../../assets/icons/menu.png')
-    const chartOrBack = this.props.color ? require('../../assets/icons/back-placeholder.png') : require('../../assets/icons/chart.png')
+    const chartOrBack = this.props.color || this.props.back ? require('../../assets/icons/back-placeholder.png') : require('../../assets/icons/chart.png')
 
   return (
     <View style={[styles.header, color]}>
@@ -58,5 +61,12 @@ const styles = StyleSheet.create({
   }
 })
 
-export default connect()(Header)
+const mapStateToProps = (state) => {
+  return {
+    workout: state.workout
+  }
+
+}
+
+export default connect(mapStateToProps)(Header)
 

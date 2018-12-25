@@ -20,7 +20,33 @@ import QuickPicker from 'quick-picker'
 
 import Header from '../nav/Header'
 
-import { addWorkout } from '../../reducers/workout'
+import { addWorkout, postWorkout } from '../../reducers/workout'
+
+const QuickpickerHeader = (props) => {
+  return (
+    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', flexDirection: 'row'}}>
+      <View style={{flexDirection: 'row', flex: 2, alignItems: 'center', justifyContent: 'center'}}>
+        <Text style={{textAlign: "center"}}> {props.text} </Text>
+      </View>
+      <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+        <TouchableOpacity 
+           adjustsFontSizeToFit 
+           hitSlop={{top: 50, bottom: 50, left: 50, right: 50}}
+           onPress={() => {
+             QuickPicker.close()
+             if (props.kind === "workout"){
+               props.pickDate()
+             } else {
+               props.duration.focus()
+             }
+             }}
+          >
+          <Text style={{color: AppStyles.primaryColor, fontWeight: 'bold', fontSize: 16}}> Next </Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  )
+}
 
 
 class Tracking extends React.Component{
@@ -60,6 +86,19 @@ class Tracking extends React.Component{
       }
   }
 
+  pickWorkoutType = () => {
+    this.editActive('workoutType')
+      const activities = ['Running', 'Biking', 'Rowing']
+        QuickPicker.open({
+          items: activities,
+          selectedValue: this.state.workoutType,
+          onValueChange: (workoutType) => this.setState({ workoutType }),
+          doneButtonTextStyle: { color: AppStyles.primaryColor},
+          useNativeDriver: true,
+          onTapOut: QuickPicker.close(),
+          topRow: <QuickpickerHeader pickDate={this.pickDate} kind={"workout"} text="Select a Workout" />
+        })
+  }
 
   pickDate = () => {
     const min = moment().subtract(45, 'days')._d
@@ -75,7 +114,8 @@ class Tracking extends React.Component{
         minimumDate: min,
         doneButtonTextStyle: { color: AppStyles.primaryColor},
         useNativeDriver: true,
-        onTapOut: QuickPicker.close()
+        onTapOut: QuickPicker.close(),
+        topRow: <QuickpickerHeader duration={this.duration} kind={"date"} text="What date did you workout?" />
       })
   }
 
@@ -102,20 +142,6 @@ class Tracking extends React.Component{
           const distanceRegEx = new RegExp(/^\s*-?(\d+(\.\d{1,2})?|\.\d{1,2})\s*$/)
             if ( distanceRegEx.test(distance)) this.setState({distance})
       }
-  }
-
-  pickWorkoutType = () => {
-    this.editActive('workoutType')
-      const activities = ['Running', 'Biking', 'Rowing']
-        QuickPicker.open({
-          items: activities,
-          selectedValue: this.state.workoutType,
-          onValueChange: (workoutType) => this.setState({ workoutType }),
-          doneButtonTextStyle: { color: AppStyles.primaryColor},
-          useNativeDriver: true,
-          onTapOut: QuickPicker.close()
-
-        })
   }
   
   stripDuration = () => {
@@ -185,6 +211,14 @@ class Tracking extends React.Component{
     }
   }
 
+  backOrPost = () => {
+    if (this.props.workout && this.props.workout.goal){
+      this.props.dispatch(postWorkout())
+    } else {
+      this.props.navigation.goBack()
+    }
+  }
+
   render(){
     const {hasBeenEdited} = this.state
     const { workout } = this.props
@@ -192,7 +226,7 @@ class Tracking extends React.Component{
       <Fragment>
         <SafeAreaView style={{flex: 0, backgroundColor: AppStyles.primaryColor}} />
         <SafeAreaView style={{flex: 1, backgroundColor: AppStyles.secondaryColor}}>
-         <Header navigation={this.props.navigation} />
+         <Header back={true} navigation={this.props.navigation} />
 
           <LinearGradient
             colors={[AppStyles.primaryColor, AppStyles.secondaryColor]}
@@ -203,7 +237,8 @@ class Tracking extends React.Component{
               <View style={styles.infoContainer}>
                 <KeyboardAwareScrollView 
                   contentContainerStyle={{flex: 1}}
-                  style={{zIndex: 0, flex: 1}} 
+                  style={{zIndex: 0, flex: 1}}
+                  extraScrollHeight={100}
                 >
                   <ScrollView 
                     contentContainerStyle={{ height: '100%', width: '100%'}} 
@@ -247,6 +282,7 @@ class Tracking extends React.Component{
                       <TextInput 
                         style={[styles.textInput, {color: AppStyles.primaryColor}]} 
                         placeholder='Duration in Minutes'
+                        ref={ (input) => {this.duration = input }}
                         value={this.state.duration}
                         onChangeText={ (duration) => this.setState({duration})}
                         onFocus={this.stripDuration}
@@ -254,11 +290,13 @@ class Tracking extends React.Component{
                         placeholderTextColor={AppStyles.primaryColor}
                         keyboardType='number-pad'
                         returnKeyType='done'
+                        onSubmitEditing={ () => { this.calories.focus() }}
                       />
 
                       <TextInput 
                         style={[styles.textInput, {color: AppStyles.primaryColor}]} 
                         placeholder='Calories Burned (optional)'
+                        ref={ (input) => {this.calories = input }}
                         value={this.state.caloriesBurned}
                         onChangeText={ (caloriesBurned) => this.setState({caloriesBurned})}
                         onFocus={this.stripCalories}
@@ -266,11 +304,13 @@ class Tracking extends React.Component{
                         placeholderTextColor={AppStyles.primaryColor}
                         keyboardType='number-pad'
                         returnKeyType='done'
+                        onSubmitEditing={ () => { this.distance.focus() }}
                       />
 
                       <TextInput 
                         style={[styles.textInput, {color: AppStyles.primaryColor}]} 
                         placeholder='Distance (miles)'
+                        ref={ (input) => { this.distance = input }}
                         value={this.state.distance}
                         onChangeText={this.distanceTextChange}
                         onFocus={this.stripDistance}
@@ -300,8 +340,8 @@ class Tracking extends React.Component{
                 
               <View style={styles.buttonContainer}>
                 <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-                  <TouchableOpacity onPress={ () => this.props.navigation.goBack()}>
-                    <Image source={require('../../assets/icons/x-icon-white.png')} />
+                  <TouchableOpacity onPress={this.backOrPost}>
+                    <Image source={ this.props.workout && this.props.workout.goal ? require('../../assets/icons/check-icon-white.png') : require('../../assets/icons/x-icon-white.png')} />
                   </TouchableOpacity>
                 </View>
               </View>

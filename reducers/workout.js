@@ -22,7 +22,15 @@ export const addGoal = (goal) => {
 
 export const postWorkout = () => {
   return (dispatch, getState) => {
-    const workout = getState().workout
+    const base = getState().workout
+    let workout = {
+      date: base.date,
+      distance: base.distance,
+      type: base.type,
+      calories_burned: base.calories_burned,
+      duration: base.duration,
+      goal_id: base.goal.id
+    }
       axios.post(`${BASE_URL}/v1/workout`, workout)
         .then( res => {
           console.log({res})

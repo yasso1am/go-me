@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react'
 import { connect } from 'react-redux'
+import moment from 'moment'
 import { 
   SafeAreaView,
   View,
@@ -43,6 +44,14 @@ class Profile extends React.Component{
     this.didFocusSubscription.remove();
   }
 
+  greetingText = () => {
+    const now = moment()
+    const currentHour = now.hour()
+      if (currentHour >= 12 && currentHour <=17) return "Good Afternoon,"
+      else if (currentHour <= 18) return "Good Evening,"
+      else return "Good Morning,"
+  }
+
   render(){
     const image = this.props.user.avatar !== '' ? {uri: this.props.user.avatar} : require('../../assets/icons/default-avatar.png')
 
@@ -70,7 +79,7 @@ class Profile extends React.Component{
                   <Image style={{alignItems: 'center', justifyContent: 'center', width: 100, height: 100, borderRadius: 50}} source={image} />
                 </View>
                 <View style={{ flex: 1, alignItems: 'center', justifyContent: 'space-between'}}>
-                  <Text style={{color: 'white', fontSize: 14}}> Good Afternoon, </Text>
+                  <Text style={{color: 'white', fontSize: 14}}> {this.greetingText()} </Text>
                   <Text 
                     adjustsFontSizeToFit 
                     numberOfLines={1}
