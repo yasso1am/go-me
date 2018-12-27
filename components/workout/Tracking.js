@@ -20,7 +20,7 @@ import QuickPicker from 'quick-picker'
 
 import Header from '../nav/Header'
 
-import { addWorkout, postWorkout } from '../../reducers/workout'
+import { addWorkout, postWorkout, clearWorkout } from '../../reducers/workout'
 
 const QuickpickerHeader = (props) => {
   return (
@@ -204,7 +204,7 @@ class Tracking extends React.Component{
           duration: durationNumber
         }
           this.props.dispatch(addWorkout(workout))
-          this.props.navigation.navigate('GoalSwiper')
+          this.props.navigation.navigate('GoalSlider', {workout: workout})
         } else {
           Alert.alert('Please complete required fields')
           return
@@ -217,6 +217,22 @@ class Tracking extends React.Component{
     } else {
       this.props.navigation.goBack()
     }
+  }
+
+  cancelEverything = () => {
+    Alert.alert(
+      'Delete Workout',
+      'Are you sure you want to delete this workout?',
+      [
+        {text: 'Cancel', onPress: () => console.log('cancelled'), style: 'cancel'},
+        {text: 'Delete', onPress: () => {
+            this.props.dispatch(clearWorkout()) 
+            this.props.navigation.navigate('Profile')
+          }
+        }
+      ],
+      {cancelable: false } 
+    )
   }
 
   render(){
@@ -256,6 +272,20 @@ class Tracking extends React.Component{
                     </View>
                   
                     <View style={{flex: 7, width: '100%'}}>
+
+                    <TextInput 
+                        style={[styles.textInput, {color: AppStyles.primaryColor}]} 
+                        placeholder='Distance (miles)'
+                        ref={ (input) => { this.distance = input }}
+                        onSubmitEditing={ () => { this.pickWorkoutType() }}
+                        value={this.state.distance}
+                        onChangeText={this.distanceTextChange}
+                        onFocus={this.stripDistance}
+                        onBlur={this.enterDistance}
+                        placeholderTextColor={AppStyles.primaryColor}
+                        keyboardType='decimal-pad'
+                        returnKeyType='done'
+                      />
                       
                       <TouchableOpacity
                         style={[styles.textInput, {justifyContent: 'center'}]}
@@ -304,20 +334,6 @@ class Tracking extends React.Component{
                         placeholderTextColor={AppStyles.primaryColor}
                         keyboardType='number-pad'
                         returnKeyType='done'
-                        onSubmitEditing={ () => { this.distance.focus() }}
-                      />
-
-                      <TextInput 
-                        style={[styles.textInput, {color: AppStyles.primaryColor}]} 
-                        placeholder='Distance (miles)'
-                        ref={ (input) => { this.distance = input }}
-                        value={this.state.distance}
-                        onChangeText={this.distanceTextChange}
-                        onFocus={this.stripDistance}
-                        onBlur={this.enterDistance}
-                        placeholderTextColor={AppStyles.primaryColor}
-                        keyboardType='decimal-pad'
-                        returnKeyType='done'
                       />
 
                       <TouchableOpacity
@@ -339,10 +355,19 @@ class Tracking extends React.Component{
               </View>
                 
               <View style={styles.buttonContainer}>
-                <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+                <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around'}}>
+                  {
+                    this.props.workout && this.props.workout.goal &&
+                      <TouchableOpacity onPress={this.cancelEverything}>
+                        <Image source={require('../../assets/icons/x-icon-white.png')} />
+                      </TouchableOpacity>
+                  }
+
                   <TouchableOpacity onPress={this.backOrPost}>
                     <Image source={ this.props.workout && this.props.workout.goal ? require('../../assets/icons/check-icon-white.png') : require('../../assets/icons/x-icon-white.png')} />
                   </TouchableOpacity>
+
+
                 </View>
               </View>
             </ImageBackground>
@@ -368,6 +393,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flex: 1,
+    flexDirection: 'row',
     width: '100%',
   },
   textInput: {

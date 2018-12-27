@@ -26,7 +26,6 @@ class GoalSelect extends React.Component{
 
   state = {
     completionAnimation: new Animated.Value(1),
-    imageAnimation: new Animated.Value(0.2),
   }
 
   componentDidMount(){
@@ -36,16 +35,10 @@ class GoalSelect extends React.Component{
   startAnimations = () => {
     const { completionAnimation, imageAnimation} = this.state
     let completionTotal = ((width - 60) * 0.6)
-    Animated.stagger(100, [
       Animated.timing(completionAnimation, {
         toValue: completionTotal,
         duration: 1500
-      }),
-      Animated.timing(imageAnimation, {
-        toValue: 1,
-        duration: 1000
-      })
-    ]).start()
+      }).start()
   }
 
   selectGoal = () => {
@@ -55,10 +48,34 @@ class GoalSelect extends React.Component{
       navigation.navigate('Tracking')
   }
 
+  renderActivityIcon = () => {
+    const { type } = this.props.navigation.state.params.goal
+    switch (type){
+      case "Running":
+        return require('../../assets/icons/shoe.png')
+      case "Biking":
+        return require('../../assets/icons/bike.png')
+      case "Rowing":
+        return require('../../assets/icons/row.png')
+      default:
+        return
+    }
+  }
+
+  startedOrNot = () => {
+    const { goal } = this.props.navigation.state.params
+    if (goal.progress[0].date_started){
+      return goal.progress[0].date_started
+    } else {
+      return "N/A"
+    }
+  }
+
   render(){
+
     const { completionAnimation, imageAnimation } = this.state
     const completionStyle = { width: completionAnimation }
-    const imageStyle = { opacity: imageAnimation}
+    const { goal } = this.props.navigation.state.params
 
 
     return(
@@ -82,19 +99,19 @@ class GoalSelect extends React.Component{
           >
             Select the goal below, in which you would like to attribute your workout to
           </Text>
-          <Image resizeMode="stretch" style={styles.image} source={ require('../../assets/goal_images/great-wall-banner.png')} />
+          <Image resizeMode="stretch" style={styles.image} source={{uri: goal.banner_image}} />
           
           <View style={styles.textRow}>
             <Text style={styles.detailsText}>Goal:</Text>
-            <Text style={styles.detailsTextBlue}>Great Wall of China</Text>
+            <Text style={styles.detailsTextBlue}> {goal.name} </Text>
           </View>
           <View style={styles.textRow}>
             <Text style={styles.detailsText}>Date Started:</Text>
-            <Text style={styles.detailsTextBlue}>10-20-2017</Text>
+            <Text style={styles.detailsTextBlue}> {this.startedOrNot()} </Text>
           </View>
           <View style={styles.textRow}>
             <Text style={styles.detailsText}>Distance Traveled</Text> 
-            <Text style={styles.detailsTextBlue}>800 miles</Text>
+            <Text style={styles.detailsTextBlue}>{goal.progress[0].distance_cumulative}</Text>
           </View>
 
         </View>
@@ -116,20 +133,20 @@ class GoalSelect extends React.Component{
 
             <View style={styles.detailsRow}>
               <Text adjustsFontSizeToFit numberOfLines={1} style={styles.subTitle}> Activity Type </Text>
-              <Animated.Image style={[imageStyle, {marginLeft: 5, marginTop: 10}]} source={require('../../assets/icons/shoe.png')} />
+              <Image style={{marginLeft: 5, marginTop: 10}} source={this.renderActivityIcon()} />
             </View>
 
-            <View style={[styles.detailsRow, {height: 45}]}>
-              <Text adjustsFontSizeToFit numberOfLines={1} style={styles.subTitle}> Calories Burned To Date </Text>
-              <Text adjustsFontSizeToFit numberOfLines={1} style={styles.detailsText}> 3600 Calories</Text>
+            <View style={[styles.detailsRow, {height: 30, marginTop: 15}]}>
+              <Text numberOfLines={1} style={styles.subTitle}> Calories Burned To Date </Text>
+              <Text adjustsFontSizeToFit numberOfLines={1} style={styles.detailsText}> {goal.progress[0].calories_burned_cumulative} Calories</Text>
             </View>
 
-             <View style={[styles.detailsRow, {height: 45}]}>
-              <Text adjustsFontSizeToFit numberOfLines={1} style={styles.subTitle}> Time Tracked To Date</Text>
-              <Text adjustsFontSizeToFit numberOfLines={1} style={styles.detailsText}> 1000 minutes </Text>
+             <View style={[styles.detailsRow, {height: 30}]}>
+              <Text numberOfLines={1} style={styles.subTitle}> Time Tracked To Date</Text>
+              <Text adjustsFontSizeToFit numberOfLines={1} style={styles.detailsText}> {goal.progress[0].duration_cumulative} minutes </Text>
             </View>
 
-            <View style={[styles.detailsRow, {marginTop: 15}]}>
+            <View style={[styles.detailsRow]}>
               <TouchableOpacity onPress={this.selectGoal} style={styles.button}>
                 <Text style={{color: 'white', fontSize: 13}}> Select This Goal </Text>
               </TouchableOpacity>

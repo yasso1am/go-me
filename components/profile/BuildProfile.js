@@ -28,6 +28,8 @@ const goals = [
   'I want to be able to run longer',
   'I want to be healthier',
   'I want to get my steps in',
+  'I want to do something amazing',
+  'I want to challenge myself',
 ]
 
 class BuildProfile extends React.Component {

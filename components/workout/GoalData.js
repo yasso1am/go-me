@@ -5,7 +5,9 @@ export const data = [
     difficulty: 5,
     description: "She's a real big mountain, located in Nepal. Located in the Khumbu region, be careful stepping over all the yak dung on your way there.",
     distance: 8848,
-    image: require('../../assets/goal_images/mount-everest.png')
+    hero_image: require('../../assets/goal_images/mount-everest.png'),
+    banner_image: require('../../assets/goal_images/mount-everest-banner.png'),
+    type: 'rowing',
   },
   {
     id: 2,
@@ -13,7 +15,9 @@ export const data = [
     difficulty: 3,
     description: "She's a real long wall, located in China. A lot of hard work went into building this, and you're going to exert almost as much running the whole length of the thing!",
     distance: 7848,
-    image: require('../../assets/goal_images/great-wall.png')
+    hero_image: require('../../assets/goal_images/great-wall.png'),
+    banner_image: require('../../assets/goal_images/great-wall-banner.png'),
+    type: 'running'
   },
   {
     id: 3,
@@ -21,6 +25,8 @@ export const data = [
     difficulty: 2,
     description: "It's just a walk, located in Peru. It's a really pretty walk though, with some old things that old people built. Well, they were probably young when they built it, but they are old now.",
     distance: 6848,
-    image: require('../../assets/goal_images/machu.png')
+    hero_image: require('../../assets/goal_images/machu.png'),
+    banner_image: require('../../assets/goal_images/machu-banner.png'),
+    type: 'cycling'
   }
 ]

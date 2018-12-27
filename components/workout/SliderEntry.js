@@ -20,25 +20,20 @@ class SliderEntry extends React.Component {
           <View style={{flex: 1}}>
             
             <View style={styles.pictureContainer}>
-              <Image style={{width: '100%', height: '100%'}} resizeMode='stretch' source={item.image} />
+              <Image style={{width: '100%', height: '100%'}} resizeMode='stretch' source={{uri: item.hero_image}} />
             </View>
             
             <TouchableOpacity style={styles.descriptionContainer} onPress={ () => navigation.navigate('GoalSelect', {goal: item})}>
                 <Text style={{fontWeight: 'bold', color: '#555555', opacity: 0.5}}> Level {item.difficulty} </Text>
                 <Text adjustsFontSizeToFit numberOfLines={1} style={{fontWeight: 'bold', fontSize: 30}}> {item.name} </Text>
                 <Text adjustsFontSizeToFit style={styles.descriptionText}> {item.description } </Text>
-                <Text style={{fontWeight: 'bold', color: '#555555', opacity: 0.5}}> {item.difficulty} workouts tracked </Text>
+                <Text style={{fontWeight: 'bold', color: '#555555', opacity: 0.5}}> {item.workouts_count} workouts tracked </Text>
             </TouchableOpacity>
 
             <View style={styles.detailsContainer}>
               <View style={styles.detailColumn}>
                 <Text adjustsFontSizeToFit numberOfLines={1} style={styles.numberText}> {item.distance}m </Text>
                 <Text adjustsFontSizeToFit numberOfLines={1} style={styles.text}> Distance </Text>
-              </View>
-
-              <View style={styles.detailColumn}>
-                <Text adjustsFontSizeToFit numberOfLines={1} style={styles.numberText}> 8:20:47 </Text>
-                <Text adjustsFontSizeToFit numberOfLines={1} style={styles.text}> Time to Completion </Text>
               </View>
             </View>
             

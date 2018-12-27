@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "GoMe - Fitness Tracker",
-    "description": "Goal oriented fitness app",
+    "description": "Make your daily workouts into amazing adventures",
     "scheme": "go-me-fitness",
     "slug": "app-go-me",
     "privacy": "unlisted",

@@ -34,7 +34,6 @@ class Profile extends React.Component{
         this.didFocusSubscription = this.props.navigation.addListener(
         'didFocus',
         payload => {
-          console.log(payload)
           dispatch(clearWorkout())
         }
       )
@@ -48,7 +47,7 @@ class Profile extends React.Component{
     const now = moment()
     const currentHour = now.hour()
       if (currentHour >= 12 && currentHour <=17) return "Good Afternoon,"
-      else if (currentHour <= 18) return "Good Evening,"
+      else if (currentHour >= 18) return "Good Evening,"
       else return "Good Morning,"
   }
 

@@ -74,8 +74,8 @@ class AuthHome extends React.Component {
                 />
               </View>
               <View style={{flex: 1, paddingHorizontal: 30, justifyContent: 'flex-end', paddingBottom: 30, alignItems: 'flex-start'}}>
-                <Text style={{fontSize: 20, color: 'white', fontWeight: 'bold', paddingBottom: 10}}> Welcome to GoMe </Text>
-                <Text style={{fontSize: 13, color: 'white'}}> The goal oriented fitness app.</Text>
+                <Text style={{fontSize: 30, color: 'white', fontWeight: 'bold', paddingBottom: 10}}>Welcome to GoMe</Text>
+                <Text adjustsFontSizeToFit numberOfLines={1} style={{fontSize: 15, color: 'white'}}>Make your daily workouts into amazing adventures</Text>
               </View>
             </ImageBackground>
 

@@ -21,7 +21,7 @@ class DrawerContent extends React.Component {
 
           <View style={{flex: 1, alignItems: 'flex-end'}}>
             <TouchableOpacity onPress={ () => this.props.navigation.closeDrawer()}>
-              <Image resizeMode='contain' style={[styles.icon, {padding: 15}]} source={require('../../assets/icons/x-placeholder.png')} />
+              <Image resizeMode='contain' style={[styles.icon, {padding: 15}]} source={require('../../assets/icons/x-icon-dark.png')} />
             </TouchableOpacity>
           </View>
           <View style={{flex: 1, justifyContent: 'flex-end'}}>

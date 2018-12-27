@@ -16,9 +16,11 @@ class Header extends React.Component {
 
   goBackOrChart = () => {
     if (this.props.workout && this.props.workout.goal){
-      this.props.navigation.navigate('GoalSwiper')
+      this.props.navigation.navigate('GoalSlider')
     }
-    else if (this.props.back){
+    else if (this.props.navigation.state.routeName === 'Profile' ){
+      this.props.navigation.navigate('WorkoutHistory', {back: true})
+    } else {
       this.props.navigation.goBack()
     }
   }
@@ -27,7 +29,10 @@ class Header extends React.Component {
     const color = this.props.color ? {backgroundColor: this.props.color} : {}
     const logo = this.props.color ? require('../../assets/icons/logo-gradient.png') : require('../../assets/icons/logo-white.png')
     const hamburger = this.props.color ? require('../../assets/icons/menu-black.png') : require('../../assets/icons/menu.png')
-    const chartOrBack = this.props.color || this.props.back ? require('../../assets/icons/back-placeholder.png') : require('../../assets/icons/chart.png')
+    const chartOrBack = this.props.back ? 
+        require('../../assets/icons/back-arrow-white.png') : 
+      this.props.color ? 
+        require('../../assets/icons/back-arrow-dark.png') : require('../../assets/icons/chart.png')
 
   return (
     <View style={[styles.header, color]}>

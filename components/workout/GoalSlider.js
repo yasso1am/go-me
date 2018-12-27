@@ -8,6 +8,7 @@ import {
   ImageBackground,
   Dimensions,
   StatusBar,
+  ActivityIndicator,
 } from 'react-native'
 import { LinearGradient } from 'expo'
 import Carousel, { Pagination } from 'react-native-snap-carousel';
@@ -27,7 +28,7 @@ const sliderWidth = Math.round(deviceWidth * .85 )
 import Header from '../nav/Header'
 
 
-class GoalSwiper extends React.Component{
+class GoalSlider extends React.Component{
   
   static navigationOptions = {
     header: null,
@@ -40,11 +41,13 @@ class GoalSwiper extends React.Component{
   }
 
   componentDidMount = () => {
-    this.props.dispatch(getGoals())
+    const { workout } = this.props.navigation.state.params
+    this.props.dispatch(getGoals(workout.type))
   }
 
   render(){
     const { sliderActiveSlide } = this.state
+    const { goals } = this.props
     return(
       <Fragment>
          <SafeAreaView style={{flex: 0, backgroundColor: AppStyles.primaryColor}} />
@@ -71,24 +74,33 @@ class GoalSwiper extends React.Component{
             </View>
 
             <View style={styles.sliderContainer}>
-              <Carousel
-                containerCustomStyle={styles.slider}
-                contentContainerCustomStyle={styles.sliderContentContainer}
-                sliderWidth={sliderWidth}
-                itemWidth={sliderWidth}
-                inactiveSlideScale={0.90}
-                inactiveSlideOpacity={0.75}
-                data={data}
-                renderItem={ ({item, index}) => {
-                  return (
-                    <SliderEntry navigation={this.props.navigation} item={item} index={index} />
-                  )
-                }}
-                useScrollView={true}
-                swipeThreshold={45}
-                enableSnap={true}
-                onSnapToItem={(index) => this.setState({sliderActiveSlide: index})}
-              />
+              { goals ? 
+
+                <Carousel
+                  containerCustomStyle={styles.slider}
+                  contentContainerCustomStyle={styles.sliderContentContainer}
+                  sliderWidth={sliderWidth}
+                  itemWidth={sliderWidth}
+                  inactiveSlideScale={0.90}
+                  inactiveSlideOpacity={0.75}
+                  data={goals}
+                  renderItem={ ({item, index}) => {
+                    return (
+                      <SliderEntry navigation={this.props.navigation} item={item} index={index} />
+                    )
+                  }}
+                  useScrollView={true}
+                  swipeThreshold={45}
+                  enableSnap={true}
+                  onSnapToItem={(index) => this.setState({sliderActiveSlide: index})}
+                />
+
+                :
+                  <View style={styles.sliderContentContainer}>
+                    <ActivityIndicator size="large" color={AppStyles.primaryColor} />
+                  </View>
+
+              }
               <Pagination
                 dotsLength={data.length}
                 dotStyle={styles.activeDot}
@@ -170,4 +182,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps)(GoalSwiper)
+export default connect(mapStateToProps)(GoalSlider)
