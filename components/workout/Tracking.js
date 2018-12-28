@@ -20,7 +20,7 @@ import QuickPicker from 'quick-picker'
 
 import Header from '../nav/Header'
 
-import { addWorkout, postWorkout, clearWorkout } from '../../reducers/workout'
+import { addWorkout, addGoal, postWorkout, clearWorkout } from '../../reducers/workout'
 
 const QuickpickerHeader = (props) => {
   return (
@@ -35,7 +35,7 @@ const QuickpickerHeader = (props) => {
            onPress={() => {
              QuickPicker.close()
              if (props.kind === "workout"){
-               props.pickDate()
+               props.distance.focus()
              } else {
                props.duration.focus()
              }
@@ -88,16 +88,21 @@ class Tracking extends React.Component{
 
   pickWorkoutType = () => {
     this.editActive('workoutType')
-      const activities = ['Running', 'Biking', 'Rowing']
-        QuickPicker.open({
-          items: activities,
-          selectedValue: this.state.workoutType,
-          onValueChange: (workoutType) => this.setState({ workoutType }),
-          doneButtonTextStyle: { color: AppStyles.primaryColor},
-          useNativeDriver: true,
-          onTapOut: QuickPicker.close(),
-          topRow: <QuickpickerHeader pickDate={this.pickDate} kind={"workout"} text="Select a Workout" />
-        })
+    const { workout } = this.props
+    if (workout.goal){
+      return
+    } else {
+        const activities = ['Running', 'Biking', 'Rowing']
+          QuickPicker.open({
+            items: activities,
+            selectedValue: this.state.workoutType,
+            onValueChange: (workoutType) => this.setState({ workoutType }),
+            doneButtonTextStyle: { color: AppStyles.primaryColor},
+            useNativeDriver: true,
+            onTapOut: QuickPicker.close(),
+            topRow: <QuickpickerHeader pickDate={this.pickDate} distance={this.distance} kind={"workout"} text="Select a Workout" />
+          })
+      }
   }
 
   pickDate = () => {
@@ -131,7 +136,13 @@ class Tracking extends React.Component{
 
   enterDistance = () => {
     this.editActive('distance')
-    this.setState({ distance: `${this.state.distance} Miles`})
+    const { workoutType } = this.state
+    if (workoutType === 'Rowing'){
+      this.setState({ distance: `${this.state.distance} Meters`})
+    } else {
+      this.setState({ distance: `${this.state.distance} Miles`})
+    }
+    
   }
 
   distanceTextChange = (distance) => {
@@ -168,6 +179,10 @@ class Tracking extends React.Component{
     let newDistance = distance.replace('Miles', '')
       newDistance = newDistance.slice(0, -1)
       this.setState({distance: newDistance})
+    } else if (distance.includes ('Meters')){
+      let newDistance = distance.replace('Meters', '')
+      newDistance = newDistance.slice(0, -1)
+      this.setState({distance: newDistance})
     }
   }
 
@@ -193,37 +208,74 @@ class Tracking extends React.Component{
         if (distance.includes('Miles')){
           distanceNumber = distance.replace('Miles', '')
           distanceNumber = Number(distanceNumber.slice(0, -1))
-      } else {
-          distanceNumber = Number(distance)
-      }
-        const workout = {
-          distance: distanceNumber,
-          date: formattedDate, 
-          type: workoutType, 
-          calories_burned: caloriesNumber, 
-          duration: durationNumber
-        }
-          this.props.dispatch(addWorkout(workout))
-          this.props.navigation.navigate('GoalSlider')
+        } else if (distance.includes('Meters')){
+          distanceNumber = distance.replace('Meters', '')
+          distanceNumber = Number(distanceNumber.slice(0, -1))
         } else {
-          Alert.alert('Please complete required fields')
-          return
+          distanceNumber = Number(distance)
+        }
+          const workout = {
+            distance: distanceNumber,
+            date: formattedDate, 
+            type: workoutType, 
+            calories_burned: caloriesNumber, 
+            duration: durationNumber
+          }
+            this.props.dispatch(addWorkout(workout))
+            this.props.navigation.navigate('GoalSlider')
+          } else {
+            Alert.alert('Please complete required fields')
+            return
     }
   }
 
   backOrPost = () => {
+    const { date, workoutType, duration, caloriesBurned, distance, hasBeenEdited } = this.state
+    const { goal } = this.props.workout
+    let formattedDate = moment(date).format('YYYY-MM-DD')
     if (this.props.workout && this.props.workout.goal){
-      this.props.dispatch(postWorkout())
-      Alert.alert(
-        'Workout Posted!',
-        'Succesfully logged your workout',
-        [
-          { text: 'Ok', onPress: () => this.props.navigation.navigate('Profile')}
-        ]
-      )
-    } else {
-      this.props.navigation.goBack()
-    }
+      if (hasBeenEdited.includes('workoutType') && hasBeenEdited.includes('duration') && hasBeenEdited.includes('date') && hasBeenEdited.includes('distance') ){
+        let distanceNumber
+        let durationNumber
+        let caloriesNumber
+        if (caloriesBurned.includes('Calories Burned')){
+            caloriesNumber = caloriesBurned.replace('Calories Burned', '')
+            caloriesNumber = Number(caloriesNumber.slice(0, -1))
+        } else {
+            caloriesNumber = Number(caloriesBurned)
+        }
+        if (duration.includes('Minutes')){
+            durationNumber = duration.replace('Minutes', '')
+            durationNumber = Number(durationNumber.slice(0, -1))
+        } else {
+            durationNumber = Number(duration)
+        }
+        if (distance.includes('Miles')){
+          distanceNumber = distance.replace('Miles', '')
+          distanceNumber = Number(distanceNumber.slice(0, -1))
+        } else if (distance.includes('Meters')){
+          distanceNumber = distance.replace('Meters', '')
+          distanceNumber = Number(distanceNumber.slice(0, -1))
+        } else {
+          distanceNumber = Number(distance)
+        }
+          const workout = {
+            distance: distanceNumber,
+            date: formattedDate, 
+            type: workoutType, 
+            calories_burned: caloriesNumber, 
+            duration: durationNumber
+          }
+          this.props.dispatch(addWorkout(workout))
+          this.props.dispatch(addGoal(goal))
+          this.props.dispatch(postWorkout(this.props.navigation))
+        } else {
+            Alert.alert('Please complete required fields')
+              return
+        }
+      } else {
+          this.props.navigation.goBack()
+      }
   }
 
   cancelEverything = () => {
@@ -280,20 +332,6 @@ class Tracking extends React.Component{
                   
                     <View style={{flex: 7, width: '100%'}}>
 
-                    <TextInput 
-                        style={[styles.textInput, {color: AppStyles.primaryColor}]} 
-                        placeholder='Distance (miles)'
-                        ref={ (input) => { this.distance = input }}
-                        onSubmitEditing={ () => { this.pickWorkoutType() }}
-                        value={this.state.distance}
-                        onChangeText={this.distanceTextChange}
-                        onFocus={this.stripDistance}
-                        onBlur={this.enterDistance}
-                        placeholderTextColor={AppStyles.primaryColor}
-                        keyboardType='decimal-pad'
-                        returnKeyType='done'
-                      />
-                      
                       <TouchableOpacity
                         style={[styles.textInput, {justifyContent: 'center'}]}
                         onPress={this.pickWorkoutType}
@@ -304,57 +342,72 @@ class Tracking extends React.Component{
                           <Text style={{color: AppStyles.primaryColor}}>Workout Type</Text>
                         }
                       </TouchableOpacity>
-
-                      <TouchableOpacity
-                        style={[styles.textInput, {justifyContent: 'center'}]}
-                        onPress={this.pickDate}
-                      > 
-                        { hasBeenEdited.includes('date') ?
-                        <Text style={{color: AppStyles.primaryColor}}> {moment(this.state.date).format('MMM Do YYYY')} </Text>
-                        :
-                        <Text style={{color: AppStyles.primaryColor}}>Date</Text>
-                      }
-                      </TouchableOpacity>
-
+                      
                       <TextInput 
-                        style={[styles.textInput, {color: AppStyles.primaryColor}]} 
-                        placeholder='Duration in Minutes'
-                        ref={ (input) => {this.duration = input }}
-                        value={this.state.duration}
-                        onChangeText={ (duration) => this.setState({duration})}
-                        onFocus={this.stripDuration}
-                        onBlur={this.enterDuration}
-                        placeholderTextColor={AppStyles.primaryColor}
-                        keyboardType='number-pad'
-                        returnKeyType='done'
-                        onSubmitEditing={ () => { this.calories.focus() }}
-                      />
+                          style={[styles.textInput, {color: AppStyles.primaryColor}]} 
+                          placeholder={ this.state.workoutType === 'Rowing' ? 'Distance (meters)' : 'Distance (miles)'}
+                          ref={ (input) => { this.distance = input }}
+                          onSubmitEditing={ () => { this.pickDate() }}
+                          value={this.state.distance}
+                          onChangeText={this.distanceTextChange}
+                          onFocus={this.stripDistance}
+                          onBlur={this.enterDistance}
+                          placeholderTextColor={AppStyles.primaryColor}
+                          keyboardType='decimal-pad'
+                          returnKeyType='done'
+                        />
+                        
 
-                      <TextInput 
-                        style={[styles.textInput, {color: AppStyles.primaryColor}]} 
-                        placeholder='Calories Burned (optional)'
-                        ref={ (input) => {this.calories = input }}
-                        value={this.state.caloriesBurned}
-                        onChangeText={ (caloriesBurned) => this.setState({caloriesBurned})}
-                        onFocus={this.stripCalories}
-                        onBlur={this.enterCalories}
-                        placeholderTextColor={AppStyles.primaryColor}
-                        keyboardType='number-pad'
-                        returnKeyType='done'
-                      />
+                        <TouchableOpacity
+                          style={[styles.textInput, {justifyContent: 'center'}]}
+                          onPress={this.pickDate}
+                        > 
+                          { hasBeenEdited.includes('date') ?
+                          <Text style={{color: AppStyles.primaryColor}}> {moment(this.state.date).format('MMM Do YYYY')} </Text>
+                          :
+                          <Text style={{color: AppStyles.primaryColor}}>Date</Text>
+                        }
+                        </TouchableOpacity>
 
-                      <TouchableOpacity
-                        ref="submitButton"
-                        onPress={this.goToGoals} 
-                        style={[styles.textInput, {
-                          alignItems: 'center', 
-                          justifyContent: 'center', 
-                          borderColor: AppStyles.primaryColor, 
-                          backgroundColor: hasBeenEdited.includes('workoutType') && hasBeenEdited.includes('duration') && hasBeenEdited.includes('date') && hasBeenEdited.includes('distance') ? AppStyles.primaryColor : '#707070', 
-                          opacity: 0.3
-                        }]}>
-                        <Text style={{color: 'white'}}> { workout.goal ? workout.goal.name : "Choose Goal To Track" } </Text> 
-                      </TouchableOpacity>
+                        <TextInput 
+                          style={[styles.textInput, {color: AppStyles.primaryColor}]} 
+                          placeholder='Duration in Minutes'
+                          ref={ (input) => {this.duration = input }}
+                          value={this.state.duration}
+                          onChangeText={ (duration) => this.setState({duration})}
+                          onFocus={this.stripDuration}
+                          onBlur={this.enterDuration}
+                          placeholderTextColor={AppStyles.primaryColor}
+                          keyboardType='number-pad'
+                          returnKeyType='done'
+                          onSubmitEditing={ () => { this.calories.focus() }}
+                        />
+
+                        <TextInput 
+                          style={[styles.textInput, {color: AppStyles.primaryColor}]} 
+                          placeholder='Calories Burned (optional)'
+                          ref={ (input) => {this.calories = input }}
+                          value={this.state.caloriesBurned}
+                          onChangeText={ (caloriesBurned) => this.setState({caloriesBurned})}
+                          onFocus={this.stripCalories}
+                          onBlur={this.enterCalories}
+                          placeholderTextColor={AppStyles.primaryColor}
+                          keyboardType='number-pad'
+                          returnKeyType='done'
+                        />
+
+                        <TouchableOpacity
+                          ref="submitButton"
+                          onPress={this.goToGoals} 
+                          style={[styles.textInput, {
+                            alignItems: 'center', 
+                            justifyContent: 'center', 
+                            borderColor: AppStyles.primaryColor, 
+                            backgroundColor: hasBeenEdited.includes('workoutType') && hasBeenEdited.includes('duration') && hasBeenEdited.includes('date') && hasBeenEdited.includes('distance') ? AppStyles.primaryColor : '#707070', 
+                            opacity: 0.3
+                          }]}>
+                          <Text style={{color: 'white'}}> { workout.goal ? workout.goal.name : "Choose Goal To Track" } </Text> 
+                        </TouchableOpacity>
 
                     </View>
                   </ScrollView>

@@ -141,12 +141,12 @@ class GoalSelect extends React.Component{
 
             <View style={[styles.detailsRow, {height: 30, marginTop: 15}]}>
               <Text numberOfLines={1} style={styles.subTitle}> Calories Burned To Date </Text>
-              <Text adjustsFontSizeToFit numberOfLines={1} style={styles.detailsText}> {goal.progress[0].calories_burned_cumulative} Calories</Text>
+              <Text adjustsFontSizeToFit numberOfLines={1} style={styles.detailsText}> {goal.progress[0].calories_burned_cumulative} calories</Text>
             </View>
 
              <View style={[styles.detailsRow, {height: 30}]}>
               <Text numberOfLines={1} style={styles.subTitle}> Time Tracked To Date</Text>
-              <Text adjustsFontSizeToFit numberOfLines={1} style={styles.detailsText}> {goal.progress[0].duration_cumulative} minutes </Text>
+              <Text adjustsFontSizeToFit numberOfLines={1} style={styles.detailsText}> {goal.progress[0].duration_cumulative} minutes</Text>
             </View>
 
             <View style={[styles.detailsRow]}>

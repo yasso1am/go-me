@@ -15,7 +15,6 @@ class SliderEntry extends React.Component {
 
     render () {
       const {item, index, navigation} = this.props
-
         return (
           <View style={{flex: 1}}>
             
@@ -23,7 +22,7 @@ class SliderEntry extends React.Component {
               <Image style={{width: '100%', height: '100%'}} resizeMode='stretch' source={{uri: item.hero_image}} />
             </View>
             
-            <TouchableOpacity style={styles.descriptionContainer} onPress={ () => navigation.navigate('GoalSelect', {goal: item})}>
+            <TouchableOpacity activeOpacity={0.75} style={styles.descriptionContainer} onPress={ () => navigation.navigate('GoalSelect', {goal: item})}>
                 <Text style={{fontWeight: 'bold', color: '#555555', opacity: 0.5}}> Level {item.difficulty} </Text>
                 <Text adjustsFontSizeToFit numberOfLines={1} style={{fontWeight: 'bold', fontSize: 30}}> {item.name} </Text>
                 <Text adjustsFontSizeToFit style={styles.descriptionText}> {item.description } </Text>
@@ -32,8 +31,8 @@ class SliderEntry extends React.Component {
 
             <View style={styles.detailsContainer}>
               <View style={styles.detailColumn}>
-                <Text adjustsFontSizeToFit numberOfLines={1} style={styles.numberText}> {item.distance}m </Text>
                 <Text adjustsFontSizeToFit numberOfLines={1} style={styles.text}> Distance </Text>
+                <Text adjustsFontSizeToFit numberOfLines={1} style={styles.numberText}> {item.distance} {item.type === "Rowing" ? "meters" : "miles" } </Text>
               </View>
             </View>
             

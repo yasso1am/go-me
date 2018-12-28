@@ -9,7 +9,7 @@
     "platforms": [
       "ios"
     ],
-    "version": "0.3.0",
+    "version": "0.4.0",
     "facebookAppId": "342397049861613",
     "facebookDisplayName": "GoMe",
     "orientation": "portrait",
@@ -27,7 +27,7 @@
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "app-neonbrand-gome",
-      "buildNumber": "0.3.0"
+      "buildNumber": "0.4.0"
     }
   }
 }

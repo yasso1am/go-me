@@ -27,35 +27,40 @@ class WorkoutHistory extends React.Component{
   }
 
   state = {
-    active: 'Running',
-    goalActive: null
+    activeActivity: 'Running',
+    activeGoal: null
   }
 
   componentDidMount(){
     const { dispatch } = this.props
-    dispatch(getGoalsWithWorkouts(this.state.active))
+    dispatch(getGoalsWithWorkouts(this.state.activeActivity))
   }
 
   componentDidUpdate(prevProps, prevState){
-    if (prevState.active !== this.state.active){
-      this.setState({goalActive: null})
+    if (prevState.activeGoal !== this.state.activeGoal){
+      this.setState({gactiveGoal: null})
     }
   }
 
-  setActive = (activity) => {
+  setActiveActivity = (activeActivity) => {
     const { dispatch } = this.props
-    this.setState({active: activity})
-    dispatch(getGoalsWithWorkouts(activity))
+    this.setState({activeActivity})
+    dispatch(getGoalsWithWorkouts(activeActivity))
   }
 
-  displayGoals = () => {
-    const { goals } = this.props
-      return 
+  setActiveGoal = (goalId) => {
+    const { activeGoal } = this.state
+    if (goalId === activeGoal){
+      this.setState({activeGoal: null})
+    } else {
+      this.setState({activeGoal: goalId})
+    }
   }
-  
+
+
   render(){
     const { goals } = this.props
-    const { active, goalActive } = this.state
+    const { activeActivity, activeGoal } = this.state
     return(
       <SafeAreaView style={{flex: 1}}>
         <StatusBar
@@ -67,17 +72,17 @@ class WorkoutHistory extends React.Component{
           <View style={styles.selectContainer}>
             <View style={styles.selectRow}>
               <Text adjustsFontSizeToFit numberOfLines={1} style={styles.titleText}>Past Workouts</Text>
-              <Text adjustsFontSizeToFit numberOfLines={1} style={styles.detailsText}>Click on each goal below to see your workouts</Text>
+              <Text adjustsFontSizeToFit numberOfLines={1} style={styles.detailsText}>Tap on each goal below to see your workouts</Text>
             </View>
             <View style={[styles.selectRow, {flexDirection: 'row'}]}>
-              <TouchableOpacity style={styles.buttonSelect} onPress={ () => this.setActive('Running')}>
-                <Image source={ active === 'Running' ? require('../../assets/icons/shoe.png'): require('../../assets/icons/shoe-green.png')}/>
+              <TouchableOpacity style={styles.buttonSelect} onPress={ () => this.setActiveActivity('Running')}>
+                <Image source={ activeActivity === 'Running' ? require('../../assets/icons/shoe.png'): require('../../assets/icons/shoe-green.png')}/>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.buttonSelect} onPress={ () => this.setActive('Biking')}>
-                <Image source={ active === 'Biking' ? require('../../assets/icons/bike.png') : require('../../assets/icons/bike-green.png')}/>
+              <TouchableOpacity style={styles.buttonSelect} onPress={ () => this.setActiveActivity('Biking')}>
+                <Image source={ activeActivity === 'Biking' ? require('../../assets/icons/bike.png') : require('../../assets/icons/bike-green.png')}/>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.buttonSelect} onPress={ () => this.setActive('Rowing')}>
-                <Image source={ active ==='Rowing' ? require('../../assets/icons/row.png') :  require('../../assets/icons/row-green.png')}/>
+              <TouchableOpacity style={styles.buttonSelect} onPress={ () => this.setActiveActivity('Rowing')}>
+                <Image source={ activeActivity ==='Rowing' ? require('../../assets/icons/row.png') :  require('../../assets/icons/row-green.png')}/>
               </TouchableOpacity>
             </View>
           </View>
@@ -89,12 +94,12 @@ class WorkoutHistory extends React.Component{
               >
               { typeof goals ==='string' ?
                   <View>
-                    <Text adjustsFontSizeToFit numberOfLines={1}>{`You have no tracked ${active.toLowerCase()} goals, start one!`}</Text>
+                    <Text adjustsFontSizeToFit numberOfLines={1}>{`You have no tracked ${activeActivity.toLowerCase()} goals, start one!`}</Text>
                   </View>
                 :
                   goals.map( goal => (
                     <View key={goal.id}>
-                        <TouchableOpacity onPress={ () => this.setState({goalActive: goal.id})}style={styles.imageContainer}>
+                        <TouchableOpacity activeOpacity={0.8} onPress={ () => this.setActiveGoal(goal.id) } style={styles.imageContainer}>
                           <ImageBackground
                             key={goal.id} 
                             source={{uri: goal.banner_image}} 
@@ -105,7 +110,7 @@ class WorkoutHistory extends React.Component{
                               <Text adjustsFontSizeToFit numberOfLines={2} style={styles.goalName}>{goal.name}</Text>
                             </View>
                             <View style={styles.imageDetailText}>
-                              <Text adjustsFontSizeToFit numberOfLines={2} style={styles.goalName}>{`${parseFloat(goal.progress[0].distance_cumulative).toFixed()} mi`}</Text>
+                              <Text adjustsFontSizeToFit numberOfLines={2} style={styles.goalName}>{`${parseFloat(goal.progress[0].distance_cumulative).toFixed()}`} {goal.type === 'Rowing' ? "m" : "mi"}</Text>
                             </View>
                             <View style={styles.imageDetailText}>
                               <Text adjustsFontSizeToFit numberOfLines={2} style={styles.goalName}>{moment(goal.updated_at).format('MM/DD')}</Text>
@@ -114,22 +119,22 @@ class WorkoutHistory extends React.Component{
                          
                         </TouchableOpacity>
                       {
-                        goalActive === goal.id &&
-                        <View>
-                          <View style={styles.headerColumns}>
-                            <View style={{flex: 1}}> 
-                              <Text adjustsFontSizeToFit numberOfLines={1} style={styles.headerText}>Date</Text> 
+                        activeGoal === goal.id &&
+                          <View>
+                            <View style={styles.headerColumns}>
+                              <View style={{flex: 1}}> 
+                                <Text adjustsFontSizeToFit numberOfLines={1} style={styles.headerText}>Date</Text> 
+                              </View>
+                              <View style={{flex: 1}}> 
+                                <Text adjustsFontSizeToFit numberOfLines={1} style={styles.headerText}>Duration</Text>
+                              </View>
+                              <View style={{flex: 1}}> 
+                                <Text adjustsFontSizeToFit numberOfLines={1} style={styles.headerText}>Calories</Text>
+                              </View>
+                              <View style={{flex: 1}}> 
+                                <Text adjustsFontSizeToFit numberOfLines={1} style={styles.headerText}>Distance</Text>
+                              </View>
                             </View>
-                            <View style={{flex: 1}}> 
-                              <Text adjustsFontSizeToFit numberOfLines={1} style={styles.headerText}>Duration</Text>
-                            </View>
-                            <View style={{flex: 1}}> 
-                              <Text adjustsFontSizeToFit numberOfLines={1} style={styles.headerText}>Calories</Text>
-                            </View>
-                            <View style={{flex: 1}}> 
-                              <Text adjustsFontSizeToFit numberOfLines={1} style={styles.headerText}>Distance</Text>
-                            </View>
-                          </View>
 
                           { goal.workouts.map( workout => (
                             <View key={workout.id} style={styles.dataColumns}>
@@ -143,7 +148,7 @@ class WorkoutHistory extends React.Component{
                                   <Text adjustsFontSizeToFit numberOfLines={2} style={styles.dataText}>{workout.calories_burned} cal.</Text>
                               </View>
                               <View style={{flex: 1}}> 
-                                  <Text adjustsFontSizeToFit numberOfLines={2} style={[styles.dataText, {color: AppStyles.primaryColor}]}>{workout.distance} miles</Text>
+                                  <Text adjustsFontSizeToFit numberOfLines={2} style={[styles.dataText, {color: AppStyles.primaryColor}]}>{workout.distance} {goal.type === 'Rowing' ? "meters" : "miles"}</Text>
                               </View>
                             </View>
                             )

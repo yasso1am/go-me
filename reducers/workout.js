@@ -20,7 +20,7 @@ export const addGoal = (goal) => {
   }
 }
 
-export const postWorkout = () => {
+export const postWorkout = (navigation) => {
   return (dispatch, getState) => {
     const base = getState().workout
     let workout = {
@@ -33,10 +33,22 @@ export const postWorkout = () => {
     }
       axios.post(`${BASE_URL}/v1/workout`, workout)
         .then( res => {
-          console.log({res})
+          Alert.alert(
+            'Workout Posted!',
+            'Succesfully logged your workout',
+            [
+              { text: 'Ok', onPress: () => navigation.navigate('Profile')}
+            ]
+          )
         })
         .catch ( err => {
-          console.log({err})
+          Alert.alert(
+            'Post Failed!',
+            'Something went wrong while trying to post your workout, please try again',
+            [
+              { text: 'Ok', onPress: () => navigation.navigate('Profile')}
+            ]
+          )
         })
   }
 }
