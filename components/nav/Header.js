@@ -26,6 +26,7 @@ class Header extends React.Component {
   }
 
   render(){
+    const { routeName } = this.props.navigation.state
     const color = this.props.color ? {backgroundColor: this.props.color} : {}
     const logo = this.props.color ? require('../../assets/icons/logo-gradient.png') : require('../../assets/icons/logo-white.png')
     const hamburger = this.props.color ? require('../../assets/icons/menu-black.png') : require('../../assets/icons/menu.png')
@@ -36,17 +37,25 @@ class Header extends React.Component {
 
   return (
     <View style={[styles.header, color]}>
-      <TouchableOpacity onPress={this.goBackOrChart}>
+      <TouchableOpacity onPress={ routeName === 'WorkoutSuccess' ? f => f : this.goBackOrChart}>
         <View style={{flex: 1, padding: 25, alignItems: 'flex-start', justifyContent: 'center'}}>
-          <Image source={chartOrBack} />
+          <Image style={{opacity: routeName === 'WorkoutSuccess' ? 0 : 1}} source={chartOrBack} />
         </View>
       </TouchableOpacity>
       <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
         <Image source={logo}/>
       </View>
-      <TouchableOpacity onPress={ () => { this.props.navigation.state.routeName === 'ProfileSettings' ? f => f : this.props.navigation.openDrawer() }}>
+      <TouchableOpacity onPress={ () => { routeName === 'WorkoutSuccess' ? this.props.navigation.navigate('Profile') :  routeName === 'ProfileSettings' ? f => f : this.props.navigation.openDrawer() }}>
         <View style={{flex: 1, padding: 25, alignItems: 'flex-end', justifyContent: 'center'}}>
-          { this.props.navigation.state.routeName !== 'ProfileSettings' && <Image source={hamburger}/> }
+          { 
+            routeName === 'WorkoutSuccess' ? 
+              <Image source={require('../../assets/icons/x-icon-dark.png')} />
+            :
+            routeName !== 'ProfileSettings' ?
+              <Image source={hamburger}/> 
+            :   
+              null 
+          }
         </View>
       </TouchableOpacity>
     </View>

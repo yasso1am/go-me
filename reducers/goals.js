@@ -5,6 +5,7 @@ const BASE_URL = 'https://app.gome.fit/api'
 
 const GET_GOALS = "GET_GOALS"
 const GET_GOALS_WITH_WORKOUTS = "GET_GOALS_WITH_WORKOUTS"
+const CLEAR_GOALS = "CLEAR_GOALS"
 
 
 export const getGoals = (activityType) => {
@@ -32,6 +33,12 @@ export const getGoalsWithWorkouts = (activityType) => {
   }
 }
 
+export const clearGoals = () => {
+  return(dispatch) => {
+    dispatch({type: CLEAR_GOALS})
+  }
+}
+
 
 export default ( state = [], action ) => {
   switch(action.type) {
@@ -39,6 +46,8 @@ export default ( state = [], action ) => {
       return action.goals
     case GET_GOALS_WITH_WORKOUTS:
       return action.goals
+    case CLEAR_GOALS:
+      return []
     default:
       return state;
   }

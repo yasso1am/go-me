@@ -18,6 +18,7 @@ import Tracking from './components/workout/Tracking'
 import GoalSlider from './components/workout/GoalSlider'
 import WorkoutHistory from './components/workout/WorkoutHistory'
 import GoalSelect from './components/workout/GoalSelect'
+import WorkoutSuccess from './components/workout/WorkoutSuccess'
 
 import DrawerContent from './components/nav/DrawerContent'
 
@@ -46,6 +47,7 @@ import DrawerContent from './components/nav/DrawerContent'
       GoalSelect: {screen: GoalSelect},
       ProfileSettings: { screen: ProfileSettings },
       WorkoutHistory: { screen: WorkoutHistory },
+      WorkoutSuccess: { screen : WorkoutSuccess},
     },
     {
       initialRouteName: 'Profile',

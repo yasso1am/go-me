@@ -33,13 +33,8 @@ export const postWorkout = (navigation) => {
     }
       axios.post(`${BASE_URL}/v1/workout`, workout)
         .then( res => {
-          Alert.alert(
-            'Workout Posted!',
-            'Succesfully logged your workout',
-            [
-              { text: 'Ok', onPress: () => navigation.navigate('Profile')}
-            ]
-          )
+          console.log({res})
+          navigation.navigate('WorkoutSuccess', {workout: res.data})
         })
         .catch ( err => {
           Alert.alert(
