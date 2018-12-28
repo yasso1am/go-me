@@ -36,10 +36,6 @@ class GoalSelect extends React.Component{
     const { completionAnimation, imageAnimation} = this.state
     const { goal } = this.props.navigation.state.params
     let completionPercentage = parseFloat(goal.progress[0].distance_cumulative) / goal.distance
-      // if (completionPercentage >= 1 ){
-      //   completionTotal = 1
-      // } else {
-        // }
     let completionTotal = completionPercentage >= 1 ? width - 61 : ((width - 60) * completionPercentage)
 
       Animated.timing(completionAnimation, {

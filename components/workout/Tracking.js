@@ -204,7 +204,7 @@ class Tracking extends React.Component{
           duration: durationNumber
         }
           this.props.dispatch(addWorkout(workout))
-          this.props.navigation.navigate('GoalSlider', {workout: workout})
+          this.props.navigation.navigate('GoalSlider')
         } else {
           Alert.alert('Please complete required fields')
           return
@@ -214,6 +214,13 @@ class Tracking extends React.Component{
   backOrPost = () => {
     if (this.props.workout && this.props.workout.goal){
       this.props.dispatch(postWorkout())
+      Alert.alert(
+        'Workout Posted!',
+        'Succesfully logged your workout',
+        [
+          { text: 'Ok', onPress: () => this.props.navigation.navigate('Profile')}
+        ]
+      )
     } else {
       this.props.navigation.goBack()
     }

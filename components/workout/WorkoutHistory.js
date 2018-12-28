@@ -36,6 +36,12 @@ class WorkoutHistory extends React.Component{
     dispatch(getGoalsWithWorkouts(this.state.active))
   }
 
+  componentDidUpdate(prevProps, prevState){
+    if (prevState.active !== this.state.active){
+      this.setState({goalActive: null})
+    }
+  }
+
   setActive = (activity) => {
     const { dispatch } = this.props
     this.setState({active: activity})
@@ -111,18 +117,34 @@ class WorkoutHistory extends React.Component{
                         goalActive === goal.id &&
                         <View>
                           <View style={styles.headerColumns}>
-                            <Text adjustsFontSizeToFit numberOfLines={1} style={styles.headerText}>Date</Text> 
-                            <Text adjustsFontSizeToFit numberOfLines={1} style={styles.headerText}>Duration</Text>
-                            <Text adjustsFontSizeToFit numberOfLines={1} style={styles.headerText}>Calories Burned</Text>
-                            <Text adjustsFontSizeToFit numberOfLines={1} style={styles.headerText}>Distance</Text>
+                            <View style={{flex: 1}}> 
+                              <Text adjustsFontSizeToFit numberOfLines={1} style={styles.headerText}>Date</Text> 
+                            </View>
+                            <View style={{flex: 1}}> 
+                              <Text adjustsFontSizeToFit numberOfLines={1} style={styles.headerText}>Duration</Text>
+                            </View>
+                            <View style={{flex: 1}}> 
+                              <Text adjustsFontSizeToFit numberOfLines={1} style={styles.headerText}>Calories</Text>
+                            </View>
+                            <View style={{flex: 1}}> 
+                              <Text adjustsFontSizeToFit numberOfLines={1} style={styles.headerText}>Distance</Text>
+                            </View>
                           </View>
 
                           { goal.workouts.map( workout => (
                             <View key={workout.id} style={styles.dataColumns}>
-                              <Text adjustsFontSizeToFit numberOfLines={2} style={styles.dataText}>{moment(workout.date).format('MM/DD')}</Text> 
-                              <Text adjustsFontSizeToFit numberOfLines={2} style={styles.dataText}>{workout.duration} min</Text>
-                              <Text adjustsFontSizeToFit numberOfLines={2} style={styles.dataText}>{workout.calories_burned} cal.</Text>
-                              <Text adjustsFontSizeToFit numberOfLines={2} style={styles.dataText}>{workout.distance} miles</Text>
+                              <View style={{flex: 1}}> 
+                                <Text adjustsFontSizeToFit numberOfLines={2} style={styles.dataText}>{moment(workout.date).format('MM/DD')}</Text> 
+                              </View>
+                              <View style={{flex: 1}}> 
+                                <Text adjustsFontSizeToFit numberOfLines={2} style={styles.dataText}>{workout.duration} min</Text>
+                              </View>
+                              <View style={{flex: 1}}> 
+                                  <Text adjustsFontSizeToFit numberOfLines={2} style={styles.dataText}>{workout.calories_burned} cal.</Text>
+                              </View>
+                              <View style={{flex: 1}}> 
+                                  <Text adjustsFontSizeToFit numberOfLines={2} style={[styles.dataText, {color: AppStyles.primaryColor}]}>{workout.distance} miles</Text>
+                              </View>
                             </View>
                             )
                           )}
@@ -217,8 +239,10 @@ const styles = StyleSheet.create({
     height: 30,
   },
   dataText: {
-    color: '#707070',
     fontSize: 10,
+    color: '#707070',
+    textAlign: 'left',
+    fontWeight: '600',
   },
 })
 

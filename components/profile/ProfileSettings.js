@@ -15,15 +15,17 @@ import {
 } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { ImagePicker, Permissions, ImageManipulator } from 'expo'
+
+import Header from '../nav/Header'
 import AppStyles from '../../AppStyles'
 
 import { updateProfile } from '../../reducers/user'
 
 class ProfileSettings extends React.Component{
-  static  navigationOptions = ({navigation}) => ({
-    headerBackTitleStyle: {color: AppStyles.primaryColor},
-    headerTintColor: AppStyles.primaryColor,
-  })
+  static navigationOptions = {
+    header: null,
+    gesturesEnabled: false,
+  }
 
   state = {
     avatar: null,
@@ -121,7 +123,7 @@ class ProfileSettings extends React.Component{
 
     return(
       <SafeAreaView style={{flex: 1}}>
-          
+        <Header color={'#fff'} back={true} navigation={this.props.navigation}/>
         <View style={styles.titleContainer}> 
           <Text style={{fontSize: 15, color: '#D1D1D1'}}> Profile Settings </Text>
         </View>

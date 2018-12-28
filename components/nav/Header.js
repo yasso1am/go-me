@@ -29,10 +29,10 @@ class Header extends React.Component {
     const color = this.props.color ? {backgroundColor: this.props.color} : {}
     const logo = this.props.color ? require('../../assets/icons/logo-gradient.png') : require('../../assets/icons/logo-white.png')
     const hamburger = this.props.color ? require('../../assets/icons/menu-black.png') : require('../../assets/icons/menu.png')
-    const chartOrBack = this.props.back ? 
-        require('../../assets/icons/back-arrow-white.png') : 
-      this.props.color ? 
-        require('../../assets/icons/back-arrow-dark.png') : require('../../assets/icons/chart.png')
+    const chartOrBack = this.props.color ? 
+        require('../../assets/icons/back-arrow-dark.png') : 
+      this.props.back ? 
+        require('../../assets/icons/back-arrow-white.png') : require('../../assets/icons/chart.png')
 
   return (
     <View style={[styles.header, color]}>
@@ -44,9 +44,9 @@ class Header extends React.Component {
       <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
         <Image source={logo}/>
       </View>
-      <TouchableOpacity onPress={ () => { this.props.navigation.openDrawer() }}>
+      <TouchableOpacity onPress={ () => { this.props.navigation.state.routeName === 'ProfileSettings' ? f => f : this.props.navigation.openDrawer() }}>
         <View style={{flex: 1, padding: 25, alignItems: 'flex-end', justifyContent: 'center'}}>
-          <Image source={hamburger}/>
+          { this.props.navigation.state.routeName !== 'ProfileSettings' && <Image source={hamburger}/> }
         </View>
       </TouchableOpacity>
     </View>

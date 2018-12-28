@@ -14,19 +14,14 @@ import { LinearGradient } from 'expo'
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 
 import SliderEntry from './SliderEntry'
-import { data } from './GoalData'
 import AppStyles from '../../AppStyles'
 
 import { getGoals } from '../../reducers/goals'
 
-
-
 const deviceWidth = Dimensions.get('window').width
 const sliderWidth = Math.round(deviceWidth * .85 )
 
-
 import Header from '../nav/Header'
-
 
 class GoalSlider extends React.Component{
   
@@ -41,7 +36,7 @@ class GoalSlider extends React.Component{
   }
 
   componentDidMount = () => {
-    const { workout } = this.props.navigation.state.params
+    const { workout } = this.props
     this.props.dispatch(getGoals(workout.type))
   }
 
@@ -102,7 +97,7 @@ class GoalSlider extends React.Component{
 
               }
               <Pagination
-                dotsLength={data.length}
+                dotsLength={goals.length}
                 dotStyle={styles.activeDot}
                 inactiveDotStyle={styles.inactiveDot}
                 activeDotIndex={sliderActiveSlide}
@@ -178,7 +173,8 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
   return {
-    goals: state.goals
+    goals: state.goals,
+    workout: state.workout
   }
 }
 
