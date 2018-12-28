@@ -34,7 +34,14 @@ class GoalSelect extends React.Component{
 
   startAnimations = () => {
     const { completionAnimation, imageAnimation} = this.state
-    let completionTotal = ((width - 60) * 0.6)
+    const { goal } = this.props.navigation.state.params
+    let completionPercentage = parseFloat(goal.progress[0].distance_cumulative) / goal.distance
+      // if (completionPercentage >= 1 ){
+      //   completionTotal = 1
+      // } else {
+        // }
+    let completionTotal = completionPercentage >= 1 ? width - 61 : ((width - 60) * completionPercentage)
+
       Animated.timing(completionAnimation, {
         toValue: completionTotal,
         duration: 1500
@@ -111,7 +118,7 @@ class GoalSelect extends React.Component{
           </View>
           <View style={styles.textRow}>
             <Text style={styles.detailsText}>Distance Traveled</Text> 
-            <Text style={styles.detailsTextBlue}>{goal.progress[0].distance_cumulative}</Text>
+            <Text style={styles.detailsTextBlue}>{parseFloat(goal.progress[0].distance_cumulative).toFixed()} / {goal.distance}</Text>
           </View>
 
         </View>
@@ -127,7 +134,7 @@ class GoalSelect extends React.Component{
               </View>
                 <View style={[styles.textRow]}> 
                   <Text style={styles.detailsText}> 0 </Text>
-                  <Text style={styles.detailsTextBlue}>1200 miles</Text>
+                  <Text style={styles.detailsTextBlue}>{ goal.distance }</Text>
                 </View>
             </View>
 
@@ -217,8 +224,7 @@ const styles = StyleSheet.create({
     borderColor: '#546E7A',
   },
   progressAmount:{
-    borderBottomLeftRadius: 5,
-    borderTopLeftRadius: 5,
+    borderRadius: 5,
     backgroundColor: AppStyles.primaryColor,
     height: '90%',
   },

@@ -44,13 +44,14 @@ class DrawerContent extends React.Component {
               <Text style={styles.linkText}> Profile Settings </Text>
             </TouchableOpacity>
           </View>
-          
+        
+        {/*           
           <View style={[styles.linkContainer, {borderTopWidth: 0}]}>
             <TouchableOpacity style={styles.linkButton} onPress={ () => this.props.navigation.navigate('WorkoutHistory') }>
               <Image resizeMode='contain' style={styles.icon} source={require('../../assets/icons/rocket-icon.png')} />
               <Text style={styles.linkText}> Workout History </Text>
             </TouchableOpacity>
-          </View>
+          </View> */}
           
           {/* <View style={[styles.linkContainer, {borderTopWidth: 0}]}>
             <TouchableOpacity style={styles.linkButton} onPress={ () => this.props.navigation.navigate('ApplicationSettings')}>
