@@ -92,7 +92,7 @@ class Tracking extends React.Component{
     if (workout.goal){
       return
     } else {
-        const activities = ['Running', 'Biking', 'Rowing']
+        const activities = ['Running', 'Biking', 'Rowing', 'Walking']
           QuickPicker.open({
             items: activities,
             selectedValue: this.state.workoutType,
@@ -217,10 +217,11 @@ class Tracking extends React.Component{
           const workout = {
             distance: distanceNumber,
             date: formattedDate, 
-            type: workoutType, 
+            type: workoutType === 'Walking' ? 'Running' : workoutType, 
             calories_burned: caloriesNumber, 
             duration: durationNumber
           }
+          debugger
             this.props.dispatch(addWorkout(workout))
             this.props.navigation.navigate('GoalSlider')
           } else {

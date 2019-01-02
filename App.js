@@ -48,10 +48,9 @@ import DrawerContent from './components/nav/DrawerContent'
       ProfileSettings: { screen: ProfileSettings },
       WorkoutHistory: { screen: WorkoutHistory },
       WorkoutSuccess: { screen: WorkoutSuccess },
-      BuildProfile: { screen: BuildProfile } 
     },
     {
-      initialRouteName: 'BuildProfile',
+      initialRouteName: 'Profile',
       navigationOptions: {
         headerBackTitleStyle: {color: '#F1552D', fontSize: 11},
         headerTintColor: '#F1552D',
