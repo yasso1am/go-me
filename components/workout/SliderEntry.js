@@ -26,13 +26,13 @@ class SliderEntry extends React.Component {
                 <Text style={{fontWeight: 'bold', color: '#555555', opacity: 0.5}}> Level {item.difficulty} </Text>
                 <Text adjustsFontSizeToFit numberOfLines={1} style={{fontWeight: 'bold', fontSize: 30}}> {item.name} </Text>
                 <Text adjustsFontSizeToFit style={styles.descriptionText}> {item.description } </Text>
-                <Text style={{fontWeight: 'bold', color: '#555555', opacity: 0.5}}> {item.workouts_count} workouts tracked </Text>
+                <Text style={{fontWeight: 'bold', color: '#555555', opacity: 0.5}}>{item.workouts_count} {item.workouts_count === 1 ? "workout tracked" : "workouts tracked"}</Text>
             </TouchableOpacity>
 
             <View style={styles.detailsContainer}>
               <View style={styles.detailColumn}>
                 <Text adjustsFontSizeToFit numberOfLines={1} style={styles.text}> Distance </Text>
-                <Text adjustsFontSizeToFit numberOfLines={1} style={styles.numberText}> {item.distance} {item.type === "Rowing" ? "meters" : "miles" } </Text>
+                <Text adjustsFontSizeToFit numberOfLines={1} style={styles.numberText}> {item.distance} {item.type === "Rowing" ? "kilometers" : "miles" } </Text>
               </View>
             </View>
             

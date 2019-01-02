@@ -209,7 +209,7 @@ class BuildProfile extends React.Component {
                   style={{fontSize: 40, fontWeight: 'bold'}}>
                     {this.props.user.name}
                 </Text>
-                <Text adjustsFontSizeToFit style={{textAlign: 'center', paddingHorizontal: '10%'}}> Before you get started we need to know a couple of things </Text>
+                <Text adjustsFontSizeToFit style={{fontSize: 13, textAlign: 'center', paddingHorizontal: '10%'}}> Before you get started we need to know a couple of things </Text>
               </View>
           </View>
           
@@ -340,8 +340,8 @@ const styles = StyleSheet.create({
   },
   answerText: {
     textAlign: 'center', 
-    color: AppStyles.primaryColor, 
-    fontSize: 11, 
+    color: 'black', 
+    fontSize: 13, 
     marginTop: 4,
   },
   questionsContainer: {

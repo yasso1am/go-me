@@ -35,7 +35,7 @@ class GoalSelect extends React.Component{
   startAnimations = () => {
     const { completionAnimation, imageAnimation} = this.state
     const { goal } = this.props.navigation.state.params
-    let completionPercentage = parseFloat(goal.progress[0].distance_cumulative) / goal.distance
+    let completionPercentage = goal.type === 'Rowing' ? (parseFloat(goal.progress[0].distance_cumulative)/1000).toFixed(2) / goal.distance : parseFloat(goal.progress[0].distance_cumulative) / goal.distance
     let completionTotal = completionPercentage >= 1 ? width - 61 : ((width - 60) * completionPercentage)
 
       Animated.timing(completionAnimation, {
@@ -114,7 +114,7 @@ class GoalSelect extends React.Component{
           </View>
           <View style={styles.textRow}>
             <Text style={styles.detailsText}>Distance Traveled</Text> 
-            <Text style={styles.detailsTextBlue}>{parseFloat(goal.progress[0].distance_cumulative).toFixed()} / {goal.distance}</Text>
+            <Text style={styles.detailsTextBlue}>{goal.type ==='Rowing' ? (parseFloat(goal.progress[0].distance_cumulative)/1000).toFixed(2) : parseFloat(goal.progress[0].distance_cumulative)} / {goal.distance}</Text>
           </View>
 
         </View>

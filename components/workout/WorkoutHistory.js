@@ -107,13 +107,15 @@ class WorkoutHistory extends React.Component{
                             style={styles.image}
                           >
                             <View style={[styles.imageDetailText, {flex: 2, alignItems: 'flex-start'}]}>
-                              <Text adjustsFontSizeToFit numberOfLines={2} style={styles.goalName}>{goal.name}</Text>
+                              <Text adjustsFontSizeToFit numberOfLines={1} style={styles.goalName}>{goal.name}</Text>
                             </View>
                             <View style={styles.imageDetailText}>
-                              <Text adjustsFontSizeToFit numberOfLines={2} style={styles.goalName}>{`${parseFloat(goal.progress[0].distance_cumulative).toFixed()}`} {goal.type === 'Rowing' ? "m" : "mi"}</Text>
+                              <Text adjustsFontSizeToFit numberOfLines={1} style={styles.goalName}>{goal.type === 'Rowing' ? `${(parseFloat(goal.progress[0].distance_cumulative)/1000).toFixed(2)}` :  `${parseFloat(goal.progress[0].distance_cumulative).toFixed(2)}`}</Text>
+                              <Text adjustFontSizeToFit numberOfLines={1} style={styles.goalName}>/</Text>
+                              <Text adjustFontSizeToFit numberOfLines={1} style={styles.goalName}>{goal.distance} {goal.type === 'Rowing' ? "km" : "mi"}</Text>
                             </View>
                             <View style={styles.imageDetailText}>
-                              <Text adjustsFontSizeToFit numberOfLines={2} style={styles.goalName}>{moment(goal.updated_at).format('MM/DD')}</Text>
+                              <Text adjustsFontSizeToFit numberOfLines={1} style={styles.goalName}>{moment(goal.updated_at).format('MM/DD')}</Text>
                             </View>
                           </ImageBackground>
                          
@@ -148,7 +150,7 @@ class WorkoutHistory extends React.Component{
                                   <Text adjustsFontSizeToFit numberOfLines={2} style={styles.dataText}>{workout.calories_burned} cal.</Text>
                               </View>
                               <View style={{flex: 1}}> 
-                                  <Text adjustsFontSizeToFit numberOfLines={2} style={[styles.dataText, {color: AppStyles.primaryColor}]}>{workout.distance} {goal.type === 'Rowing' ? "meters" : "miles"}</Text>
+                                  <Text adjustsFontSizeToFit numberOfLines={2} style={[styles.dataText, {color: AppStyles.primaryColor}]}>{goal.type=== 'Rowing' ? (workout.distance/1000).toFixed(2) : workout.distance} {goal.type === 'Rowing' ? "km" : "miles"}</Text>
                               </View>
                             </View>
                             )

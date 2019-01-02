@@ -37,6 +37,7 @@ export const postWorkout = (navigation) => {
           navigation.navigate('WorkoutSuccess', {workout: res.data})
         })
         .catch ( err => {
+          console.log({err})
           Alert.alert(
             'Post Failed!',
             'Something went wrong while trying to post your workout, please try again',

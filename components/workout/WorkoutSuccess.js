@@ -28,11 +28,11 @@ class WorkoutSuccess extends React.Component{
     const { type } = this.props.navigation.state.params.workout
     switch (type){
       case "Running":
-        return require('../../assets/icons/shoe.png')
+        return require('../../assets/icons/shoe-green.png')
       case "Biking":
-        return require('../../assets/icons/bike.png')
+        return require('../../assets/icons/bike-green.png')
       case "Rowing":
-        return require('../../assets/icons/row.png')
+        return require('../../assets/icons/row-green.png')
       default:
         return
     }
@@ -40,7 +40,6 @@ class WorkoutSuccess extends React.Component{
 
   render(){
     const { workout } = this.props.navigation.state.params
-    debugger
     return(
       <SafeAreaView style={{flex: 1}}>
         <StatusBar
@@ -67,14 +66,14 @@ class WorkoutSuccess extends React.Component{
               contentContainerStyle={{flexGrow: 1, paddingHorizontal: 30, alignItems: 'center', justifyContent: 'space-around'}}
             >
               <Text adjustsFontSizeToFit numberOfLines={1} style={[styles.subHeading, {fontSize: 15, fontWeight: 'bold'}]}>Post-Workout Stats</Text>
+              <Text adjustsFontSizeToFit numberOfLines={1} style={styles.subHeading}>Distance Traveled</Text>
+                <Text adjustsFontSizeToFit numberOfLines={1} style={styles.statsText}>{workout.distance} {workout.type === 'Rowing' ? "meters" : "miles"}</Text>
               <Text adjustsFontSizeToFit numberOfLines={1} style={styles.subHeading}>Activity Type</Text>
-              <Image source={this.renderActivityIcon} />
+              <Image source={this.renderActivityIcon()} />
               <Text adjustsFontSizeToFit numberOfLines={1} style={styles.subHeading}>Workout Time</Text>
                 <Text adjustsFontSizeToFit numberOfLines={1} style={styles.statsText}>{workout.duration} minutes</Text>
               <Text adjustsFontSizeToFit numberOfLines={1} style={styles.subHeading}>Calories Burned</Text>
                 <Text adjustsFontSizeToFit numberOfLines={1} style={styles.statsText}>{workout.calories_burned} calories</Text>
-              <Text adjustsFontSizeToFit numberOfLines={1} style={styles.subHeading}>Distance Traveled</Text>
-                <Text adjustsFontSizeToFit numberOfLines={1} style={styles.statsText}>{workout.distance} {workout.type === 'Rowing' ? "meters" : "miles"}</Text>
 
             </ScrollView>
           </View>

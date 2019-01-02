@@ -41,16 +41,17 @@ import DrawerContent from './components/nav/DrawerContent'
 
   const MainStack = createStackNavigator(
     {
-      Profile: { screen: Profile},
+      Profile: { screen: Profile },
       Tracking: { screen: Tracking },
-      GoalSlider: {screen: GoalSlider },
-      GoalSelect: {screen: GoalSelect},
+      GoalSlider: { screen: GoalSlider },
+      GoalSelect: { screen: GoalSelect },
       ProfileSettings: { screen: ProfileSettings },
       WorkoutHistory: { screen: WorkoutHistory },
-      WorkoutSuccess: { screen : WorkoutSuccess},
+      WorkoutSuccess: { screen: WorkoutSuccess },
+      BuildProfile: { screen: BuildProfile } 
     },
     {
-      initialRouteName: 'Profile',
+      initialRouteName: 'BuildProfile',
       navigationOptions: {
         headerBackTitleStyle: {color: '#F1552D', fontSize: 11},
         headerTintColor: '#F1552D',
