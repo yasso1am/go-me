@@ -9,6 +9,7 @@ import {
   Dimensions,
   StatusBar,
   ActivityIndicator,
+  Platform,
 } from 'react-native'
 import { LinearGradient } from 'expo'
 import Carousel, { Pagination } from 'react-native-snap-carousel';
@@ -45,7 +46,7 @@ class GoalSlider extends React.Component{
     const { goals } = this.props
     return(
       <Fragment>
-         <SafeAreaView style={{flex: 0, backgroundColor: AppStyles.primaryColor}} />
+         <SafeAreaView style={{flex: 0, paddingTop: Platform.OS === 'android' ? 25: 0, backgroundColor: AppStyles.primaryColor}} />
           <StatusBar
             barStyle="light-content"
             backgroundColor={AppStyles.primaryColor}

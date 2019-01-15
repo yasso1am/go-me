@@ -173,7 +173,7 @@ class BuildProfile extends React.Component {
     const image = profileImage !== null ? {uri: profileImage.uri} : this.props.user.avatar ? {uri: this.props.user.avatar} : require('../../assets/icons/default-avatar.png')
 
     return (
-      <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
+      <SafeAreaView style={{flex: 1, paddingTop: Platform.OS === 'android' ? 25: 0, backgroundColor: '#fff'}}>
        <StatusBar
         barStyle="dark-content"
         backgroundColor="#ecf0f1"

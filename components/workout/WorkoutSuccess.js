@@ -8,6 +8,7 @@ import {
   StatusBar,
   Image,
   ScrollView,
+  Platform,
 } from 'react-native'
 import Header from '../nav/Header'
 import AppStyles from '../../AppStyles'
@@ -41,7 +42,7 @@ class WorkoutSuccess extends React.Component{
   render(){
     const { workout } = this.props.navigation.state.params
     return(
-      <SafeAreaView style={{flex: 1}}>
+      <SafeAreaView style={{flex: 1, paddingTop: Platform.OS === 'android' ? 25: 0}}>
         <StatusBar
           barStyle="dark-content"
         />

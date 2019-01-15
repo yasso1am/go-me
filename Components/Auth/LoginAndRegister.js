@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Alert,
   StatusBar,
+  Platform,
 } from 'react-native'
 import Appstyles from '../../AppStyles'
 
@@ -89,6 +90,8 @@ class LoginAndRegister extends React.Component{
     return(
       <KeyboardAwareScrollView
         contentContainerStyle={this.styles.container}
+        extraScrollHeight={Platform.OS === 'android'? 150 : 0}
+        enableOnAndroid={true}
       > 
       <StatusBar
         barStyle="dark-content"

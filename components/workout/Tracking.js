@@ -5,6 +5,7 @@ import {
   SafeAreaView,
   View,
   StyleSheet,
+  Platform,
   Image,
   ImageBackground,
   TouchableOpacity,
@@ -98,8 +99,8 @@ class Tracking extends React.Component{
             selectedValue: this.state.workoutType,
             onValueChange: (workoutType) => this.setState({ workoutType }),
             doneButtonTextStyle: { color: AppStyles.primaryColor},
-            useNativeDriver: true,
             onTapOut: QuickPicker.close(),
+            androidModalStyle: {height: 250},
             topRow: <QuickpickerHeader pickDate={this.pickDate} distance={this.distance} kind={"workout"} text="Select a Workout" />
           })
       }
@@ -300,7 +301,7 @@ class Tracking extends React.Component{
     const { workout } = this.props
     return(
       <Fragment>
-        <SafeAreaView style={{flex: 0, backgroundColor: AppStyles.primaryColor}} />
+        <SafeAreaView style={{flex: 0, paddingTop: Platform.OS === 'android' ? 25: 0, backgroundColor: AppStyles.primaryColor}} />
         <SafeAreaView style={{flex: 1, backgroundColor: AppStyles.secondaryColor}}>
          <Header back={true} navigation={this.props.navigation} />
 
@@ -314,7 +315,9 @@ class Tracking extends React.Component{
                 <KeyboardAwareScrollView 
                   contentContainerStyle={{flex: 1}}
                   style={{zIndex: 0, flex: 1}}
-                  extraScrollHeight={100}
+                  extraScrollHeight={Platform.OS === 'android'? -150 : 100}
+                  enableOnAndroid={true}
+                  enableAutomaticScroll={true}
                 >
                   <ScrollView 
                     contentContainerStyle={{ height: '100%', width: '100%'}} 

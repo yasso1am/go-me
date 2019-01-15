@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   Image,
   Dimensions,
+  Platform,
   ImageBackground,
 } from 'react-native'
 import moment from 'moment'
@@ -62,7 +63,7 @@ class WorkoutHistory extends React.Component{
     const { goals } = this.props
     const { activeActivity, activeGoal } = this.state
     return(
-      <SafeAreaView style={{flex: 1}}>
+      <SafeAreaView style={{flex: 1, paddingTop: Platform.OS === 'android' ? 25: 0,}}>
         <StatusBar
           barStyle="dark-content"
         />

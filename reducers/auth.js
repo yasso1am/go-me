@@ -3,8 +3,6 @@ import { Alert } from 'react-native'
 import { store } from '../store'
 import NavigationService from '../NavigationService'
 
-import { getProfile } from './user'
-
 const LOGOUT = 'LOGOUT'
 const BASE_URL = 'https://app.gome.fit/api'
 const TOKEN = 'TOKEN'

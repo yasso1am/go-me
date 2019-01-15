@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   Text,
   StatusBar,
+  Platform,
 } from 'react-native'
 import AppStyles from '../../AppStyles'
 import { LinearGradient } from 'expo'
@@ -56,12 +57,12 @@ class Profile extends React.Component{
 
     return(
       <Fragment>
-        <SafeAreaView style={{flex: 0, backgroundColor: AppStyles.primaryColor}} />
+        <SafeAreaView style={{paddingTop: Platform.OS === 'android' ? 25: 0, flex: 0, backgroundColor: AppStyles.primaryColor}} />
           <StatusBar
             barStyle="light-content"
             backgroundColor={AppStyles.primaryColor}
           />
-        <SafeAreaView style={{flex: 1, backgroundColor: AppStyles.secondaryColor}}>
+        <SafeAreaView style={{flex: 1,  backgroundColor: AppStyles.secondaryColor}}>
           
          <Header navigation={this.props.navigation} />
 
@@ -75,7 +76,7 @@ class Profile extends React.Component{
 
               <View style={{flex: 2}}>
                 <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}> 
-                  <Image style={{alignItems: 'center', justifyContent: 'center', width: 100, height: 100, borderRadius: 50}} source={image} />
+                  <Image fadeDuration={0} style={{alignItems: 'center', justifyContent: 'center', width: 100, height: 100, borderRadius: 50}} source={image} />
                 </View>
                 <View style={{ flex: 1, alignItems: 'center', justifyContent: 'space-between'}}>
                   <Text style={{color: 'white', fontSize: 14}}> {this.greetingText()} </Text>

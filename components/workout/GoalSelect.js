@@ -10,6 +10,7 @@ import {
   ScrollView,
   StatusBar,
   Animated,
+  Platform,
   Dimensions,
 } from 'react-native'
 import Header from '../nav/Header'
@@ -82,7 +83,7 @@ class GoalSelect extends React.Component{
 
 
     return(
-      <SafeAreaView style={{flex: 1}}>
+      <SafeAreaView style={{flex: 1, paddingTop: Platform.OS === 'android' ? 25: 0,}}>
         <StatusBar
           barStyle="dark-content"
         />

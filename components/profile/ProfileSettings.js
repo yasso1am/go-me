@@ -122,7 +122,7 @@ class ProfileSettings extends React.Component{
     const image = profileImage !== null ? {uri: profileImage.uri} : avatar ? {uri: avatar} : require('../../assets/icons/default-avatar.png')
 
     return(
-      <SafeAreaView style={{flex: 1}}>
+      <SafeAreaView style={{flex: 1, paddingTop: Platform.OS === 'android' ? 25: 0,}}>
         <Header color={'#fff'} back={true} navigation={this.props.navigation}/>
         <View style={styles.titleContainer}> 
           <Text style={{fontSize: 15, color: '#D1D1D1'}}> Profile Settings </Text>
