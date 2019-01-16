@@ -7,7 +7,7 @@
     "privacy": "unlisted",
     "sdkVersion": "31.0.0",
     "platforms": [
-      "ios"
+      "ios", "android"
     ],
     "version": "0.4.0",
     "facebookAppId": "342397049861613",
@@ -28,6 +28,10 @@
       "supportsTablet": false,
       "bundleIdentifier": "app-neonbrand-gome",
       "buildNumber": "0.4.0"
+    },
+    "android": {
+      "package": "app.neonbrand.gome",
+      "versionCode": 1
     }
   }
 }

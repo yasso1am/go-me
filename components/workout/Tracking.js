@@ -99,9 +99,8 @@ class Tracking extends React.Component{
             selectedValue: this.state.workoutType,
             onValueChange: (workoutType) => this.setState({ workoutType }),
             doneButtonTextStyle: { color: AppStyles.primaryColor},
-            onTapOut: QuickPicker.close(),
-            androidModalStyle: {height: 250},
-            topRow: <QuickpickerHeader pickDate={this.pickDate} distance={this.distance} kind={"workout"} text="Select a Workout" />
+            onTapOut: () => QuickPicker.close(),
+            topRow: <QuickpickerHeader distance={this.distance} kind={"workout"} text="Select a Workout" />
           })
       }
   }
@@ -120,7 +119,7 @@ class Tracking extends React.Component{
         minimumDate: min,
         doneButtonTextStyle: { color: AppStyles.primaryColor},
         useNativeDriver: true,
-        onTapOut: QuickPicker.close(),
+        onTapOut: () => QuickPicker.close(),
         topRow: <QuickpickerHeader duration={this.duration} kind={"date"} text="What date did you workout?" />
       })
   }
@@ -222,7 +221,6 @@ class Tracking extends React.Component{
             calories_burned: caloriesNumber, 
             duration: durationNumber
           }
-          debugger
             this.props.dispatch(addWorkout(workout))
             this.props.navigation.navigate('GoalSlider')
           } else {

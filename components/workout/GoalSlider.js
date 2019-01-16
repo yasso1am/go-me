@@ -24,7 +24,7 @@ const sliderWidth = Math.round(deviceWidth * .85 )
 
 import Header from '../nav/Header'
 
-class GoalSlider extends React.Component{
+class GoalSlider extends React.PureComponent{
   
   static navigationOptions = {
     header: null,
@@ -38,12 +38,14 @@ class GoalSlider extends React.Component{
 
   componentDidMount = () => {
     const { workout } = this.props
+    debugger
     this.props.dispatch(getGoals(workout.type))
   }
 
   render(){
     const { sliderActiveSlide } = this.state
     const { goals } = this.props
+    debugger
     return(
       <Fragment>
          <SafeAreaView style={{flex: 0, paddingTop: Platform.OS === 'android' ? 25: 0, backgroundColor: AppStyles.primaryColor}} />
@@ -75,7 +77,7 @@ class GoalSlider extends React.Component{
                 <Carousel
                   containerCustomStyle={styles.slider}
                   contentContainerCustomStyle={styles.sliderContentContainer}
-                  sliderWidth={sliderWidth}
+                  sliderWidth={deviceWidth}
                   itemWidth={sliderWidth}
                   inactiveSlideScale={0.90}
                   inactiveSlideOpacity={0.75}
@@ -87,7 +89,8 @@ class GoalSlider extends React.Component{
                   }}
                   useScrollView={true}
                   swipeThreshold={45}
-                  enableSnap={true}
+                  // enableSnap={true}
+                  overScrollMode='always'
                   onSnapToItem={(index) => this.setState({sliderActiveSlide: index})}
                 />
 
@@ -140,7 +143,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   slider: {
-    overflow: 'visible'
   },
   sliderContentContainer: {
     alignItems: 'center',
