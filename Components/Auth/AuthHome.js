@@ -65,11 +65,13 @@ class AuthHome extends React.Component {
             backgroundColor="#6a51ae"
            />
             <ImageBackground
+              fadeDuration={0}
               source={require('../../assets/images/login-header.png')}
               style={{ flex: 3, width: '100%', height: '100%'}}
             >
               <View style={{flex: 2, alignItems: 'center', justifyContent: 'center'}}>
                 <Image 
+                  fadeDuration={0}
                   source={require('../../assets/icons/logo-white.png')}
                 />
               </View>
@@ -90,7 +92,7 @@ class AuthHome extends React.Component {
                 </TouchableOpacity> */}
 
                 <TouchableOpacity onPress={this.loginFacebook}>
-                  <Image style={[buttonStyle, {borderColor: '#4267B2'}]} source={require('../../assets/icons/facebook-button.png')} />
+                  <Image fadeDuration={0} style={[buttonStyle, {borderColor: '#4267B2'}]} source={require('../../assets/icons/facebook-button.png')} />
                 </TouchableOpacity>
                 
                 <View style={{flexDirection: 'row', height: buttonStyle.height, alignItems: 'center', justifyContent: 'center'}}>

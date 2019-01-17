@@ -307,7 +307,7 @@ class Tracking extends React.Component{
             colors={[AppStyles.primaryColor, AppStyles.secondaryColor]}
             style={styles.bodyContainer}
           >
-            <ImageBackground style={{flex: 1, width: '100%', height: '100%'}} source={require('../../assets/images/lines.png')}>
+            <ImageBackground fadeDuration={0} style={{flex: 1, width: '100%', height: '100%'}} source={require('../../assets/images/lines.png')}>
             
               <View style={styles.infoContainer}>
                 <KeyboardAwareScrollView 
@@ -421,12 +421,12 @@ class Tracking extends React.Component{
                   {
                     this.props.workout && this.props.workout.goal &&
                       <TouchableOpacity onPress={this.cancelEverything}>
-                        <Image source={require('../../assets/icons/x-icon-white.png')} />
+                        <Image fadeDuration={0} source={require('../../assets/icons/x-icon-white.png')} />
                       </TouchableOpacity>
                   }
 
                   <TouchableOpacity onPress={this.backOrPost}>
-                    <Image source={ this.props.workout && this.props.workout.goal ? require('../../assets/icons/check-icon-white.png') : require('../../assets/icons/x-icon-white.png')} />
+                    <Image fadeDuration={0} source={ this.props.workout && this.props.workout.goal ? require('../../assets/icons/check-icon-white.png') : require('../../assets/icons/x-icon-white.png')} />
                   </TouchableOpacity>
 
 

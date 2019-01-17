@@ -59,7 +59,7 @@ class GoalSlider extends React.PureComponent{
           colors={[AppStyles.primaryColor, AppStyles.secondaryColor]}
           style={styles.bodyContainer}
         >
-          <ImageBackground style={{flex: 1, width: '100%', height: '100%'}} source={require('../../assets/images/lines.png')}>
+          <ImageBackground fadeDuration={0} style={{flex: 1, width: '100%', height: '100%'}} source={require('../../assets/images/lines.png')}>
 
             <View style={styles.titleContainer}>
               <Text 

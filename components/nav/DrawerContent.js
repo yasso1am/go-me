@@ -21,7 +21,7 @@ class DrawerContent extends React.Component {
 
           <View style={{flex: 1, alignItems: 'flex-end'}}>
             <TouchableOpacity onPress={ () => this.props.navigation.closeDrawer()}>
-              <Image resizeMode='contain' style={[styles.icon, {padding: 15}]} source={require('../../assets/icons/x-icon-dark.png')} />
+              <Image fadeDuration={0} resizeMode='contain' style={[styles.icon, {padding: 15}]} source={require('../../assets/icons/x-icon-dark.png')} />
             </TouchableOpacity>
           </View>
           <View style={{flex: 1, justifyContent: 'flex-end'}}>
@@ -40,7 +40,7 @@ class DrawerContent extends React.Component {
           
           <View style={styles.linkContainer}>
             <TouchableOpacity style={styles.linkButton} onPress={ () => this.props.navigation.navigate('ProfileSettings')}>
-              <Image resizeMode='contain' style={styles.icon} source={require('../../assets/icons/profile-settings-icon.png')} />
+              <Image fadeDuration={0} resizeMode='contain' style={styles.icon} source={require('../../assets/icons/profile-settings-icon.png')} />
               <Text style={styles.linkText}> Profile Settings </Text>
             </TouchableOpacity>
           </View>
@@ -71,7 +71,7 @@ class DrawerContent extends React.Component {
 
         <View style={styles.logoutContainer}>
           <TouchableOpacity style={styles.linkButton} onPress={ () => this.props.dispatch(logout(this.props.navigation))}>
-            <Image resizeMode='contain' style={[styles.icon, {opacity: 1, height: '40%'}]} source={require('../../assets/icons/power-icon.png')} />
+            <Image fadeDuration={0} resizeMode='contain' style={[styles.icon, {opacity: 1, height: '40%'}]} source={require('../../assets/icons/power-icon.png')} />
             <Text style={{color: AppStyles.primaryColor}}>Logout</Text> 
           </TouchableOpacity>
         </View>

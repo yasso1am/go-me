@@ -57,7 +57,7 @@ class WorkoutSuccess extends React.Component{
               <Text adjustsFontSizeToFit numberOfLines={1} style={styles.subTitle}>that you destroyed your workout today!</Text>
             </View>
             <View style={styles.imageContainer}>
-              <Image resizeMode="contain" style={{height: '70%', width: '70%'}} source={require('../../assets/images/success-graphic.png')} />
+              <Image fadeDuration={0} resizeMode="contain" style={{height: '70%', width: '70%'}} source={require('../../assets/images/success-graphic.png')} />
             </View>
           </View>
           
@@ -70,7 +70,7 @@ class WorkoutSuccess extends React.Component{
               <Text adjustsFontSizeToFit numberOfLines={1} style={styles.subHeading}>Distance Traveled</Text>
                 <Text adjustsFontSizeToFit numberOfLines={1} style={styles.statsText}>{workout.distance} {workout.type === 'Rowing' ? "meters" : "miles"}</Text>
               <Text adjustsFontSizeToFit numberOfLines={1} style={styles.subHeading}>Activity Type</Text>
-              <Image source={this.renderActivityIcon()} />
+              <Image fadeDuration={0} source={this.renderActivityIcon()} />
               <Text adjustsFontSizeToFit numberOfLines={1} style={styles.subHeading}>Workout Time</Text>
                 <Text adjustsFontSizeToFit numberOfLines={1} style={styles.statsText}>{workout.duration} minutes</Text>
               <Text adjustsFontSizeToFit numberOfLines={1} style={styles.subHeading}>Calories Burned</Text>

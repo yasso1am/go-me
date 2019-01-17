@@ -130,6 +130,7 @@ class ProfileSettings extends React.Component{
 
         <View style={styles.imageContainer}>
           <ImageBackground
+            fadeDuration={0}
             style={{width: 120, height: 120}}
             imageStyle={{ borderRadius: 60}}
             source={image}
@@ -140,6 +141,7 @@ class ProfileSettings extends React.Component{
               activeOpacity={0.5}
             > 
               <Image 
+                fadeDuration={0}
                 style={{width: 30, height: 30 }} source={require('../../assets/icons/camera-circle.png')} 
               />
             </TouchableOpacity>

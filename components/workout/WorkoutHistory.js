@@ -77,13 +77,13 @@ class WorkoutHistory extends React.Component{
             </View>
             <View style={[styles.selectRow, {flexDirection: 'row'}]}>
               <TouchableOpacity style={styles.buttonSelect} onPress={ () => this.setActiveActivity('Running')}>
-                <Image source={ activeActivity === 'Running' ? require('../../assets/icons/shoe.png'): require('../../assets/icons/shoe-green.png')}/>
+                <Image fadeDuration={0} source={ activeActivity === 'Running' ? require('../../assets/icons/shoe.png'): require('../../assets/icons/shoe-green.png')}/>
               </TouchableOpacity>
               <TouchableOpacity style={styles.buttonSelect} onPress={ () => this.setActiveActivity('Biking')}>
-                <Image source={ activeActivity === 'Biking' ? require('../../assets/icons/bike.png') : require('../../assets/icons/bike-green.png')}/>
+                <Image fadeDuration={0} ource={ activeActivity === 'Biking' ? require('../../assets/icons/bike.png') : require('../../assets/icons/bike-green.png')}/>
               </TouchableOpacity>
               <TouchableOpacity style={styles.buttonSelect} onPress={ () => this.setActiveActivity('Rowing')}>
-                <Image source={ activeActivity ==='Rowing' ? require('../../assets/icons/row.png') :  require('../../assets/icons/row-green.png')}/>
+                <Image fadeDuration={0} source={ activeActivity ==='Rowing' ? require('../../assets/icons/row.png') :  require('../../assets/icons/row-green.png')}/>
               </TouchableOpacity>
             </View>
           </View>
@@ -102,6 +102,7 @@ class WorkoutHistory extends React.Component{
                     <View key={goal.id}>
                         <TouchableOpacity activeOpacity={0.8} onPress={ () => this.setActiveGoal(goal.id) } style={styles.imageContainer}>
                           <ImageBackground
+                            fadeDuration={0}
                             key={goal.id} 
                             source={{uri: goal.banner_image}} 
                             resizeMode="stretch" 

@@ -103,7 +103,7 @@ class GoalSelect extends React.Component{
           >
             Select the goal below, in which you would like to attribute your workout to
           </Text>
-          <Image resizeMode="stretch" style={styles.image} source={{uri: goal.banner_image}} />
+          <Image fadeDuration={0} resizeMode="stretch" style={styles.image} source={{uri: goal.banner_image}} />
           
           <View style={styles.textRow}>
             <Text style={styles.detailsText}>Goal:</Text>
@@ -137,7 +137,7 @@ class GoalSelect extends React.Component{
 
             <View style={styles.detailsRow}>
               <Text adjustsFontSizeToFit numberOfLines={1} style={styles.subTitle}> Activity Type </Text>
-              <Image style={{marginLeft: 5, marginTop: 10}} source={this.renderActivityIcon()} />
+              <Image fadeDuration={0} style={{marginLeft: 5, marginTop: 10}} source={this.renderActivityIcon()} />
             </View>
 
             <View style={[styles.detailsRow, {height: 30, marginTop: 15}]}>

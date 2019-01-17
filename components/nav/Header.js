@@ -40,20 +40,20 @@ class Header extends React.Component {
     <View style={[styles.header, color]}>
       <TouchableOpacity onPress={ routeName === 'WorkoutSuccess' ? f => f : this.goBackOrChart}>
         <View style={{flex: 1, padding: 25, alignItems: 'flex-start', justifyContent: 'center'}}>
-          <Image style={{opacity: routeName === 'WorkoutSuccess' ? 0 : 1}} source={chartOrBack} />
+          <Image fadeDuration={0} style={{opacity: routeName === 'WorkoutSuccess' ? 0 : 1}} source={chartOrBack} />
         </View>
       </TouchableOpacity>
       <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-        <Image source={logo}/>
+        <Image fadeDuration={0} source={logo}/>
       </View>
       <TouchableOpacity onPress={ () => { routeName === 'WorkoutSuccess' ? this.props.navigation.navigate('Profile') :  routeName === 'ProfileSettings' ? f => f : this.props.navigation.openDrawer() }}>
         <View style={{flex: 1, padding: 25, alignItems: 'flex-end', justifyContent: 'center'}}>
           { 
             routeName === 'WorkoutSuccess' ? 
-              <Image source={require('../../assets/icons/x-icon-dark.png')} />
+              <Image fadeDuration={0} source={require('../../assets/icons/x-icon-dark.png')} />
             :
             routeName !== 'ProfileSettings' ?
-              <Image source={hamburger}/> 
+              <Image fadeDuration={0} source={hamburger}/> 
             :   
               null 
           }

@@ -70,7 +70,7 @@ class Profile extends React.Component{
             colors={[AppStyles.primaryColor, AppStyles.secondaryColor]}
             style={styles.bodyContainer}
           >
-            <ImageBackground style={{flex: 1, width: '100%', height: '100%'}} source={require('../../assets/images/lines.png')}>
+            <ImageBackground fadeDuration={0} style={{flex: 1, width: '100%', height: '100%'}} source={require('../../assets/images/lines.png')}>
               
               <View style={styles.infoContainer}>
 
@@ -97,7 +97,7 @@ class Profile extends React.Component{
 
               <View style={styles.buttonContainer}>
                   <TouchableOpacity onPress={ () => this.props.navigation.navigate('Tracking')}>
-                    <Image resizeMode='contain' source={require('../../assets/icons/plus-icon-white.png')} />
+                    <Image fadeDuration={0} resizeMode='contain' source={require('../../assets/icons/plus-icon-white.png')} />
                   </TouchableOpacity>
               </View>
 

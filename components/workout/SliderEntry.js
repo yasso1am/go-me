@@ -19,7 +19,7 @@ class SliderEntry extends React.Component {
           <View style={{flex: 1}}>
             
             <View style={styles.pictureContainer}>
-              <Image style={{width: '100%', height: '100%'}} resizeMode='stretch' source={{uri: item.hero_image}} />
+              <Image fadeDuration={0} style={{width: '100%', height: '100%'}} resizeMode='stretch' source={{uri: item.hero_image}} />
             </View>
             
             <TouchableOpacity activeOpacity={0.75} style={styles.descriptionContainer} onPress={ () => navigation.navigate('GoalSelect', {goal: item})}>
