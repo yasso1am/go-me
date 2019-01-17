@@ -80,7 +80,7 @@ class WorkoutHistory extends React.Component{
                 <Image fadeDuration={0} source={ activeActivity === 'Running' ? require('../../assets/icons/shoe.png'): require('../../assets/icons/shoe-green.png')}/>
               </TouchableOpacity>
               <TouchableOpacity style={styles.buttonSelect} onPress={ () => this.setActiveActivity('Biking')}>
-                <Image fadeDuration={0} ource={ activeActivity === 'Biking' ? require('../../assets/icons/bike.png') : require('../../assets/icons/bike-green.png')}/>
+                <Image fadeDuration={0} source={ activeActivity === 'Biking' ? require('../../assets/icons/bike.png') : require('../../assets/icons/bike-green.png')}/>
               </TouchableOpacity>
               <TouchableOpacity style={styles.buttonSelect} onPress={ () => this.setActiveActivity('Rowing')}>
                 <Image fadeDuration={0} source={ activeActivity ==='Rowing' ? require('../../assets/icons/row.png') :  require('../../assets/icons/row-green.png')}/>
