@@ -163,7 +163,7 @@ class BuildProfile extends React.Component {
         selectedValue: this.state.goal,
         onValueChange: (goal) => this.setState({ goal}),
         doneButtonTextStyle: { color: AppStyles.primaryColor},
-        onTapOut: QuickPicker.close()
+        onTapOut: () => QuickPicker.close()
 
       })
   }
